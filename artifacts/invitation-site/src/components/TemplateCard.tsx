@@ -49,38 +49,49 @@ const defaultTheme = {
 
 export function TemplateCard({ template }: { template: Template }) {
   const theme = themeStyles[template.category] || defaultTheme;
+  const base = import.meta.env.BASE_URL;
 
   return (
     <div className="group relative bg-card rounded-2xl overflow-hidden card-shadow border border-border/50 hover:border-secondary/50 transition-all duration-300">
-      <div className={`relative aspect-[3/4] bg-gradient-to-br ${theme.bg} overflow-hidden`}>
-        <div className="absolute inset-0 flex flex-col items-center justify-center p-6">
-          <div className={`w-full h-full rounded-xl ${theme.pattern} border-2 ${theme.border} flex flex-col items-center justify-center p-5 relative`}>
-            <div className={`absolute top-3 left-3 right-3 h-px bg-gradient-to-r from-transparent via-current to-transparent opacity-30 ${theme.accent}`} />
-            <div className={`absolute bottom-3 left-3 right-3 h-px bg-gradient-to-r from-transparent via-current to-transparent opacity-30 ${theme.accent}`} />
-            <div className={`absolute top-3 left-3 bottom-3 w-px bg-gradient-to-b from-transparent via-current to-transparent opacity-30 ${theme.accent}`} />
-            <div className={`absolute top-3 right-3 bottom-3 w-px bg-gradient-to-b from-transparent via-current to-transparent opacity-30 ${theme.accent}`} />
-            
-            <div className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 rounded-tl border-current opacity-40" style={{color: "inherit"}} />
-            <div className="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 rounded-tr border-current opacity-40" />
-            <div className="absolute bottom-2 left-2 w-4 h-4 border-b-2 border-l-2 rounded-bl border-current opacity-40" />
-            <div className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 rounded-br border-current opacity-40" />
+      <div className={`relative aspect-[3/4] overflow-hidden ${template.image ? "bg-gray-100" : `bg-gradient-to-br ${theme.bg}`}`}>
 
-            <div className="text-4xl mb-3 filter drop-shadow-sm">{theme.icon}</div>
-            <div className={`font-display text-base font-semibold text-center leading-snug mb-1 ${theme.accent}`}>
-              {template.name}
-            </div>
-            <div className="text-xs font-sans uppercase tracking-[0.15em] text-gray-500 mt-1">
-              Wedding Invitation
-            </div>
-            <div className="flex gap-1 mt-3">
-              {[...Array(3)].map((_, i) => (
-                <span key={i} className="text-[10px] opacity-60">✦</span>
-              ))}
+        {template.image ? (
+          /* Real photo preview */
+          <img
+            src={`${base}${template.image}`}
+            alt={template.name}
+            className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+          />
+        ) : (
+          /* CSS art fallback */
+          <div className="absolute inset-0 flex flex-col items-center justify-center p-6">
+            <div className={`w-full h-full rounded-xl ${theme.pattern} border-2 ${theme.border} flex flex-col items-center justify-center p-5 relative`}>
+              <div className={`absolute top-3 left-3 right-3 h-px bg-gradient-to-r from-transparent via-current to-transparent opacity-30 ${theme.accent}`} />
+              <div className={`absolute bottom-3 left-3 right-3 h-px bg-gradient-to-r from-transparent via-current to-transparent opacity-30 ${theme.accent}`} />
+              <div className={`absolute top-3 left-3 bottom-3 w-px bg-gradient-to-b from-transparent via-current to-transparent opacity-30 ${theme.accent}`} />
+              <div className={`absolute top-3 right-3 bottom-3 w-px bg-gradient-to-b from-transparent via-current to-transparent opacity-30 ${theme.accent}`} />
+              <div className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 rounded-tl border-current opacity-40" />
+              <div className="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 rounded-tr border-current opacity-40" />
+              <div className="absolute bottom-2 left-2 w-4 h-4 border-b-2 border-l-2 rounded-bl border-current opacity-40" />
+              <div className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 rounded-br border-current opacity-40" />
+              <div className="text-4xl mb-3 filter drop-shadow-sm">{theme.icon}</div>
+              <div className={`font-display text-base font-semibold text-center leading-snug mb-1 ${theme.accent}`}>
+                {template.name}
+              </div>
+              <div className="text-xs font-sans uppercase tracking-[0.15em] text-gray-500 mt-1">
+                Wedding Invitation
+              </div>
+              <div className="flex gap-1 mt-3">
+                {[...Array(3)].map((_, i) => (
+                  <span key={i} className="text-[10px] opacity-60">✦</span>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
-        <div className="absolute inset-0 bg-primary/85 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-sm">
+        {/* Hover overlay */}
+        <div className="absolute inset-0 bg-primary/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-sm">
           <Link href={`/contact?template=${template.id}`}>
             <button className="px-7 py-3 bg-background text-primary font-medium text-sm rounded-full transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 hover:scale-105 shadow-lg">
               Customize This
