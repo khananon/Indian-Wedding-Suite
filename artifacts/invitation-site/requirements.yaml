@@ -1,0 +1,18 @@
+packages:
+  "framer-motion": "For elegant, smooth page transitions and scroll animations fitting a luxury brand"
+  "clsx": "Utility for constructing className strings conditionally"
+  "tailwind-merge": "Utility to merge tailwind classes safely"
+  "lucide-react": "For beautiful, consistent iconography"
+
+images:
+  - path: "artifacts/invitation-site/public/images/hero-bg.png"
+    description: "Subtle, elegant Indian floral mandala pattern background in warm ivory and pale gold, minimalist, high key, luxury editorial style, very soft contrast"
+    aspect_ratio: "16:9"
+  - path: "artifacts/invitation-site/public/images/ornament.png"
+    description: "Single elegant minimalist gold Indian wedding decorative ornament motif, symmetrical, white background"
+    aspect_ratio: "1:1"
+
+notes:
+  - Pure frontend implementation with simulated data hooks to demonstrate loading/empty states
+  - Using a refined color palette: Warm Ivory (Background), Deep Burgundy (Primary), Soft Gold (Accents)
+  - Typography: Cormorant Garamond (Serif/Display), Montserrat (Sans/Body)

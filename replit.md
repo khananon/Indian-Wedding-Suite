@@ -48,6 +48,19 @@ Every package extends `tsconfig.base.json` which sets `composite: true`. The roo
 - `pnpm run build` — runs `typecheck` first, then recursively runs `build` in all packages that define it
 - `pnpm run typecheck` — runs `tsc --build --emitDeclarationOnly` using project references
 
+## Artifacts
+
+### `artifacts/invitation-site` (`@workspace/invitation-site`)
+
+Modern minimalist Indian wedding digital invitation website. Frontend-only React + Vite app.
+
+- Brand: Vows & Knots
+- Pages: Home (landing), Templates (filterable gallery), About, Contact
+- Features: Video/PDF/Website invitation showcase, template gallery with category filters (Hindu, Muslim, Sikh, Christian, South Indian), pricing tiers (₹499/₹999/₹1999), FAQ accordion, testimonials, WhatsApp contact
+- Tech: React, Wouter routing, Framer Motion animations, Tailwind CSS
+- Color palette: Warm ivory background, deep burgundy primary, gold secondary
+- Fonts: Cormorant Garamond (display/serif), Montserrat (sans)
+
 ## Packages
 
 ### `artifacts/api-server` (`@workspace/api-server`)
