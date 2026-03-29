@@ -1,4 +1,5 @@
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { useRef } from "react";
 import { Link } from "wouter";
 import { Smartphone, FileText, Globe, Star, CheckCircle2, ArrowRight } from "lucide-react";
 import { Button } from "@/components/Button";
@@ -9,10 +10,32 @@ export default function Home() {
   const { data: templates, isLoading } = useTemplates();
   const featuredTemplates = templates?.slice(0, 4) || [];
 
+  const heroRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"],
+  });
+
+  const rawY = useTransform(scrollYProgress, [0, 1], [0, 260]);
+  const rawRotateLeft = useTransform(scrollYProgress, [0, 1], [0, 18]);
+  const rawRotateRight = useTransform(scrollYProgress, [0, 1], [0, -18]);
+  const rawScale = useTransform(scrollYProgress, [0, 1], [1, 0.75]);
+  const rawOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+
+  const lotusY = useSpring(rawY, { stiffness: 80, damping: 18 });
+  const rotateLeft = useSpring(rawRotateLeft, { stiffness: 80, damping: 18 });
+  const rotateRight = useSpring(rawRotateRight, { stiffness: 80, damping: 18 });
+  const lotusScale = useSpring(rawScale, { stiffness: 80, damping: 18 });
+
+  const accentLeftY = useTransform(scrollYProgress, [0, 1], [0, 140]);
+  const accentLeftOpacity = useTransform(scrollYProgress, [0, 0.5], [0.7, 0]);
+  const accentRightY = useTransform(scrollYProgress, [0, 1], [0, 160]);
+  const accentRightOpacity = useTransform(scrollYProgress, [0, 0.5], [0.65, 0]);
+
   return (
     <div className="flex flex-col min-h-screen">
       {/* HERO SECTION */}
-      <section className="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden">
+      <section ref={heroRef} className="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden">
         {/* Background Image/Pattern */}
         <div className="absolute inset-0 z-0 overflow-hidden">
           <img
@@ -23,6 +46,70 @@ export default function Home() {
           />
           <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-background/60 to-background"></div>
         </div>
+
+        {/* LEFT LOTUS — bottom-left corner, slides down on scroll */}
+        <motion.div
+          className="absolute bottom-0 left-0 z-20 pointer-events-none select-none"
+          style={{ y: lotusY, rotate: rotateLeft, scale: lotusScale, opacity: rawOpacity, transformOrigin: "bottom left" }}
+          initial={{ y: 120, opacity: 0, rotate: 12 }}
+          animate={{ y: 0, opacity: 1, rotate: 0 }}
+          transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1], delay: 0.3 }}
+        >
+          <img
+            src={`${import.meta.env.BASE_URL}images/lotus4.png`}
+            alt="Lotus decoration"
+            className="w-52 md:w-72 lg:w-80 h-auto drop-shadow-xl"
+            style={{ filter: "drop-shadow(0 16px 32px rgba(180,60,80,0.18))" }}
+          />
+        </motion.div>
+
+        {/* RIGHT LOTUS — bottom-right corner, mirrored, slides down on scroll */}
+        <motion.div
+          className="absolute bottom-0 right-0 z-20 pointer-events-none select-none"
+          style={{ y: lotusY, rotate: rotateRight, scale: lotusScale, opacity: rawOpacity, transformOrigin: "bottom right" }}
+          initial={{ y: 120, opacity: 0, rotate: -12 }}
+          animate={{ y: 0, opacity: 1, rotate: 0 }}
+          transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1], delay: 0.45 }}
+        >
+          <img
+            src={`${import.meta.env.BASE_URL}images/lotus2.png`}
+            alt="Lotus decoration"
+            className="w-48 md:w-64 lg:w-72 h-auto drop-shadow-xl"
+            style={{ transform: "scaleX(-1)", filter: "drop-shadow(0 16px 32px rgba(180,60,80,0.18))" }}
+          />
+        </motion.div>
+
+        {/* SMALL ACCENT LOTUS — mid-left floating */}
+        <motion.div
+          className="absolute bottom-16 left-36 z-10 pointer-events-none select-none hidden lg:block"
+          style={{ y: accentLeftY, opacity: accentLeftOpacity }}
+          initial={{ y: 60, opacity: 0 }}
+          animate={{ y: 0, opacity: 0.7 }}
+          transition={{ duration: 1.3, ease: [0.22, 1, 0.36, 1], delay: 0.6 }}
+        >
+          <img
+            src={`${import.meta.env.BASE_URL}images/lotus1.png`}
+            alt=""
+            className="w-32 h-auto"
+            style={{ filter: "drop-shadow(0 8px 16px rgba(180,60,80,0.12))" }}
+          />
+        </motion.div>
+
+        {/* SMALL ACCENT LOTUS — mid-right floating */}
+        <motion.div
+          className="absolute bottom-16 right-36 z-10 pointer-events-none select-none hidden lg:block"
+          style={{ y: accentRightY, opacity: accentRightOpacity }}
+          initial={{ y: 60, opacity: 0 }}
+          animate={{ y: 0, opacity: 0.65 }}
+          transition={{ duration: 1.3, ease: [0.22, 1, 0.36, 1], delay: 0.7 }}
+        >
+          <img
+            src={`${import.meta.env.BASE_URL}images/lotus3.png`}
+            alt=""
+            className="w-28 h-auto"
+            style={{ transform: "scaleX(-1)", filter: "drop-shadow(0 8px 16px rgba(180,60,80,0.12))" }}
+          />
+        </motion.div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center max-w-4xl mx-auto">
