@@ -14,13 +14,14 @@ export default function Home() {
       {/* HERO SECTION */}
       <section className="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden">
         {/* Background Image/Pattern */}
-        <div className="absolute inset-0 z-0 opacity-40">
+        <div className="absolute inset-0 z-0 overflow-hidden">
           <img
-            src={`${import.meta.env.BASE_URL}images/hero-bg.png`}
+            src={`${import.meta.env.BASE_URL}images/hero-floral.jpg`}
             alt="Decorative floral background"
-            className="w-full h-full object-cover"
+            className="absolute inset-0 w-full h-full object-cover origin-center"
+            style={{ transform: "rotate(90deg) scale(1.6)", opacity: 0.55 }}
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/80 to-background"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-background/60 to-background"></div>
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
