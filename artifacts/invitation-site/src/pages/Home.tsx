@@ -36,19 +36,15 @@ export default function Home() {
     <div className="flex flex-col min-h-screen">
       {/* HERO SECTION */}
       <section ref={heroRef} className="relative pt-28 pb-0 md:pt-36 overflow-hidden min-h-[680px] md:min-h-[780px] flex items-center">
-        {/* FULL BACKGROUND — Couple illustration */}
-        <div className="absolute inset-0 z-0">
+        {/* Background — floral pattern left side */}
+        <div className="absolute inset-0 z-0 overflow-hidden">
           <img
-            src={`${import.meta.env.BASE_URL}images/hero-couple.jpg`}
-            alt="Indian wedding couple"
-            className="absolute inset-0 w-full h-full object-cover object-center"
+            src={`${import.meta.env.BASE_URL}images/hero-floral.jpg`}
+            alt=""
+            className="absolute inset-0 w-full h-full object-cover origin-center"
+            style={{ transform: "rotate(90deg) scale(1.6)", opacity: 0.45 }}
           />
-          {/* Warm overlay: fade from left (readable) → subtle on right */}
-          <div className="absolute inset-0"
-            style={{ background: "linear-gradient(105deg, rgba(253,248,240,0.92) 0%, rgba(253,248,240,0.75) 38%, rgba(253,248,240,0.35) 60%, rgba(253,248,240,0.10) 100%)" }} />
-          {/* Bottom fade to background */}
-          <div className="absolute inset-x-0 bottom-0 h-40"
-            style={{ background: "linear-gradient(to bottom, transparent, hsl(45 60% 98%))" }} />
+          <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-background/60 to-background" />
         </div>
 
         {/* LEFT LOTUS — bottom-left corner, slides down on scroll */}
@@ -116,24 +112,22 @@ export default function Home() {
         </motion.div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
-          <div className="max-w-2xl py-8">
+          <div className="flex flex-col lg:flex-row items-end justify-between gap-0">
+
+            {/* LEFT — Text */}
             <motion.div
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
+              className="flex-1 max-w-xl pb-16 z-10"
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
             >
-              <motion.span
-                className="inline-block text-secondary font-semibold tracking-widest uppercase text-xs mb-5"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.1 }}
-              >
+              <span className="inline-block text-secondary font-semibold tracking-widest uppercase text-xs mb-5">
                 The New Standard of Wedding Invites
-              </motion.span>
+              </span>
               <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-bold text-primary leading-tight mb-6">
                 Beautiful<br />Digital Wedding<br />Invitations
               </h1>
-              <p className="text-lg md:text-xl text-foreground/75 mb-10 font-light leading-relaxed max-w-lg">
+              <p className="text-lg md:text-xl text-foreground/75 mb-10 font-light leading-relaxed">
                 Set the perfect tone for your special day with our elegant, customizable digital invites. Available in Video, PDF, and interactive Website formats.
               </p>
               <div className="flex flex-col sm:flex-row items-start gap-4">
@@ -150,6 +144,35 @@ export default function Home() {
                 </Link>
               </div>
             </motion.div>
+
+            {/* RIGHT — Couple image, anchored to bottom-right, zoomed on couple */}
+            <motion.div
+              className="hidden lg:block relative flex-shrink-0 self-end"
+              style={{ width: "480px", height: "620px" }}
+              initial={{ opacity: 0, y: 60, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
+            >
+              {/* Left fade so it blends into the page */}
+              <div className="absolute inset-y-0 left-0 w-32 z-10"
+                style={{ background: "linear-gradient(to right, hsl(45 60% 98%), transparent)" }} />
+              {/* Top fade */}
+              <div className="absolute inset-x-0 top-0 h-24 z-10"
+                style={{ background: "linear-gradient(to bottom, hsl(45 60% 98%), transparent)" }} />
+              <img
+                src={`${import.meta.env.BASE_URL}images/hero-couple.jpg`}
+                alt="Indian wedding couple"
+                className="w-full h-full"
+                style={{
+                  objectFit: "cover",
+                  objectPosition: "center 55%",
+                  transform: "scale(1.15)",
+                  transformOrigin: "center bottom",
+                  filter: "drop-shadow(0 20px 40px rgba(120,60,20,0.15))",
+                }}
+              />
+            </motion.div>
+
           </div>
         </div>
       </section>
