@@ -35,7 +35,7 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* HERO SECTION */}
-      <section ref={heroRef} className="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden">
+      <section ref={heroRef} className="relative pt-28 pb-0 md:pt-36 overflow-hidden min-h-[680px] md:min-h-[780px] flex items-center">
         {/* Background Image/Pattern */}
         <div className="absolute inset-0 z-0 overflow-hidden">
           <img
@@ -49,7 +49,7 @@ export default function Home() {
 
         {/* LEFT LOTUS — bottom-left corner, slides down on scroll */}
         <motion.div
-          className="absolute bottom-0 left-0 z-20 pointer-events-none select-none"
+          className="absolute bottom-0 left-0 z-[2] pointer-events-none select-none"
           style={{ y: lotusY, rotate: rotateLeft, scale: lotusScale, opacity: rawOpacity, transformOrigin: "bottom left" }}
           initial={{ y: 120, opacity: 0, rotate: 12 }}
           animate={{ y: 0, opacity: 1, rotate: 0 }}
@@ -65,7 +65,7 @@ export default function Home() {
 
         {/* RIGHT LOTUS — bottom-right corner, mirrored, slides down on scroll */}
         <motion.div
-          className="absolute bottom-0 right-0 z-20 pointer-events-none select-none"
+          className="absolute bottom-0 right-0 z-[2] pointer-events-none select-none"
           style={{ y: lotusY, rotate: rotateRight, scale: lotusScale, opacity: rawOpacity, transformOrigin: "bottom right" }}
           initial={{ y: 120, opacity: 0, rotate: -12 }}
           animate={{ y: 0, opacity: 1, rotate: 0 }}
@@ -81,7 +81,7 @@ export default function Home() {
 
         {/* SMALL ACCENT LOTUS — mid-left floating */}
         <motion.div
-          className="absolute bottom-16 left-36 z-10 pointer-events-none select-none hidden lg:block"
+          className="absolute bottom-16 left-36 z-[2] pointer-events-none select-none hidden lg:block"
           style={{ y: accentLeftY, opacity: accentLeftOpacity }}
           initial={{ y: 60, opacity: 0 }}
           animate={{ y: 0, opacity: 0.7 }}
@@ -97,7 +97,7 @@ export default function Home() {
 
         {/* SMALL ACCENT LOTUS — mid-right floating */}
         <motion.div
-          className="absolute bottom-16 right-36 z-10 pointer-events-none select-none hidden lg:block"
+          className="absolute bottom-16 right-36 z-[2] pointer-events-none select-none hidden lg:block"
           style={{ y: accentRightY, opacity: accentRightOpacity }}
           initial={{ y: 60, opacity: 0 }}
           animate={{ y: 0, opacity: 0.65 }}
@@ -111,38 +111,58 @@ export default function Home() {
           />
         </motion.div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="text-center max-w-4xl mx-auto">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-8 min-h-[560px]">
+
+            {/* LEFT — Text content */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
+              className="flex-1 text-left max-w-xl z-10"
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
             >
               <span className="text-secondary font-semibold tracking-widest uppercase text-sm mb-6 block">
                 The New Standard of Wedding Invites
               </span>
-              <h1 className="font-display text-5xl md:text-7xl font-bold text-primary leading-tight mb-6">
-                Beautiful Digital <br className="hidden md:block" />
-                Wedding Invitations
+              <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-bold text-primary leading-tight mb-6">
+                Beautiful<br />Digital Wedding<br />Invitations
               </h1>
-              <p className="text-lg md:text-xl text-foreground/80 mb-10 max-w-2xl mx-auto font-light leading-relaxed">
+              <p className="text-lg md:text-xl text-foreground/75 mb-10 font-light leading-relaxed">
                 Set the perfect tone for your special day with our elegant, customizable digital invites. Available in Video, PDF, and interactive Website formats.
               </p>
-              
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <div className="flex flex-col sm:flex-row items-start gap-4">
                 <Link href="/templates">
-                  <Button size="lg" className="w-full sm:w-auto rounded-full group">
+                  <Button size="lg" className="w-full sm:w-auto rounded-full group shadow-lg shadow-primary/20">
                     Browse Templates
                     <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </Button>
                 </Link>
                 <Link href="/contact">
-                  <Button variant="outline" size="lg" className="w-full sm:w-auto rounded-full bg-background/50 backdrop-blur-sm">
+                  <Button variant="outline" size="lg" className="w-full sm:w-auto rounded-full bg-white/50 backdrop-blur-sm">
                     Request Custom Design
                   </Button>
                 </Link>
               </div>
             </motion.div>
+
+            {/* RIGHT — Couple illustration, fades from left naturally */}
+            <motion.div
+              className="flex-1 relative flex items-end justify-end self-stretch hidden lg:flex"
+              initial={{ opacity: 0, x: 40, scale: 0.96 }}
+              animate={{ opacity: 1, x: 0, scale: 1 }}
+              transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
+            >
+              {/* Fade overlay from left so it blends into page */}
+              <div className="absolute inset-y-0 left-0 w-1/2 z-10"
+                style={{ background: "linear-gradient(to right, hsl(45 60% 98%), transparent)" }} />
+              <img
+                src={`${import.meta.env.BASE_URL}images/hero-couple.jpg`}
+                alt="Indian wedding couple illustration"
+                className="relative w-full max-w-lg h-auto object-contain object-bottom"
+                style={{ maxHeight: "540px", filter: "drop-shadow(0 20px 40px rgba(160,80,40,0.12))" }}
+              />
+            </motion.div>
+
           </div>
         </div>
       </section>
