@@ -108,21 +108,6 @@ export default function Home() {
           />
         </motion.div>
 
-        {/* LOTUS ABOVE COUPLE IMAGE — floating over the couple illustration */}
-        <motion.div
-          className="absolute z-[4] pointer-events-none select-none hidden lg:block"
-          style={{ bottom: "54%", right: "16%", y: accentRightY, opacity: accentRightOpacity }}
-          initial={{ y: -20, opacity: 0 }}
-          animate={{ y: 0, opacity: 0.9 }}
-          transition={{ duration: 1.3, ease: [0.22, 1, 0.36, 1], delay: 0.9 }}
-        >
-          <img
-            src={`${import.meta.env.BASE_URL}images/lotus3.png`}
-            alt=""
-            className="w-36 h-auto"
-            style={{ filter: "drop-shadow(0 8px 20px rgba(180,60,80,0.2))" }}
-          />
-        </motion.div>
 
         {/* TEXT CONTENT */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
