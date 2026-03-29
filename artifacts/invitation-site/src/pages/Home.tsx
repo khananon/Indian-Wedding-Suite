@@ -36,15 +36,19 @@ export default function Home() {
     <div className="flex flex-col min-h-screen">
       {/* HERO SECTION */}
       <section ref={heroRef} className="relative pt-28 pb-0 md:pt-36 overflow-hidden min-h-[680px] md:min-h-[780px] flex items-center">
-        {/* Background Image/Pattern */}
-        <div className="absolute inset-0 z-0 overflow-hidden">
+        {/* FULL BACKGROUND — Couple illustration */}
+        <div className="absolute inset-0 z-0">
           <img
-            src={`${import.meta.env.BASE_URL}images/hero-floral.jpg`}
-            alt="Decorative floral background"
-            className="absolute inset-0 w-full h-full object-cover origin-center"
-            style={{ transform: "rotate(90deg) scale(1.6)", opacity: 0.55 }}
+            src={`${import.meta.env.BASE_URL}images/hero-couple.jpg`}
+            alt="Indian wedding couple"
+            className="absolute inset-0 w-full h-full object-cover object-center"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-background/60 to-background"></div>
+          {/* Warm overlay: fade from left (readable) → subtle on right */}
+          <div className="absolute inset-0"
+            style={{ background: "linear-gradient(105deg, rgba(253,248,240,0.92) 0%, rgba(253,248,240,0.75) 38%, rgba(253,248,240,0.35) 60%, rgba(253,248,240,0.10) 100%)" }} />
+          {/* Bottom fade to background */}
+          <div className="absolute inset-x-0 bottom-0 h-40"
+            style={{ background: "linear-gradient(to bottom, transparent, hsl(45 60% 98%))" }} />
         </div>
 
         {/* LEFT LOTUS — bottom-left corner, slides down on scroll */}
@@ -112,57 +116,40 @@ export default function Home() {
         </motion.div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-8 min-h-[560px]">
-
-            {/* LEFT — Text content */}
+          <div className="max-w-2xl py-8">
             <motion.div
-              className="flex-1 text-left max-w-xl z-10"
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
             >
-              <span className="text-secondary font-semibold tracking-widest uppercase text-sm mb-6 block">
+              <motion.span
+                className="inline-block text-secondary font-semibold tracking-widest uppercase text-xs mb-5"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.1 }}
+              >
                 The New Standard of Wedding Invites
-              </span>
+              </motion.span>
               <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-bold text-primary leading-tight mb-6">
                 Beautiful<br />Digital Wedding<br />Invitations
               </h1>
-              <p className="text-lg md:text-xl text-foreground/75 mb-10 font-light leading-relaxed">
+              <p className="text-lg md:text-xl text-foreground/75 mb-10 font-light leading-relaxed max-w-lg">
                 Set the perfect tone for your special day with our elegant, customizable digital invites. Available in Video, PDF, and interactive Website formats.
               </p>
               <div className="flex flex-col sm:flex-row items-start gap-4">
                 <Link href="/templates">
-                  <Button size="lg" className="w-full sm:w-auto rounded-full group shadow-lg shadow-primary/20">
+                  <Button size="lg" className="w-full sm:w-auto rounded-full group shadow-lg shadow-primary/25">
                     Browse Templates
                     <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </Button>
                 </Link>
                 <Link href="/contact">
-                  <Button variant="outline" size="lg" className="w-full sm:w-auto rounded-full bg-white/50 backdrop-blur-sm">
+                  <Button variant="outline" size="lg" className="w-full sm:w-auto rounded-full bg-white/60 backdrop-blur-sm border-primary/30">
                     Request Custom Design
                   </Button>
                 </Link>
               </div>
             </motion.div>
-
-            {/* RIGHT — Couple illustration, fades from left naturally */}
-            <motion.div
-              className="flex-1 relative flex items-end justify-end self-stretch hidden lg:flex"
-              initial={{ opacity: 0, x: 40, scale: 0.96 }}
-              animate={{ opacity: 1, x: 0, scale: 1 }}
-              transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
-            >
-              {/* Fade overlay from left so it blends into page */}
-              <div className="absolute inset-y-0 left-0 w-1/2 z-10"
-                style={{ background: "linear-gradient(to right, hsl(45 60% 98%), transparent)" }} />
-              <img
-                src={`${import.meta.env.BASE_URL}images/hero-couple.jpg`}
-                alt="Indian wedding couple illustration"
-                className="relative w-full max-w-lg h-auto object-contain object-bottom"
-                style={{ maxHeight: "540px", filter: "drop-shadow(0 20px 40px rgba(160,80,40,0.12))" }}
-              />
-            </motion.div>
-
           </div>
         </div>
       </section>
