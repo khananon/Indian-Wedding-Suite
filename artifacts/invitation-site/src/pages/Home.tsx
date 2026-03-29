@@ -36,16 +36,8 @@ export default function Home() {
     <div className="flex flex-col min-h-screen">
       {/* HERO SECTION */}
       <section ref={heroRef} className="relative pt-28 pb-0 md:pt-36 overflow-hidden min-h-[680px] md:min-h-[780px] flex items-center">
-        {/* Background — floral pattern left side */}
-        <div className="absolute inset-0 z-0 overflow-hidden">
-          <img
-            src={`${import.meta.env.BASE_URL}images/hero-floral.jpg`}
-            alt=""
-            className="absolute inset-0 w-full h-full object-cover origin-center"
-            style={{ transform: "rotate(90deg) scale(1.6)", opacity: 0.45 }}
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-background/60 to-background" />
-        </div>
+        {/* Background — clean ivory, no distracting pattern */}
+        <div className="absolute inset-0 z-0 bg-background" />
 
         {/* LEFT LOTUS — bottom-left corner, slides down on scroll */}
         <motion.div
@@ -65,7 +57,7 @@ export default function Home() {
 
         {/* RIGHT LOTUS — bottom-right corner, mirrored, slides down on scroll */}
         <motion.div
-          className="absolute bottom-0 right-0 z-[2] pointer-events-none select-none"
+          className="absolute bottom-0 right-0 z-[6] pointer-events-none select-none"
           style={{ y: lotusY, rotate: rotateRight, scale: lotusScale, opacity: rawOpacity, transformOrigin: "bottom right" }}
           initial={{ y: 120, opacity: 0, rotate: -12 }}
           animate={{ y: 0, opacity: 1, rotate: 0 }}
@@ -103,15 +95,11 @@ export default function Home() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
         >
-          {/* Left blend gradient */}
-          <div className="absolute inset-y-0 left-0 w-1/2 z-10 pointer-events-none"
-            style={{ background: "linear-gradient(to right, hsl(45 60% 98%) 0%, rgba(253,248,240,0.7) 40%, transparent 100%)" }} />
+          {/* Left blend gradient — wide soft fade */}
+          <div className="absolute inset-y-0 left-0 z-10 pointer-events-none" style={{ width: "60%", background: "linear-gradient(to right, hsl(45,60%,98%) 0%, hsl(45,60%,98%) 15%, rgba(253,248,240,0.85) 45%, rgba(253,248,240,0.3) 75%, transparent 100%)" }} />
           {/* Top blend gradient */}
-          <div className="absolute inset-x-0 top-0 h-40 z-10 pointer-events-none"
-            style={{ background: "linear-gradient(to bottom, hsl(45 60% 98%) 0%, rgba(253,248,240,0.5) 50%, transparent 100%)" }} />
-          {/* Right edge blend */}
-          <div className="absolute inset-y-0 right-0 w-16 z-10 pointer-events-none"
-            style={{ background: "linear-gradient(to left, hsl(45 60% 98%), transparent)" }} />
+          <div className="absolute inset-x-0 top-0 h-48 z-10 pointer-events-none"
+            style={{ background: "linear-gradient(to bottom, hsl(45,60%,98%) 0%, rgba(253,248,240,0.6) 55%, transparent 100%)" }} />
           <img
             src={`${import.meta.env.BASE_URL}images/hero-couple.jpg`}
             alt="Indian wedding couple illustration"
