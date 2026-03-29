@@ -145,30 +145,25 @@ export default function Home() {
               </div>
             </motion.div>
 
-            {/* RIGHT — Couple image, anchored to bottom-right, zoomed on couple */}
+            {/* RIGHT — Couple image, natural size, slight zoom */}
             <motion.div
-              className="hidden lg:block relative flex-shrink-0 self-end"
-              style={{ width: "480px", height: "620px" }}
-              initial={{ opacity: 0, y: 60, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
+              className="hidden lg:flex flex-1 relative items-end justify-end self-stretch"
+              initial={{ opacity: 0, x: 40, scale: 0.97 }}
+              animate={{ opacity: 1, x: 0, scale: 1 }}
+              transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
             >
               {/* Left fade so it blends into the page */}
-              <div className="absolute inset-y-0 left-0 w-32 z-10"
+              <div className="absolute inset-y-0 left-0 w-2/5 z-10"
                 style={{ background: "linear-gradient(to right, hsl(45 60% 98%), transparent)" }} />
-              {/* Top fade */}
-              <div className="absolute inset-x-0 top-0 h-24 z-10"
-                style={{ background: "linear-gradient(to bottom, hsl(45 60% 98%), transparent)" }} />
               <img
                 src={`${import.meta.env.BASE_URL}images/hero-couple.jpg`}
-                alt="Indian wedding couple"
-                className="w-full h-full"
+                alt="Indian wedding couple illustration"
+                className="relative w-full h-auto object-contain object-bottom"
                 style={{
-                  objectFit: "cover",
-                  objectPosition: "center 55%",
-                  transform: "scale(1.15)",
-                  transformOrigin: "center bottom",
-                  filter: "drop-shadow(0 20px 40px rgba(120,60,20,0.15))",
+                  maxHeight: "560px",
+                  transform: "scale(1.08)",
+                  transformOrigin: "right bottom",
+                  filter: "drop-shadow(0 20px 40px rgba(160,80,40,0.12))",
                 }}
               />
             </motion.div>
