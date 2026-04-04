@@ -1,6 +1,6 @@
 import express, { type Express, type Request, type Response } from "express";
 import cors from "cors";
-import pinoHttp from "pino-http";
+import { pinoHttp } from "pino-http";   // ← named import
 import router from "./routes";
 import { logger } from "./lib/logger";
 
@@ -12,7 +12,7 @@ app.use(
     serializers: {
       req(req: Request) {
         return {
-          id: (req as any).id, // pino adds this dynamically
+          id: (req as any).id,
           method: req.method,
           url: req.url?.split("?")[0],
         };
