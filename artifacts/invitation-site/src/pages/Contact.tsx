@@ -46,7 +46,7 @@ export default function Contact() {
                   </div>
                   <div>
                     <p className="font-semibold text-foreground">WhatsApp</p>
-                    <p className="text-muted-foreground text-sm">+91 98765 43210</p>
+                    <p className="text-muted-foreground text-sm">+91 9058955529</p>
                     <a href="#" className="text-secondary text-sm font-medium mt-1 inline-block hover:underline">Message us now</a>
                   </div>
                 </div>
@@ -57,7 +57,7 @@ export default function Contact() {
                   </div>
                   <div>
                     <p className="font-semibold text-foreground">Email</p>
-                    <p className="text-muted-foreground text-sm">hello@vowsandknots.com</p>
+                    <p className="text-muted-foreground text-sm">Anonhake@gmail.com</p>
                   </div>
                 </div>
 
@@ -67,7 +67,7 @@ export default function Contact() {
                   </div>
                   <div>
                     <p className="font-semibold text-foreground">Phone</p>
-                    <p className="text-muted-foreground text-sm">+91 98765 43210</p>
+                    <p className="text-muted-foreground text-sm">+919058955529</p>
                     <p className="text-xs text-muted-foreground mt-1">Mon-Sat, 10am - 7pm IST</p>
                   </div>
                 </div>
