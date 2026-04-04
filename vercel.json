@@ -1,5 +1,6 @@
 {
   "buildCommand": "pnpm --filter @workspace/invitation-site build",
   "outputDirectory": "artifacts/invitation-site/dist",
-  "installCommand": "pnpm install"
+  "installCommand": "pnpm install",
+  "ignoreCommand": "exit 1"
 }
