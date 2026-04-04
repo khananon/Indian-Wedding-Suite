@@ -1,12 +1,13 @@
 import express, { type Express, type Request, type Response } from "express";
 import cors from "cors";
-import pinoHttp from "pino-http"; // ← named import
+import pinoHttp from "pino-http";
 import router from "./routes";
 import { logger } from "./lib/logger";
 
 const app: Express = express();
 
 app.use(
+
   pinoHttp({
     logger,
     serializers: {
