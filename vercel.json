@@ -1,5 +1,5 @@
 {
-  "buildCommand": "cd artifacts/invitation-site && pnpm install && pnpm build",
+  "buildCommand": "pnpm --filter @workspace/invitation-site build",
   "outputDirectory": "artifacts/invitation-site/dist",
   "installCommand": "pnpm install"
 }
