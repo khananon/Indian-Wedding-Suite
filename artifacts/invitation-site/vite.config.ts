@@ -11,9 +11,19 @@ if (Number.isNaN(port) || port <= 0) {
   throw new Error(`Invalid PORT value: "${rawPort}"`);
 }
 
-const basePath = process.env.BASE_PATH ?? "/";
+const rawBase = process.env.BASE_PATH?.trim();
+const basePath =
+  !rawBase || rawBase === ""
+    ? "/"
+    : rawBase.startsWith("/")
+      ? rawBase
+      : `/${rawBase}`;
+
+const isReplit = process.env.REPL_ID !== undefined;
+const devHost = isReplit ? "0.0.0.0" : "localhost";
 
 export default defineConfig({
+  clearScreen: false,
   base: basePath,
   plugins: [
     react(),
@@ -47,8 +57,9 @@ export default defineConfig({
   },
   server: {
     port,
-    strictPort: true,
-    host: "0.0.0.0",
+    strictPort: false,
+    host: devHost,
+    open: !isReplit,
     allowedHosts: true,
     fs: {
       strict: true,
@@ -57,7 +68,8 @@ export default defineConfig({
   },
   preview: {
     port,
-    host: "0.0.0.0",
+    strictPort: false,
+    host: devHost,
     allowedHosts: true,
   },
 });
