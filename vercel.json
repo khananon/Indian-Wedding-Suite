@@ -1,16 +1,5 @@
 {
-  "version": 2,
-  "buildCommand": "pnpm --filter @workspace/api-server build",
-  "installCommand": "pnpm install",
-  "functions": {
-    "artifacts/api-server/dist/index.mjs": {
-      "runtime": "nodejs20.x"
-    }
-  },
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "artifacts/api-server/dist/index.mjs"
-    }
-  ]
+  "buildCommand": "pnpm --filter @workspace/invitation-site build",
+  "outputDirectory": "artifacts/invitation-site/dist",
+  "installCommand": "pnpm install"
 }
