@@ -1,0 +1,5 @@
+{
+  "buildCommand": "cd artifacts/invitation-site && pnpm install && pnpm build",
+  "outputDirectory": "artifacts/invitation-site/dist",
+  "installCommand": "pnpm install"
+}
