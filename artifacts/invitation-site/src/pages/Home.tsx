@@ -6,6 +6,7 @@ import { Button } from "@/components/Button";
 import { TemplateCard } from "@/components/TemplateCard";
 import { useTemplates } from "@/hooks/use-templates";
 import { getWhatsAppLink } from "@/config/site";
+import { PRICING_PLANS } from "@/data/pricing";
 
 export default function Home() {
   const { data: templates, isLoading } = useTemplates();
@@ -261,62 +262,49 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto items-center">
-            {/* Basic */}
-            <div className="bg-background rounded-2xl p-8 border border-border shadow-sm">
-              <h3 className="text-xl font-bold text-foreground mb-2">Essential PDF</h3>
-              <div className="flex items-baseline gap-1 mb-6">
-                <span className="text-3xl font-bold text-primary">₹499</span>
-              </div>
-              <ul className="space-y-4 mb-8">
-                {['Up to 4 Pages', 'Clickable Maps/Links', 'Custom Text & Colors', '1 Revision', 'Delivery in 24 hrs'].map((f, i) => (
-                  <li key={i} className="flex items-center text-muted-foreground text-sm">
-                    <CheckCircle2 size={16} className="text-secondary mr-3 shrink-0" /> {f}
-                  </li>
-                ))}
-              </ul>
-              <Link href="/contact?package=basic">
-                <Button variant="outline" className="w-full">Choose Basic</Button>
-              </Link>
-            </div>
-
-            {/* Standard */}
-            <div className="bg-primary text-primary-foreground rounded-2xl p-8 border border-primary shadow-xl transform md:-translate-y-4 relative">
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-secondary text-secondary-foreground text-xs font-bold px-4 py-1 rounded-full uppercase tracking-wider">
-                Most Popular
-              </div>
-              <h3 className="text-xl font-bold text-white mb-2">Video + PDF</h3>
-              <div className="flex items-baseline gap-1 mb-6">
-                <span className="text-4xl font-bold text-white">₹999</span>
-              </div>
-              <ul className="space-y-4 mb-8">
-                {['60 Sec Animated Video', 'Matching 4-Page PDF', 'Background Music', 'Custom Caricatures (+₹500)', '3 Revisions', 'Delivery in 48 hrs'].map((f, i) => (
-                  <li key={i} className="flex items-center text-primary-foreground/80 text-sm">
-                    <CheckCircle2 size={16} className="text-secondary mr-3 shrink-0" /> {f}
-                  </li>
-                ))}
-              </ul>
-              <Link href="/contact?package=standard">
-                <Button className="w-full bg-secondary text-secondary-foreground hover:bg-secondary/90 border-0">Choose Standard</Button>
-              </Link>
-            </div>
-
-            {/* Premium */}
-            <div className="bg-background rounded-2xl p-8 border border-border shadow-sm">
-              <h3 className="text-xl font-bold text-foreground mb-2">The Full Suite</h3>
-              <div className="flex items-baseline gap-1 mb-6">
-                <span className="text-3xl font-bold text-primary">₹1,999</span>
-              </div>
-              <ul className="space-y-4 mb-8">
-                {['Custom Website', 'Animated Video', 'Matching PDF', 'RSVP Management', 'Photo Gallery', 'Unlimited Revisions'].map((f, i) => (
-                  <li key={i} className="flex items-center text-muted-foreground text-sm">
-                    <CheckCircle2 size={16} className="text-secondary mr-3 shrink-0" /> {f}
-                  </li>
-                ))}
-              </ul>
-              <Link href="/contact?package=premium">
-                <Button variant="outline" className="w-full">Choose Premium</Button>
-              </Link>
-            </div>
+            {PRICING_PLANS.map((plan) =>
+              plan.isPopular ? (
+                <div
+                  key={plan.id}
+                  className="bg-primary text-primary-foreground rounded-2xl p-8 border border-primary shadow-xl transform md:-translate-y-4 relative"
+                >
+                  <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-secondary text-secondary-foreground text-xs font-bold px-4 py-1 rounded-full uppercase tracking-wider">
+                    Most Popular
+                  </div>
+                  <h3 className="text-xl font-bold text-white mb-2">{plan.name}</h3>
+                  <div className="flex items-baseline gap-1 mb-6">
+                    <span className="text-4xl font-bold text-white">{plan.price}</span>
+                  </div>
+                  <ul className="space-y-4 mb-8">
+                    {plan.features.map((f, i) => (
+                      <li key={i} className="flex items-center text-primary-foreground/80 text-sm">
+                        <CheckCircle2 size={16} className="text-secondary mr-3 shrink-0" /> {f}
+                      </li>
+                    ))}
+                  </ul>
+                  <Link href={`/contact?package=${plan.id}`}>
+                    <Button className="w-full bg-secondary text-secondary-foreground hover:bg-secondary/90 border-0">{plan.ctaLabel}</Button>
+                  </Link>
+                </div>
+              ) : (
+                <div key={plan.id} className="bg-background rounded-2xl p-8 border border-border shadow-sm">
+                  <h3 className="text-xl font-bold text-foreground mb-2">{plan.name}</h3>
+                  <div className="flex items-baseline gap-1 mb-6">
+                    <span className="text-3xl font-bold text-primary">{plan.price}</span>
+                  </div>
+                  <ul className="space-y-4 mb-8">
+                    {plan.features.map((f, i) => (
+                      <li key={i} className="flex items-center text-muted-foreground text-sm">
+                        <CheckCircle2 size={16} className="text-secondary mr-3 shrink-0" /> {f}
+                      </li>
+                    ))}
+                  </ul>
+                  <Link href={`/contact?package=${plan.id}`}>
+                    <Button variant="outline" className="w-full">{plan.ctaLabel}</Button>
+                  </Link>
+                </div>
+              )
+            )}
           </div>
         </div>
       </section>
