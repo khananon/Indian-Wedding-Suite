@@ -1,4 +1,5 @@
 import { Link } from "wouter";
+import { ArrowUpRight } from "lucide-react";
 import { type Template } from "@/hooks/use-templates";
 
 const themeStyles: Record<string, { bg: string; border: string; accent: string; icon: string; pattern: string }> = {
@@ -100,9 +101,22 @@ export function TemplateCard({ template }: { template: Template }) {
         </div>
 
         {template.isPopular && (
-          <div className="absolute top-3 right-3 bg-secondary text-secondary-foreground text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider shadow-sm z-10">
+          <div className="absolute top-3 left-3 bg-secondary text-secondary-foreground text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider shadow-sm z-10">
             Popular
           </div>
+        )}
+
+        {template.link && (
+          <a
+            href={template.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => e.stopPropagation()}
+            className="absolute top-3 right-3 z-20 w-9 h-9 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md hover:bg-white hover:scale-110 transition-all duration-200"
+            title="View live demo"
+          >
+            <ArrowUpRight className="w-4 h-4 text-primary" />
+          </a>
         )}
       </div>
 

@@ -5,6 +5,7 @@ import { Smartphone, FileText, Globe, Star, CheckCircle2, ArrowRight } from "luc
 import { Button } from "@/components/Button";
 import { TemplateCard } from "@/components/TemplateCard";
 import { useTemplates } from "@/hooks/use-templates";
+import { getWhatsAppLink } from "@/config/site";
 
 export default function Home() {
   const { data: templates, isLoading } = useTemplates();
@@ -330,7 +331,7 @@ export default function Home() {
             <Link href="/contact">
               <Button size="lg" className="rounded-full px-8">Contact Us Now</Button>
             </Link>
-            <Button variant="outline" size="lg" className="rounded-full px-8 bg-white" onClick={() => window.open('https://wa.me/1234567890', '_blank')}>
+            <Button variant="outline" size="lg" className="rounded-full px-8 bg-white" onClick={() => window.open(getWhatsAppLink(), '_blank')}>
               Chat on WhatsApp
             </Button>
           </div>

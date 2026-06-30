@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useLocation } from "wouter";
 import { Mail, MapPin, Phone, MessageCircle } from "lucide-react";
 import { Button } from "@/components/Button";
+import { SITE_CONFIG, getWhatsAppLink } from "@/config/site";
 
 export default function Contact() {
   const [searchParams] = useState(new URLSearchParams(window.location.search));
@@ -46,8 +47,8 @@ export default function Contact() {
                   </div>
                   <div>
                     <p className="font-semibold text-foreground">WhatsApp</p>
-                    <p className="text-muted-foreground text-sm">+91 98765 43210</p>
-                    <a href="#" className="text-secondary text-sm font-medium mt-1 inline-block hover:underline">Message us now</a>
+                    <p className="text-muted-foreground text-sm">{SITE_CONFIG.phoneDisplay}</p>
+                    <a href={getWhatsAppLink()} target="_blank" rel="noopener noreferrer" className="text-secondary text-sm font-medium mt-1 inline-block hover:underline">Message us now</a>
                   </div>
                 </div>
 
@@ -57,7 +58,7 @@ export default function Contact() {
                   </div>
                   <div>
                     <p className="font-semibold text-foreground">Email</p>
-                    <p className="text-muted-foreground text-sm">hello@vowsandknots.com</p>
+                    <p className="text-muted-foreground text-sm">{SITE_CONFIG.email}</p>
                   </div>
                 </div>
 
@@ -67,7 +68,7 @@ export default function Contact() {
                   </div>
                   <div>
                     <p className="font-semibold text-foreground">Phone</p>
-                    <p className="text-muted-foreground text-sm">+91 98765 43210</p>
+                    <p className="text-muted-foreground text-sm">{SITE_CONFIG.phoneDisplay}</p>
                     <p className="text-xs text-muted-foreground mt-1">Mon-Sat, 10am - 7pm IST</p>
                   </div>
                 </div>

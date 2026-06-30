@@ -1,0 +1,1 @@
+- [Invitation-site config pattern](invitation-site-config.md) — site-wide contact info and template gallery data live in dedicated config/data files, not inline in pages.
