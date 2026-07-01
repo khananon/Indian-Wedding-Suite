@@ -12,14 +12,35 @@ export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
-    // Simulate form submission
+
+    const formData = new FormData(e.currentTarget);
+    const name = formData.get("name")?.toString().trim() || "-";
+    const email = formData.get("email")?.toString().trim() || "-";
+    const whatsapp = formData.get("whatsapp")?.toString().trim() || "-";
+    const weddingDate = formData.get("weddingDate")?.toString().trim() || "-";
+    const packageValue = formData.get("package")?.toString().trim() || "-";
+    const message = formData.get("message")?.toString().trim() || "-";
+
+    const lines = [
+      "New enquiry from Vows & Knots website:",
+      `Name: ${name}`,
+      `Email: ${email}`,
+      `WhatsApp Number: ${whatsapp}`,
+      `Wedding Date: ${weddingDate}`,
+      `Interested Package / Template: ${packageValue}`,
+      `Message: ${message}`,
+    ];
+
+    const waLink = getWhatsAppLink(lines.join("\n"));
+    window.open(waLink, "_blank", "noopener,noreferrer");
+
     setTimeout(() => {
       setIsSubmitting(false);
       setIsSuccess(true);
-    }, 1500);
+    }, 500);
   };
 
   return (
@@ -101,34 +122,34 @@ export default function Contact() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
                       <label className="text-sm font-medium text-foreground">Your Name <span className="text-red-500">*</span></label>
-                      <input required type="text" className="w-full px-4 py-3 rounded-lg border border-border bg-background focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors" placeholder="John & Jane" />
+                      <input required name="name" type="text" className="w-full px-4 py-3 rounded-lg border border-border bg-background focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors" placeholder="John & Jane" />
                     </div>
                     <div className="space-y-2">
                       <label className="text-sm font-medium text-foreground">Email Address <span className="text-red-500">*</span></label>
-                      <input required type="email" className="w-full px-4 py-3 rounded-lg border border-border bg-background focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors" placeholder="john@example.com" />
+                      <input required name="email" type="email" className="w-full px-4 py-3 rounded-lg border border-border bg-background focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors" placeholder="john@example.com" />
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
                       <label className="text-sm font-medium text-foreground">WhatsApp Number <span className="text-red-500">*</span></label>
-                      <input required type="tel" className="w-full px-4 py-3 rounded-lg border border-border bg-background focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors" placeholder="+91" />
+                      <input required name="whatsapp" type="tel" className="w-full px-4 py-3 rounded-lg border border-border bg-background focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors" placeholder="+91" />
                     </div>
                     <div className="space-y-2">
                       <label className="text-sm font-medium text-foreground">Wedding Date</label>
-                      <input type="date" className="w-full px-4 py-3 rounded-lg border border-border bg-background focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors" />
+                      <input name="weddingDate" type="date" className="w-full px-4 py-3 rounded-lg border border-border bg-background focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors" />
                     </div>
                   </div>
 
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-foreground">Interested Package / Template</label>
-                    <select className="w-full px-4 py-3 rounded-lg border border-border bg-background focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors appearance-none">
+                    <select name="package" defaultValue={prefilledTemplate || prefilledPackage || ""} className="w-full px-4 py-3 rounded-lg border border-border bg-background focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors appearance-none">
                       <option value="">Select an option</option>
-                      <option value="basic" selected={prefilledPackage === 'basic'}>Essential PDF (₹499)</option>
-                      <option value="standard" selected={prefilledPackage === 'standard'}>Video + PDF (₹999)</option>
-                      <option value="premium" selected={prefilledPackage === 'premium'}>The Full Suite (₹1,999)</option>
+                      <option value="basic">Essential PDF (₹499)</option>
+                      <option value="standard">Video + PDF (₹999)</option>
+                      <option value="premium">The Full Suite (₹1,999)</option>
                       <option value="custom">Custom Design</option>
-                      {prefilledTemplate && <option value={prefilledTemplate} selected>Template ID: {prefilledTemplate}</option>}
+                      {prefilledTemplate && <option value={prefilledTemplate}>Template ID: {prefilledTemplate}</option>}
                     </select>
                   </div>
 
@@ -136,6 +157,7 @@ export default function Contact() {
                     <label className="text-sm font-medium text-foreground">Message / Requirements</label>
                     <textarea 
                       rows={4} 
+                      name="message"
                       className="w-full px-4 py-3 rounded-lg border border-border bg-background focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors resize-none" 
                       placeholder="Tell us a bit about your wedding and what kind of design you are looking for..."
                     ></textarea>
