@@ -30,7 +30,8 @@ export const TEMPLATES: TemplateData[] = [
     name: "Awadhi Elegance",
     category: "Muslim",
     price: 999,
-    image: "images/muslim-wedding.jpg",
+    image: "images/awadhi-elegance-preview.png",
+    link: "https://royal-union-three.vercel.app/",
   },
   {
     id: "t3",
