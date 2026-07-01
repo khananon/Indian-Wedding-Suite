@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --config vite.config.ts --host 0.0.0.0",
+    "check:tailwind": "vite build --config vite.config.ts && node -e \"const fs=require('fs'),p=require('path'),d=p.join('dist','public','assets');if(!fs.existsSync(d))throw new Error('missing dist/public/assets');const f=fs.readdirSync(d).find(x=>x.endsWith('.css'));if(!f)throw new Error('no css');const s=fs.statSync(p.join(d,f)).size;if(s<40000){console.error('Tailwind CSS is only '+s+' bytes (expect ~100k+). From repo ROOT run: pnpm install');process.exit(1)}console.log('Tailwind OK:',f,s,'bytes')\"",
     "build": "vite build --config vite.config.ts",
     "serve": "vite preview --config vite.config.ts --host 0.0.0.0",
     "typecheck": "tsc -p tsconfig.json --noEmit"
