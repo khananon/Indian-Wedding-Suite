@@ -22,7 +22,8 @@ export const TEMPLATES: TemplateData[] = [
     category: "Hindu",
     price: 999,
     isPopular: true,
-    image: "images/hindu-wedding.jpg",
+    image: "images/royal-rajasthan-preview.png",
+    link: "https://digital-invite-beryl.vercel.app/",
   },
   {
     id: "t2",
