@@ -39,6 +39,7 @@ export const TEMPLATES: TemplateData[] = [
     category: "Sikh",
     price: 899,
     image: "images/sikh-wedding.jpg",
+     
   },
   {
     id: "t4",
@@ -46,6 +47,7 @@ export const TEMPLATES: TemplateData[] = [
     category: "Christian",
     price: 799,
     image: "images/christian-wedding.jpg",
+    link: "https://sikhi-wedding-invitaion.vercel.app/",
   },
   {
     id: "t5",
