@@ -60,7 +60,8 @@ export function TemplateCard({ template }: { template: Template }) {
           /* Real photo preview */
           <img
             src={`${base}${template.image}`}
-            alt={template.name}
+            alt={`${template.name} - ${template.category} Digital Wedding Invitation Card Template`}
+            loading="lazy"
             className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
           />
         ) : (

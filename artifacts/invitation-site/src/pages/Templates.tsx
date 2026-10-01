@@ -1,25 +1,48 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTemplates, type Category } from "@/hooks/use-templates";
 import { TemplateCard } from "@/components/TemplateCard";
 import { cn } from "@/lib/utils";
+import { SEO } from "@/components/SEO";
 
 const CATEGORIES: Category[] = ["All", "Hindu", "Muslim", "Sikh", "Christian", "South Indian"];
 
 export default function Templates() {
-  const [activeCategory, setActiveCategory] = useState<Category>("All");
+  const [activeCategory, setActiveCategory] = useState<Category>(() => {
+    if (typeof window !== "undefined") {
+      const param = new URLSearchParams(window.location.search).get("category");
+      if (param && CATEGORIES.includes(param as Category)) {
+        return param as Category;
+      }
+    }
+    return "All";
+  });
+
   const { data: templates, isLoading } = useTemplates(activeCategory);
 
   return (
     <div className="min-h-screen bg-background pt-32 pb-24">
+      <SEO
+        title={
+          activeCategory === "All"
+            ? "Indian Wedding Digital Invitation Templates Gallery | Vows & Knots"
+            : `${activeCategory} Digital Wedding Invitation Templates | Vows & Knots`
+        }
+        description={`Explore our handcrafted ${
+          activeCategory === "All" ? "Indian" : activeCategory
+        } digital wedding invitation templates. Mobile-friendly, instant WhatsApp sharing, and live Google Maps RSVP.`}
+        canonicalPath="/templates"
+      />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <h1 className="font-display text-4xl md:text-5xl font-bold text-primary mb-6">Template Gallery</h1>
+          <h1 className="font-display text-4xl md:text-5xl font-bold text-primary mb-6">
+            {activeCategory === "All" ? "Digital Wedding Invitation Templates" : `${activeCategory} Digital Wedding Invitations`}
+          </h1>
           <p className="text-lg text-muted-foreground">
-            Browse our extensive collection of beautifully crafted digital invitations. 
-            Filter by your cultural preference to find the perfect starting point.
+            Browse our extensive collection of beautifully crafted digital wedding cards and websites. 
+            Filter by cultural tradition to find your dream design.
           </p>
         </div>
 

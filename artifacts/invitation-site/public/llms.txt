@@ -1,0 +1,25 @@
+﻿# Vows & Knots - Indian Digital Wedding Invitation Suite
+
+> Vows & Knots is a premier online platform offering bespoke digital wedding invitations and wedding website invitations for Indian and multicultural couples worldwide.
+
+## Overview
+Vows & Knots designs elegant, modern, eco-friendly digital wedding cards and interactive wedding websites for WhatsApp sharing and global distribution. Each invitation includes interactive event schedules, RSVP management, Google Maps venue navigation, photo galleries, and cultural ceremony timelines.
+
+## Cultural Traditions Catered To
+- **Muslim Digital Wedding Invitations (Nikah & Walima)**: Islamic motifs, Bismillah calligraphy, Halal ceremony timelines, dual-family announcements, venue map integration for Nikah and reception.
+- **Hindu Digital Wedding Invitations (Vivah & Lagan Patrika)**: Auspicious Ganesh stuti, Lagan Patrika, Haldi, Mehendi, Sangeet, and Saat Phere multi-event schedules.
+- **Sikh Digital Wedding Invitations (Anand Karaj)**: Ik Onkar symbols, Gurdwara wedding schedules, Langar details, Milni, and Sangeet celebrations.
+- **Christian Digital Wedding Invitations (Holy Matrimony)**: Scripture verses, Church ceremony itineraries, modern bridal aesthetic, dinner & dance RSVP.
+- **South Indian Digital Wedding Invitations (Muhurtham)**: Tamil, Telugu, Kannada, and Malayalam wedding invitation designs with traditional kolam/mandala art and auspicious Muhurtham timings.
+
+## Key Features
+- **Mobile-First & WhatsApp Optimized**: Instant loading, responsive layout, effortless sharing via WhatsApp, Instagram, and SMS.
+- **Interactive Venue Maps**: Direct 1-tap Google Maps integration for all wedding locations.
+- **One-Tap RSVP**: Live guest RSVP tracking for headcounts and catering management.
+- **Eco-Friendly**: Zero paper waste, sustainable, carbon-neutral celebration announcements.
+- **Bespoke Customization**: Custom colors, fonts, music, and religious motifs tailored to each couple.
+
+## Contact & Ordering
+- **Website**: https://vowsandknots.com
+- **WhatsApp**: +91 90589 55529
+- **Email**: hello@vowsandknots.com

@@ -3,6 +3,7 @@ import { useLocation } from "wouter";
 import { Mail, MapPin, Phone, MessageCircle } from "lucide-react";
 import { Button } from "@/components/Button";
 import { SITE_CONFIG, getWhatsAppLink } from "@/config/site";
+import { SEO } from "@/components/SEO";
 
 export default function Contact() {
   const [searchParams] = useState(new URLSearchParams(window.location.search));
@@ -45,6 +46,11 @@ export default function Contact() {
 
   return (
     <div className="min-h-screen bg-background pt-32 pb-24">
+      <SEO
+        title="Contact &amp; Custom Design Requests | Vows &amp; Knots Wedding Invites"
+        description="Get in touch for bespoke Indian digital wedding invitations, custom wedding websites, WhatsApp RSVPs, and personalized design inquiries."
+        canonicalPath="/contact"
+      />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div className="text-center max-w-2xl mx-auto mb-16">
@@ -145,9 +151,12 @@ export default function Contact() {
                     <label className="text-sm font-medium text-foreground">Interested Package / Template</label>
                     <select name="package" defaultValue={prefilledTemplate || prefilledPackage || ""} className="w-full px-4 py-3 rounded-lg border border-border bg-background focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors appearance-none">
                       <option value="">Select an option</option>
+                      {/*
                       <option value="basic">Essential PDF (₹499)</option>
                       <option value="standard">Video + PDF (₹999)</option>
                       <option value="premium">The Full Suite (₹1,999)</option>
+                      */}
+                      <option value="digital">Digital Wedding Invitation</option>
                       <option value="custom">Custom Design</option>
                       {prefilledTemplate && <option value={prefilledTemplate}>Template ID: {prefilledTemplate}</option>}
                     </select>

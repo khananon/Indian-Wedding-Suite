@@ -1,6 +1,13 @@
+import { SEO } from "@/components/SEO";
+
 export default function About() {
   return (
     <div className="min-h-screen bg-background pt-32 pb-24">
+      <SEO
+        title="Our Story & Philosophy | Vows & Knots Indian Wedding Stationery"
+        description="Discover the passion behind Vows & Knots. We blend rich Indian wedding heritage with modern digital convenience to create breathtaking digital invitations."
+        canonicalPath="/about"
+      />
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div className="text-center mb-16">

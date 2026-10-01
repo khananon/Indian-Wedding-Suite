@@ -1,16 +1,17 @@
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Link } from "wouter";
-import { Smartphone, FileText, Globe, Star, CheckCircle2, ArrowRight } from "lucide-react";
+import { Star, CheckCircle2, ArrowRight, ChevronDown, Sparkles, MapPin, Calendar, Heart, ShieldCheck, Share2 } from "lucide-react";
 import { Button } from "@/components/Button";
 import { TemplateCard } from "@/components/TemplateCard";
 import { useTemplates } from "@/hooks/use-templates";
 import { getWhatsAppLink } from "@/config/site";
-import { PRICING_PLANS } from "@/data/pricing";
+import { SEO } from "@/components/SEO";
 
 export default function Home() {
   const { data: templates, isLoading } = useTemplates();
   const featuredTemplates = templates?.slice(0, 4) || [];
+  const [openFaq, setOpenFaq] = useState<number | null>(0);
 
   const heroRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
@@ -36,6 +37,11 @@ export default function Home() {
 
   return (
     <div className="flex flex-col min-h-screen">
+      <SEO
+        title="Vows & Knots | Indian Digital Wedding Invitations & Wedding Websites"
+        description="Bespoke Indian digital wedding invitations and interactive wedding websites for Hindu, Muslim, Sikh, Christian, and South Indian celebrations with RSVP and Google Maps."
+        canonicalPath="/"
+      />
       {/* HERO SECTION */}
       <section ref={heroRef} className="relative pt-28 pb-0 md:pt-36 overflow-hidden min-h-[680px] md:min-h-[780px] flex items-center">
         {/* Background — clean ivory, no distracting pattern */}
@@ -126,7 +132,8 @@ export default function Home() {
                 Beautiful<br />Digital Wedding<br />Invitations
               </h1>
               <p className="text-lg md:text-xl text-foreground/75 mb-10 font-light leading-relaxed">
-                Set the perfect tone for your special day with our elegant, customizable digital invites. Available in Video, PDF, and interactive Website formats.
+                Set the perfect tone for your special day with our elegant, customizable digital invitations.
+                {/* Available in Video, PDF, and interactive Website formats. */}
               </p>
               <div className="flex flex-col sm:flex-row items-start gap-4">
                 <Link href="/templates">
@@ -146,7 +153,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FEATURES SECTION */}
+      {/* FEATURES SECTION (Choose Your Format - Commented out)
       <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
@@ -190,6 +197,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+      */}
 
       {/* HOW IT WORKS */}
       <section className="py-24 bg-primary text-primary-foreground">
@@ -253,58 +261,253 @@ export default function Home() {
         </div>
       </section>
 
-      {/* PRICING */}
+      {/* CULTURAL TRADITIONS & CEREMONIAL INVITATION SUITES (SEO & GEO Focus) */}
       <section className="py-24 bg-white border-t border-border/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="font-display text-4xl font-bold text-primary mb-4">Transparent Pricing</h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">Premium quality without the premium price tag. Choose the package that suits you best.</p>
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <span className="inline-block text-secondary font-semibold tracking-widest uppercase text-xs mb-3">
+              Tailored For Every Heritage
+            </span>
+            <h2 className="font-display text-4xl md:text-5xl font-bold text-primary mb-4">
+              Digital Invitations For Every Indian Wedding Tradition
+            </h2>
+            <p className="text-muted-foreground text-base md:text-lg">
+              Every culture celebrates love in its own sacred way. Our bespoke digital invitations are crafted with authentic ceremonial symbolism, ritual timings, and multi-event schedules.
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto items-center">
-            {PRICING_PLANS.map((plan) =>
-              plan.isPopular ? (
-                <div
-                  key={plan.id}
-                  className="bg-primary text-primary-foreground rounded-2xl p-8 border border-primary shadow-xl transform md:-translate-y-4 relative"
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* Muslim Nikah & Walima */}
+            <div className="bg-background rounded-2xl p-8 border border-border hover:border-secondary/50 hover:shadow-lg transition-all flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-3xl">☪️</span>
+                  <span className="text-xs uppercase font-bold tracking-wider px-3 py-1 rounded-full bg-emerald-100 text-emerald-800">
+                    Nikah &amp; Walima
+                  </span>
+                </div>
+                <h3 className="font-display text-2xl font-bold text-primary mb-2">
+                  Muslim Digital Wedding Invitations
+                </h3>
+                <p className="text-muted-foreground text-sm leading-relaxed mb-6">
+                  Adorned with elegant Bismillah calligraphy, Quranic verses, Hijri calendar dates, separate timings for Nikah and Walima receptions, and seamless WhatsApp RSVP links.
+                </p>
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {["Bismillah Art", "Nikah Timings", "Walima RSVP", "Venue GPS Maps"].map((tag, i) => (
+                    <span key={i} className="text-[11px] bg-muted px-2.5 py-1 rounded-full text-foreground/80 font-medium">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <Link href="/templates">
+                <Button variant="outline" size="sm" className="w-full justify-between group">
+                  <span>Browse Muslim Invites</span>
+                  <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                </Button>
+              </Link>
+            </div>
+
+            {/* Hindu Vivah & Lagan Patrika */}
+            <div className="bg-background rounded-2xl p-8 border border-border hover:border-secondary/50 hover:shadow-lg transition-all flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-3xl">🪔</span>
+                  <span className="text-xs uppercase font-bold tracking-wider px-3 py-1 rounded-full bg-amber-100 text-amber-800">
+                    Vivah &amp; Patrika
+                  </span>
+                </div>
+                <h3 className="font-display text-2xl font-bold text-primary mb-2">
+                  Hindu Digital Wedding Invitations
+                </h3>
+                <p className="text-muted-foreground text-sm leading-relaxed mb-6">
+                  Rooted in tradition with auspicious Ganesh stuti, Lagan Patrika schedules, Haldi, Mehendi, Sangeet, Baarat, and Saat Phere timelines with interactive Google Maps navigation.
+                </p>
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {["Ganesh Stuti", "Lagan Patrika", "Multi-Event RSVP", "Haldi & Sangeet"].map((tag, i) => (
+                    <span key={i} className="text-[11px] bg-muted px-2.5 py-1 rounded-full text-foreground/80 font-medium">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <Link href="/templates">
+                <Button variant="outline" size="sm" className="w-full justify-between group">
+                  <span>Browse Hindu Invites</span>
+                  <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                </Button>
+              </Link>
+            </div>
+
+            {/* Sikh Anand Karaj */}
+            <div className="bg-background rounded-2xl p-8 border border-border hover:border-secondary/50 hover:shadow-lg transition-all flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-3xl">✡️</span>
+                  <span className="text-xs uppercase font-bold tracking-wider px-3 py-1 rounded-full bg-sky-100 text-sky-800">
+                    Anand Karaj
+                  </span>
+                </div>
+                <h3 className="font-display text-2xl font-bold text-primary mb-2">
+                  Sikh Digital Wedding Invitations
+                </h3>
+                <p className="text-muted-foreground text-sm leading-relaxed mb-6">
+                  Featuring holy Ik Onkar motifs, Gurdwara Lavaan ceremony timings, Langar guidelines, Milni introductions, and vibrant Punjabi reception celebration details.
+                </p>
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {["Ik Onkar", "Gurdwara Maps", "Langar Notes", "Milni & Sangeet"].map((tag, i) => (
+                    <span key={i} className="text-[11px] bg-muted px-2.5 py-1 rounded-full text-foreground/80 font-medium">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <Link href="/templates">
+                <Button variant="outline" size="sm" className="w-full justify-between group">
+                  <span>Browse Sikh Invites</span>
+                  <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                </Button>
+              </Link>
+            </div>
+
+            {/* Christian Holy Matrimony */}
+            <div className="bg-background rounded-2xl p-8 border border-border hover:border-secondary/50 hover:shadow-lg transition-all flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-3xl">✝️</span>
+                  <span className="text-xs uppercase font-bold tracking-wider px-3 py-1 rounded-full bg-indigo-100 text-indigo-800">
+                    Holy Matrimony
+                  </span>
+                </div>
+                <h3 className="font-display text-2xl font-bold text-primary mb-2">
+                  Christian Digital Wedding Invitations
+                </h3>
+                <p className="text-muted-foreground text-sm leading-relaxed mb-6">
+                  Graceful and modern digital wedding websites featuring favorite Bible verses, Church ceremony orders, choir announcements, and dinner &amp; dance reception RSVP.
+                </p>
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {["Scripture Verses", "Church Location", "Bridal Party", "Reception RSVP"].map((tag, i) => (
+                    <span key={i} className="text-[11px] bg-muted px-2.5 py-1 rounded-full text-foreground/80 font-medium">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <Link href="/templates">
+                <Button variant="outline" size="sm" className="w-full justify-between group">
+                  <span>Browse Christian Invites</span>
+                  <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                </Button>
+              </Link>
+            </div>
+
+            {/* South Indian Muhurtham */}
+            <div className="bg-background rounded-2xl p-8 border border-border hover:border-secondary/50 hover:shadow-lg transition-all flex flex-col justify-between md:col-span-2 lg:col-span-2">
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-3xl">🌺</span>
+                  <span className="text-xs uppercase font-bold tracking-wider px-3 py-1 rounded-full bg-yellow-100 text-yellow-800">
+                    South Indian Muhurtham
+                  </span>
+                </div>
+                <h3 className="font-display text-2xl font-bold text-primary mb-2">
+                  South Indian Digital Wedding Invitations (Tamil, Telugu, Kannada, Malayalam)
+                </h3>
+                <p className="text-muted-foreground text-sm leading-relaxed mb-6">
+                  Rich cultural aesthetics inspired by temple architecture, banana leaf mandapams, and Kolam patterns. Perfect for auspicious Muhurtham timings, Kanyadaan, Mangalya Dharanam, and grand feast hospitality.
+                </p>
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {["Temple Motifs", "Kolam Borders", "Muhurtham Countdown", "Kalyanam Details", "Google Maps"].map((tag, i) => (
+                    <span key={i} className="text-[11px] bg-muted px-2.5 py-1 rounded-full text-foreground/80 font-medium">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <Link href="/templates">
+                <Button variant="outline" size="sm" className="w-full sm:w-auto self-start justify-between group">
+                  <span>Browse South Indian Invites</span>
+                  <ArrowRight size={14} className="ml-2 group-hover:translate-x-1 transition-transform" />
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FREQUENTLY ASKED QUESTIONS (FAQ) - AI Search & Google Featured Snippets */}
+      <section className="py-24 bg-background border-t border-border/50">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <span className="inline-block text-secondary font-semibold tracking-widest uppercase text-xs mb-3">
+              Answers &amp; Support
+            </span>
+            <h2 className="font-display text-4xl md:text-5xl font-bold text-primary mb-4">
+              Frequently Asked Questions
+            </h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Everything you need to know about our Indian digital wedding invitations, customization, RSVP tracking, and WhatsApp sharing.
+            </p>
+          </div>
+
+          <div className="space-y-4">
+            {[
+              {
+                q: "What is an Indian digital wedding invitation website?",
+                a: "An Indian digital wedding invitation is a personalized, interactive wedding website designed specifically for multi-day Indian weddings. Unlike static paper cards or simple images, it features animated countdowns, separate schedules for ceremonies (Haldi, Mehendi, Sangeet, Shaadi, Reception), direct Google Maps navigation pins, and instant WhatsApp RSVP collection."
+              },
+              {
+                q: "Do you design Muslim Nikah and Walima digital invitations?",
+                a: "Yes! We specialize in Islamic wedding digital invites with Bismillah calligraphy, Quranic Ayahs, Hijri dates, separate itineraries for Nikah, Mehndi, and Walima banquets, and dress code guidance for guests."
+              },
+              {
+                q: "Can we include all Hindu Vivah rituals like Haldi, Mehendi, and Sangeet?",
+                a: "Yes, our Hindu wedding invitation suites are built for multi-event festivities. You can include Ganesh Puja, Lagan Patrika, Mehendi, Haldi, Sangeet, Baarat, Saat Phere, and Reception, with separate venues, timings, and attire suggestions for each."
+              },
+              {
+                q: "How do Sikh Anand Karaj wedding invitations work?",
+                a: "Our Sikh wedding invitations feature revered Ik Onkar iconography, Gurdwara etiquette reminders, Lavaan ceremony timings, Langar details, and reception locations accessible via GPS maps."
+              },
+              {
+                q: "Can guests open the wedding invitation directly on WhatsApp?",
+                a: "Yes! Every invitation is engineered to generate a beautiful rich thumbnail preview on WhatsApp with the couple's portrait, wedding date, and names. Guests simply tap the link to view the complete invitation."
+              },
+              {
+                q: "How does the Google Maps venue navigation work?",
+                a: "Every ceremony card has a direct 'Get Directions' button linked to the exact Google Maps coordinates of your venue or banquet hall, ensuring your guests arrive punctually without calling for directions."
+              },
+              {
+                q: "How do guests submit their RSVP?",
+                a: "Guests can confirm their attendance in seconds via a one-tap online RSVP form or direct WhatsApp message, providing real-time guest counts for caterers and event planners."
+              },
+              {
+                q: "Why choose digital wedding invitations over printed cards?",
+                a: "Digital wedding invitations are 100% eco-friendly with zero paper waste. They can be sent globally in seconds without courier fees, allow instant updates if event timings change, and cost a fraction of traditional printing."
+              }
+            ].map((faq, i) => (
+              <div
+                key={i}
+                className="bg-white rounded-2xl border border-border overflow-hidden transition-colors"
+              >
+                <button
+                  type="button"
+                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                  className="w-full px-6 py-5 text-left flex items-center justify-between gap-4 font-display text-xl font-bold text-primary hover:text-primary/80 transition-colors"
                 >
-                  <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-secondary text-secondary-foreground text-xs font-bold px-4 py-1 rounded-full uppercase tracking-wider">
-                    Most Popular
+                  <span>{faq.q}</span>
+                  <ChevronDown
+                    className={`w-5 h-5 text-secondary shrink-0 transition-transform duration-200 ${
+                      openFaq === i ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+                {openFaq === i && (
+                  <div className="px-6 pb-6 text-muted-foreground text-base leading-relaxed border-t border-border/30 pt-4">
+                    {faq.a}
                   </div>
-                  <h3 className="text-xl font-bold text-white mb-2">{plan.name}</h3>
-                  <div className="flex items-baseline gap-1 mb-6">
-                    <span className="text-4xl font-bold text-white">{plan.price}</span>
-                  </div>
-                  <ul className="space-y-4 mb-8">
-                    {plan.features.map((f, i) => (
-                      <li key={i} className="flex items-center text-primary-foreground/80 text-sm">
-                        <CheckCircle2 size={16} className="text-secondary mr-3 shrink-0" /> {f}
-                      </li>
-                    ))}
-                  </ul>
-                  <Link href={`/contact?package=${plan.id}`}>
-                    <Button className="w-full bg-secondary text-secondary-foreground hover:bg-secondary/90 border-0">{plan.ctaLabel}</Button>
-                  </Link>
-                </div>
-              ) : (
-                <div key={plan.id} className="bg-background rounded-2xl p-8 border border-border shadow-sm">
-                  <h3 className="text-xl font-bold text-foreground mb-2">{plan.name}</h3>
-                  <div className="flex items-baseline gap-1 mb-6">
-                    <span className="text-3xl font-bold text-primary">{plan.price}</span>
-                  </div>
-                  <ul className="space-y-4 mb-8">
-                    {plan.features.map((f, i) => (
-                      <li key={i} className="flex items-center text-muted-foreground text-sm">
-                        <CheckCircle2 size={16} className="text-secondary mr-3 shrink-0" /> {f}
-                      </li>
-                    ))}
-                  </ul>
-                  <Link href={`/contact?package=${plan.id}`}>
-                    <Button variant="outline" className="w-full">{plan.ctaLabel}</Button>
-                  </Link>
-                </div>
-              )
-            )}
+                )}
+              </div>
+            ))}
           </div>
         </div>
       </section>
