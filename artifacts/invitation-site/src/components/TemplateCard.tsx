@@ -2,40 +2,35 @@ import { Link } from "wouter";
 import { ArrowUpRight } from "lucide-react";
 import { type Template } from "@/hooks/use-templates";
 
-const themeStyles: Record<string, { bg: string; border: string; accent: string; icon: string; pattern: string }> = {
+const themeStyles: Record<string, { bg: string; border: string; accent: string; pattern: string }> = {
   Hindu: {
     bg: "from-orange-50 via-amber-50 to-rose-50",
     border: "border-amber-300/60",
     accent: "text-amber-700",
-    icon: "🪔",
     pattern: "bg-gradient-to-br from-orange-100/80 to-rose-100/80",
   },
   Muslim: {
     bg: "from-emerald-50 via-teal-50 to-cyan-50",
     border: "border-emerald-300/60",
     accent: "text-emerald-700",
-    icon: "☪️",
     pattern: "bg-gradient-to-br from-emerald-100/80 to-teal-100/80",
   },
   Sikh: {
     bg: "from-sky-50 via-indigo-50 to-blue-50",
     border: "border-sky-300/60",
     accent: "text-sky-700",
-    icon: "✡️",
     pattern: "bg-gradient-to-br from-sky-100/80 to-indigo-100/80",
   },
   Christian: {
     bg: "from-slate-50 via-blue-50 to-indigo-50",
     border: "border-blue-300/60",
     accent: "text-blue-700",
-    icon: "✝️",
     pattern: "bg-gradient-to-br from-blue-100/80 to-slate-100/80",
   },
   "South Indian": {
     bg: "from-yellow-50 via-lime-50 to-emerald-50",
     border: "border-yellow-400/60",
     accent: "text-yellow-700",
-    icon: "🌺",
     pattern: "bg-gradient-to-br from-yellow-100/80 to-lime-100/80",
   },
 };
@@ -44,7 +39,6 @@ const defaultTheme = {
   bg: "from-pink-50 via-rose-50 to-amber-50",
   border: "border-rose-300/60",
   accent: "text-rose-700",
-  icon: "💐",
   pattern: "bg-gradient-to-br from-rose-100/80 to-amber-100/80",
 };
 
@@ -76,7 +70,6 @@ export function TemplateCard({ template }: { template: Template }) {
               <div className="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 rounded-tr border-current opacity-40" />
               <div className="absolute bottom-2 left-2 w-4 h-4 border-b-2 border-l-2 rounded-bl border-current opacity-40" />
               <div className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 rounded-br border-current opacity-40" />
-              <div className="text-4xl mb-3 filter drop-shadow-sm">{theme.icon}</div>
               <div className={`font-display text-base font-semibold text-center leading-snug mb-1 ${theme.accent}`}>
                 {template.name}
               </div>

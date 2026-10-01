@@ -39,7 +39,6 @@ export const TEMPLATES: TemplateData[] = [
     category: "Sikh",
     price: 2000,
     image: "images/sikh-wedding.jpg",
-     
   },
   {
     id: "t4",
@@ -54,8 +53,8 @@ export const TEMPLATES: TemplateData[] = [
     name: "Kanjeevaram Silk",
     category: "South Indian",
     price: 2000,
-    image: "images/christian-wedding.jpg",
     isPopular: true,
+    image: "images/south-indian-wedding.jpg",
     link: "https://invitation-gem-engine.vercel.app/",
   },
   {
@@ -63,17 +62,20 @@ export const TEMPLATES: TemplateData[] = [
     name: "Peacock Motif",
     category: "Hindu",
     price: 2000,
+    image: "images/hindu-wedding.jpg",
   },
   {
     id: "t7",
     name: "Jashn-e-Bahara",
     category: "Muslim",
     price: 2000,
+    image: "images/muslim-wedding.jpg",
   },
   {
     id: "t8",
     name: "Minimalist Marigold",
     category: "Hindu",
     price: 2000,
+    image: "images/marigold-haldi-wedding.jpg",
   },
 ];
