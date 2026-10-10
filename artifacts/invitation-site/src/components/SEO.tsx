@@ -1,4 +1,4 @@
-﻿import { useEffect } from "react";
+import { useEffect } from "react";
 
 interface SEOProps {
   title?: string;
@@ -36,7 +36,7 @@ export function SEO({
 
     const canonical = document.querySelector('link[rel="canonical"]');
     if (canonical) {
-      canonical.setAttribute("href", `https://vowsandknots.com${canonicalPath}`);
+      canonical.setAttribute("href", `https://indian-wedding-suite-api-server.vercel.app${canonicalPath}`);
     }
   }, [title, description, canonicalPath]);
 

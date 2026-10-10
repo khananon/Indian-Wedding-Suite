@@ -1,3 +1,82 @@
-<svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect width="180" height="180" rx="36" fill="#FF3C00"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <radialGradient id="bgGrad" cx="40%" cy="35%" r="70%">
+      <stop offset="0%" stop-color="#6e1a2f"/>
+      <stop offset="60%" stop-color="#4a0f1d"/>
+      <stop offset="100%" stop-color="#2a050d"/>
+    </radialGradient>
+    
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fff1c5"/>
+      <stop offset="25%" stop-color="#e8c872"/>
+      <stop offset="50%" stop-color="#cba135"/>
+      <stop offset="75%" stop-color="#f5dba0"/>
+      <stop offset="100%" stop-color="#9a711c"/>
+    </linearGradient>
+
+    <linearGradient id="innerBorderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e8c872" stop-opacity="0.8"/>
+      <stop offset="50%" stop-color="#cba135" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#e8c872" stop-opacity="0.8"/>
+    </linearGradient>
+
+    <filter id="subtleGlow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#000000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="512" height="512" rx="112" fill="url(#bgGrad)"/>
+
+  <!-- Ornate Decorative Outer Frame -->
+  <rect x="28" y="28" width="456" height="456" rx="90" fill="none" stroke="url(#innerBorderGrad)" stroke-width="3" stroke-dasharray="16 6"/>
+  <rect x="38" y="38" width="436" height="436" rx="82" fill="none" stroke="url(#goldGrad)" stroke-width="1.5" opacity="0.6"/>
+
+  <!-- Corner Lotus Petals / Flourishes -->
+  <!-- Top-Left -->
+  <path d="M 68 88 C 68 76 76 68 88 68 C 100 68 96 88 68 88 Z" fill="url(#goldGrad)" opacity="0.75"/>
+  <circle cx="70" cy="70" r="4" fill="url(#goldGrad)"/>
+  <!-- Top-Right -->
+  <path d="M 444 88 C 444 76 436 68 424 68 C 412 68 416 88 444 88 Z" fill="url(#goldGrad)" opacity="0.75"/>
+  <circle cx="442" cy="70" r="4" fill="url(#goldGrad)"/>
+  <!-- Bottom-Left -->
+  <path d="M 68 424 C 68 436 76 444 88 444 C 100 444 96 424 68 424 Z" fill="url(#goldGrad)" opacity="0.75"/>
+  <circle cx="70" cy="442" r="4" fill="url(#goldGrad)"/>
+  <!-- Bottom-Right -->
+  <path d="M 444 424 C 444 436 436 444 424 444 C 412 444 416 424 444 424 Z" fill="url(#goldGrad)" opacity="0.75"/>
+  <circle cx="442" cy="442" r="4" fill="url(#goldGrad)"/>
+
+  <!-- Top Crown: Sacred Lotus Crest -->
+  <g transform="translate(256, 118)" filter="url(#subtleGlow)">
+    <!-- Central lotus petal -->
+    <path d="M 0 -36 C -12 -12 -8 6 0 10 C 8 6 12 -12 0 -36 Z" fill="url(#goldGrad)"/>
+    <!-- Left petal -->
+    <path d="M -4 2 C -18 -8 -26 -2 -22 8 C -14 12 -6 8 -4 2 Z" fill="url(#goldGrad)" opacity="0.9"/>
+    <!-- Right petal -->
+    <path d="M 4 2 C 18 -8 26 -2 22 8 C 14 12 6 8 4 2 Z" fill="url(#goldGrad)" opacity="0.9"/>
+    <!-- Center gem dot -->
+    <circle cx="0" cy="18" r="3.5" fill="url(#goldGrad)"/>
+    <circle cx="-16" cy="18" r="2" fill="url(#goldGrad)"/>
+    <circle cx="16" cy="18" r="2" fill="url(#goldGrad)"/>
+  </g>
+
+  <!-- Central Crest & Monogram: V & K intertwined -->
+  <g filter="url(#subtleGlow)">
+    <!-- Elegant 'V' -->
+    <path d="M 124 176 C 140 176 150 186 160 206 L 222 334 C 226 342 232 346 238 346 C 244 346 248 340 252 330 L 298 226 C 290 220 280 216 270 216 L 270 206 C 288 206 308 206 324 206 C 304 250 262 344 246 376 C 238 392 226 394 214 374 L 140 220 C 134 208 128 204 116 204 L 116 176 Z" fill="url(#goldGrad)"/>
+
+    <!-- Auspicious Ampersand / Knot in center -->
+    <path d="M 256 250 C 266 238 274 244 274 252 C 274 262 260 274 248 286 C 242 292 236 302 242 310 C 248 318 260 318 268 312 L 274 320 C 262 330 244 330 232 318 C 222 306 226 290 236 278 C 248 264 258 256 256 250 Z" fill="url(#goldGrad)" opacity="0.95"/>
+
+    <!-- Elegant 'K' -->
+    <path d="M 288 176 L 314 176 C 314 196 312 216 312 240 L 312 376 L 288 376 L 288 300 L 312 300 C 312 284 314 266 314 250 L 358 316 C 368 332 376 348 382 366 L 382 376 L 356 376 C 352 360 342 344 330 326 L 314 302 L 356 248 C 364 238 372 230 382 224 L 382 216 L 354 216 C 342 226 330 240 318 256 L 312 264 L 312 176 Z" fill="url(#goldGrad)"/>
+  </g>
+
+  <!-- Bottom Arch & Wedding Knot Motif -->
+  <g transform="translate(256, 420)" filter="url(#subtleGlow)">
+    <path d="M -70 -12 C -35 4 35 4 70 -12" fill="none" stroke="url(#goldGrad)" stroke-width="2.5" stroke-linecap="round"/>
+    <circle cx="0" cy="-2" r="4" fill="url(#goldGrad)"/>
+    <circle cx="-30" cy="-6" r="2.5" fill="url(#goldGrad)"/>
+    <circle cx="30" cy="-6" r="2.5" fill="url(#goldGrad)"/>
+  </g>
 </svg>

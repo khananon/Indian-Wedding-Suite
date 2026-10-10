@@ -1,5 +1,5 @@
-﻿# Robots.txt for Vows & Knots (Indian Digital Wedding Invitation Suite)
-# https://vowsandknots.com
+# Robots.txt for Vows & Knots (Indian Digital Wedding Invitation Suite)
+# https://indian-wedding-suite-api-server.vercel.app
 
 User-agent: *
 Allow: /
@@ -40,4 +40,4 @@ User-agent: FacebookBot
 Allow: /
 
 # Sitemap Location
-Sitemap: https://vowsandknots.com/sitemap.xml
+Sitemap: https://indian-wedding-suite-api-server.vercel.app/sitemap.xml

@@ -1,4 +1,4 @@
-﻿# Vows & Knots - Indian Digital Wedding Invitation Suite
+# Vows & Knots - Indian Digital Wedding Invitation Suite
 
 > Vows & Knots is a premier online platform offering bespoke digital wedding invitations and wedding website invitations for Indian and multicultural couples worldwide.
 
@@ -20,6 +20,6 @@ Vows & Knots designs elegant, modern, eco-friendly digital wedding cards and int
 - **Bespoke Customization**: Custom colors, fonts, music, and religious motifs tailored to each couple.
 
 ## Contact & Ordering
-- **Website**: https://vowsandknots.com
+- **Website**: https://indian-wedding-suite-api-server.vercel.app
 - **WhatsApp**: +91 90589 55529
 - **Email**: hello@vowsandknots.com

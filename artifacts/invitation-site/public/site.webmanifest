@@ -1,0 +1,27 @@
+{
+  "name": "Vows & Knots - Indian Digital Wedding Invitations",
+  "short_name": "Vows & Knots",
+  "description": "Bespoke Indian digital wedding invitations and interactive wedding websites with one-tap RSVP and Google Maps navigation.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#4a0f1d",
+  "theme_color": "#5b1424",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}
