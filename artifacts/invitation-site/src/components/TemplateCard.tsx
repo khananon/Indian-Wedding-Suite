@@ -85,20 +85,40 @@ export function TemplateCard({ template }: { template: Template }) {
           </div>
         )}
 
-        {/* Hover overlay */}
-        <div className="absolute inset-0 bg-primary/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-sm">
+        {/* Hover overlay for Template Cards */}
+        <div className="absolute inset-0 bg-primary/75 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center gap-2.5 backdrop-blur-sm p-4">
+          {template.link && (
+            <a
+              href={template.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="px-5 py-2.5 rounded-full bg-white text-primary text-xs font-bold shadow-lg transform translate-y-2 group-hover:translate-y-0 transition-all hover:scale-105 flex items-center gap-1.5 tracking-wide"
+            >
+              <span>View Live Demo</span>
+              <ArrowUpRight size={14} />
+            </a>
+          )}
           <Link href={`/contact?template=${template.id}`}>
-            <button className="px-7 py-3 bg-background text-primary font-medium text-sm rounded-full transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 hover:scale-105 shadow-lg">
-              Customize This
-            </button>
+            <span className="px-5 py-2.5 rounded-full bg-secondary text-primary text-xs font-bold shadow-lg transform translate-y-2 group-hover:translate-y-0 transition-all hover:scale-105 cursor-pointer tracking-wide">
+              Customize Design &rarr;
+            </span>
           </Link>
         </div>
 
-        {template.isPopular && (
-          <div className="absolute top-3 left-3 bg-secondary text-secondary-foreground text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider shadow-sm z-10">
-            Popular
-          </div>
-        )}
+        {/* Badges */}
+        <div className="absolute top-3 left-3 flex flex-col gap-1 z-10 pointer-events-none">
+          {template.isPopular && (
+            <div className="bg-secondary text-secondary-foreground text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow-sm">
+              Popular
+            </div>
+          )}
+          {template.isTrending && (
+            <div className="bg-emerald-900/90 text-emerald-200 text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow-sm border border-emerald-500/30">
+              Trending
+            </div>
+          )}
+        </div>
 
         {template.link && (
           <a
@@ -106,29 +126,39 @@ export function TemplateCard({ template }: { template: Template }) {
             target="_blank"
             rel="noopener noreferrer"
             onClick={(e) => e.stopPropagation()}
-            className="absolute top-3 right-3 z-20 w-9 h-9 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md hover:bg-white hover:scale-110 transition-all duration-200"
-            title="View live demo"
+            className="absolute top-3 right-3 z-20 w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md hover:bg-white hover:scale-110 transition-all duration-200"
+            title="View live demo website"
           >
-            <ArrowUpRight className="w-4 h-4 text-primary" />
+            <ArrowUpRight className="w-3.5 h-3.5 text-primary" />
           </a>
         )}
       </div>
 
-      <div className="p-4">
-        <div className="flex justify-between items-start">
-          <h3 className="font-display text-base font-semibold text-foreground truncate pr-2">
-            {template.name}
-          </h3>
-          <span className="font-sans font-semibold text-primary text-sm whitespace-nowrap">
-            ₹{template.price}
-          </span>
+      <Link href={`/contact?template=${template.id}`}>
+        <div className="p-4 cursor-pointer">
+          <div className="flex justify-between items-start">
+            <h3 className="font-display text-base font-semibold text-foreground truncate pr-2 group-hover:text-primary transition-colors">
+              {template.name}
+            </h3>
+            <span className="font-sans font-semibold text-primary text-sm whitespace-nowrap">
+              ₹{template.price}
+            </span>
+          </div>
+          <div className="flex items-center justify-between mt-2.5">
+            <div className="flex items-center gap-1.5">
+              <span className="text-[10px] text-muted-foreground uppercase tracking-wider font-semibold px-2 py-0.5 bg-muted rounded-md">
+                {template.category}
+              </span>
+              <span className="text-[10px] text-stone-500 font-medium px-1.5 py-0.5 bg-stone-100 rounded-md">
+                {template.style}
+              </span>
+            </div>
+            <span className="text-[11px] text-primary font-semibold group-hover:underline flex items-center gap-0.5">
+              Customize &rarr;
+            </span>
+          </div>
         </div>
-        <div className="flex items-center mt-2">
-          <span className="text-[11px] text-muted-foreground uppercase tracking-wider font-medium px-2.5 py-0.5 bg-muted rounded-full">
-            {template.category}
-          </span>
-        </div>
-      </div>
+      </Link>
     </div>
   );
 }

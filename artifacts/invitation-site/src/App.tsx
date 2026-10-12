@@ -10,8 +10,11 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import Home from "@/pages/Home";
 import Templates from "@/pages/Templates";
+import TraditionLanding from "@/pages/TraditionLanding";
 import About from "@/pages/About";
 import Contact from "@/pages/Contact";
+import CardMaker from "@/pages/CardMaker";
+import CreateFreeWeddingCardPdf from "@/pages/CreateFreeWeddingCardPdf";
 import NotFound from "@/pages/not-found";
 
 const queryClient = new QueryClient({
@@ -40,6 +43,24 @@ function Router() {
     <Switch>
       <Route path="/" component={Home} />
       <Route path="/templates" component={Templates} />
+      <Route path="/templates/muslim-wedding-invitations">
+        {() => <TraditionLanding slug="muslim-wedding-invitations" />}
+      </Route>
+      <Route path="/templates/hindu-wedding-invitations">
+        {() => <TraditionLanding slug="hindu-wedding-invitations" />}
+      </Route>
+      <Route path="/templates/sikh-wedding-invitations">
+        {() => <TraditionLanding slug="sikh-wedding-invitations" />}
+      </Route>
+      <Route path="/templates/south-indian-wedding-invitations">
+        {() => <TraditionLanding slug="south-indian-wedding-invitations" />}
+      </Route>
+      <Route path="/templates/christian-wedding-invitations">
+        {() => <TraditionLanding slug="christian-wedding-invitations" />}
+      </Route>
+      <Route path="/create-free-wedding-invitation-card-pdf" component={CreateFreeWeddingCardPdf} />
+      <Route path="/free-wedding-invitation-card-pdf" component={CreateFreeWeddingCardPdf} />
+      <Route path="/card-maker" component={CreateFreeWeddingCardPdf} />
       <Route path="/about" component={About} />
       <Route path="/contact" component={Contact} />
       <Route component={NotFound} />

@@ -28,21 +28,24 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="font-sans font-semibold uppercase tracking-wider text-sm mb-6 text-secondary">Quick Links</h4>
+            <h4 className="font-sans font-semibold uppercase tracking-wider text-sm mb-6 text-secondary">Traditions</h4>
             <ul className="space-y-3">
-              <li><Link href="/" className="text-primary-foreground/80 hover:text-white transition-colors text-sm">Home</Link></li>
-              <li><Link href="/templates" className="text-primary-foreground/80 hover:text-white transition-colors text-sm">Template Gallery</Link></li>
-              <li><Link href="/about" className="text-primary-foreground/80 hover:text-white transition-colors text-sm">Our Story</Link></li>
-              <li><Link href="/contact" className="text-primary-foreground/80 hover:text-white transition-colors text-sm">Contact Us</Link></li>
+              <li><Link href="/templates/muslim-wedding-invitations" className="text-primary-foreground/80 hover:text-white transition-colors text-sm">Muslim Nikah &amp; Walima</Link></li>
+              <li><Link href="/templates/hindu-wedding-invitations" className="text-primary-foreground/80 hover:text-white transition-colors text-sm">Hindu Shubh Vivah</Link></li>
+              <li><Link href="/templates/sikh-wedding-invitations" className="text-primary-foreground/80 hover:text-white transition-colors text-sm">Sikh Anand Karaj</Link></li>
+              <li><Link href="/templates/south-indian-wedding-invitations" className="text-primary-foreground/80 hover:text-white transition-colors text-sm">South Indian Muhurtham</Link></li>
+              <li><Link href="/templates/christian-wedding-invitations" className="text-primary-foreground/80 hover:text-white transition-colors text-sm">Christian Holy Matrimony</Link></li>
             </ul>
           </div>
 
           <div>
-            <h4 className="font-sans font-semibold uppercase tracking-wider text-sm mb-6 text-secondary">Legal</h4>
+            <h4 className="font-sans font-semibold uppercase tracking-wider text-sm mb-6 text-secondary">Explore</h4>
             <ul className="space-y-3">
-              <li><a href="#" className="text-primary-foreground/80 hover:text-white transition-colors text-sm">Privacy Policy</a></li>
-              <li><a href="#" className="text-primary-foreground/80 hover:text-white transition-colors text-sm">Terms of Service</a></li>
-              <li><a href="#" className="text-primary-foreground/80 hover:text-white transition-colors text-sm">Refund Policy</a></li>
+              <li><Link href="/" className="text-primary-foreground/80 hover:text-white transition-colors text-sm">Home</Link></li>
+              <li><Link href="/templates" className="text-primary-foreground/80 hover:text-white transition-colors text-sm">All Templates</Link></li>
+              <li><Link href="/create-free-wedding-invitation-card-pdf" className="text-primary-foreground/80 hover:text-white transition-colors text-sm font-semibold text-secondary">Create Free Wedding Card (PDF &amp; PNG)</Link></li>
+              <li><Link href="/about" className="text-primary-foreground/80 hover:text-white transition-colors text-sm">Our Story</Link></li>
+              <li><Link href="/contact" className="text-primary-foreground/80 hover:text-white transition-colors text-sm">Contact &amp; Custom Requests</Link></li>
             </ul>
           </div>
 

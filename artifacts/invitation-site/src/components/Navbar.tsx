@@ -21,9 +21,16 @@ export function Navbar() {
   const navLinks = [
     { name: "Home", path: "/" },
     { name: "Templates", path: "/templates" },
+    { name: "Free Card Maker", path: "/create-free-wedding-invitation-card-pdf", highlight: true },
     { name: "About", path: "/about" },
     { name: "Contact", path: "/contact" },
   ];
+
+  const isLinkActive = (path: string) => {
+    if (location === path) return true;
+    if (path === "/create-free-wedding-invitation-card-pdf" && (location === "/card-maker" || location === "/free-wedding-invitation-card-pdf")) return true;
+    return false;
+  };
 
   return (
     <div className="fixed top-0 left-0 right-0 z-50 flex flex-col items-center pt-4 px-4">
@@ -54,10 +61,12 @@ export function Navbar() {
               key={link.path}
               href={link.path}
               className={cn(
-                "relative px-4 py-1.5 text-sm font-medium tracking-wide uppercase rounded-full transition-all duration-200",
-                location === link.path
-                  ? "text-primary bg-primary/8"
-                  : "text-foreground/70 hover:text-primary hover:bg-primary/5"
+                "relative px-4 py-1.5 text-sm font-medium tracking-wide uppercase rounded-full transition-all duration-200 flex items-center gap-1.5",
+                isLinkActive(link.path)
+                  ? "text-primary bg-primary/8 font-bold"
+                  : link.highlight
+                    ? "text-primary font-bold hover:bg-secondary/15"
+                    : "text-foreground/70 hover:text-primary hover:bg-primary/5"
               )}
             >
               {location === link.path && (
@@ -68,6 +77,11 @@ export function Navbar() {
                 />
               )}
               <span className="relative z-10">{link.name}</span>
+              {link.highlight && (
+                <span className="relative z-10 text-[9px] bg-secondary text-primary font-extrabold px-1.5 py-0.2 rounded-full uppercase tracking-tighter">
+                  Free
+                </span>
+              )}
             </Link>
           ))}
         </div>
@@ -106,7 +120,7 @@ export function Navbar() {
                 href={link.path}
                 className={cn(
                   "px-4 py-3 rounded-2xl text-sm font-medium uppercase tracking-wide transition-colors",
-                  location === link.path
+                  isLinkActive(link.path)
                     ? "bg-primary/8 text-primary"
                     : "text-foreground/70 hover:bg-primary/5 hover:text-primary"
                 )}

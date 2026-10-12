@@ -19,6 +19,53 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://indian-wedding-suite-api-server.vercel.app/create-free-wedding-invitation-card-pdf</loc>
+    <lastmod>2026-10-12</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://indian-wedding-suite-api-server.vercel.app/opengraph.jpg</image:loc>
+      <image:title>Create Free Wedding Invitation Card PDF - 100% Free Online Studio</image:title>
+      <image:caption>Create custom Indian wedding invitation cards with Pinterest backgrounds, luxury fonts, and instant print-ready PDF download</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://indian-wedding-suite-api-server.vercel.app/card-maker</loc>
+    <lastmod>2026-10-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://indian-wedding-suite-api-server.vercel.app/templates/muslim-wedding-invitations</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://indian-wedding-suite-api-server.vercel.app/templates/hindu-wedding-invitations</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://indian-wedding-suite-api-server.vercel.app/templates/sikh-wedding-invitations</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://indian-wedding-suite-api-server.vercel.app/templates/south-indian-wedding-invitations</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://indian-wedding-suite-api-server.vercel.app/templates/christian-wedding-invitations</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
     <loc>https://indian-wedding-suite-api-server.vercel.app/about</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>

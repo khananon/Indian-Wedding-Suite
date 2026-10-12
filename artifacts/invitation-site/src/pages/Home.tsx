@@ -1,7 +1,7 @@
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { useRef, useState } from "react";
 import { Link } from "wouter";
-import { Star, CheckCircle2, ArrowRight, ChevronDown, Sparkles, MapPin, Calendar, Heart, ShieldCheck, Share2 } from "lucide-react";
+import { Star, CheckCircle2, ArrowRight, ChevronDown, Sparkles, MapPin, Calendar, Heart, ShieldCheck, Share2, Download, FileText, Send, Palette, Sliders } from "lucide-react";
 import { Button } from "@/components/Button";
 import { TemplateCard } from "@/components/TemplateCard";
 import { useTemplates } from "@/hooks/use-templates";
@@ -151,51 +151,145 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FEATURES SECTION (Choose Your Format - Commented out)
-      <section className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="font-display text-4xl font-bold text-primary mb-4">Choose Your Format</h2>
-            <div className="w-24 h-1 bg-secondary mx-auto rounded-full"></div>
+      {/* FREE DIGITAL INVITATION & PDF CREATION SHOWCASE SECTION */}
+      <section className="py-20 bg-white border-y border-border/40 relative overflow-hidden">
+        {/* Subtle royal background glow */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-secondary/5 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <span className="inline-block text-secondary font-semibold tracking-widest uppercase text-xs mb-3 bg-secondary/10 px-3 py-1 rounded-full border border-secondary/20">
+              100% Free Feature &bull; No Login Required
+            </span>
+            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-primary mb-5">
+              Free Digital Wedding Invitation &amp; PDF Creator
+            </h2>
+            <p className="text-muted-foreground text-base sm:text-lg leading-relaxed">
+              Why pay expensive design agencies or wait days for drafts? Create your own professional Indian wedding invitation card in minutes, download print-ready PDFs, and send directly via WhatsApp.
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-            {[
-              {
-                icon: <FileText size={32} />,
-                title: "PDF Invitations",
-                desc: "Elegant, multi-page interactive PDFs with clickable map links and RSVP buttons. Perfect for WhatsApp sharing."
-              },
-              {
-                icon: <Smartphone size={32} />,
-                title: "Video Invitations",
-                desc: "Cinematic animated videos with your favorite music. A beautiful storytelling format to announce your dates."
-              },
-              {
-                icon: <Globe size={32} />,
-                title: "Website Invitations",
-                desc: "A dedicated personalized website with your story, gallery, event details, and digital RSVP management."
-              }
-            ].map((feature, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="bg-background rounded-2xl p-8 text-center border border-border hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
-              >
-                <div className="w-16 h-16 mx-auto bg-primary/10 text-primary rounded-2xl flex items-center justify-center mb-6">
-                  {feature.icon}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Feature 1: Canva-Style Editor with Pinterest Backgrounds */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="bg-background rounded-3xl p-8 border border-border/70 hover:border-secondary/50 hover:shadow-xl transition-all duration-300 flex flex-col justify-between group"
+            >
+              <div>
+                <div className="w-14 h-14 bg-secondary/15 text-secondary rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                  <Palette size={28} />
                 </div>
-                <h3 className="font-display text-2xl font-bold mb-3 text-foreground">{feature.title}</h3>
-                <p className="text-muted-foreground leading-relaxed">{feature.desc}</p>
-              </motion.div>
-            ))}
+                <h3 className="font-display text-2xl font-bold text-primary mb-3">
+                  Upload Pinterest Backgrounds &amp; Stickers
+                </h3>
+                <p className="text-muted-foreground text-sm leading-relaxed mb-6">
+                  Paste any Pinterest Pin link or upload your favorite background image. Includes Canva-style <strong>0&ndash;20px background blur</strong> and opacity sliders so your typography always stays sharp and legible.
+                </p>
+              </div>
+              <ul className="space-y-2.5 text-xs text-foreground/80 pt-4 border-t border-border/50">
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 size={14} className="text-secondary shrink-0" />
+                  <span>Paste any Pinterest URL or upload files</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 size={14} className="text-secondary shrink-0" />
+                  <span>Golden Lotus &amp; Royal Filigree Stickers</span>
+                </li>
+              </ul>
+            </motion.div>
+
+            {/* Feature 2: High-Res Print-Ready PDF & PNG Downloads */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="bg-background rounded-3xl p-8 border-2 border-secondary/40 shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col justify-between group relative"
+            >
+              <div className="absolute -top-3.5 right-6 bg-secondary text-primary font-extrabold text-[10px] uppercase tracking-wider px-3 py-1 rounded-full shadow-md">
+                Most Popular
+              </div>
+              <div>
+                <div className="w-14 h-14 bg-primary text-secondary rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                  <Download size={28} />
+                </div>
+                <h3 className="font-display text-2xl font-bold text-primary mb-3">
+                  Instant Print-Ready PDF &amp; Image Download
+                </h3>
+                <p className="text-muted-foreground text-sm leading-relaxed mb-6">
+                  Export in <strong>Standard A5 Portrait PDF</strong> format or high-resolution retina PNG image with a single tap. Crisp, vector-quality typography with <strong>zero watermarks</strong>.
+                </p>
+              </div>
+              <ul className="space-y-2.5 text-xs text-foreground/80 pt-4 border-t border-border/50">
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 size={14} className="text-secondary shrink-0" />
+                  <span>Free A5 Portrait PDF download</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 size={14} className="text-secondary shrink-0" />
+                  <span>No login, no watermark, 100% free</span>
+                </li>
+              </ul>
+            </motion.div>
+
+            {/* Feature 3: 1-Tap Direct WhatsApp Sharing */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="bg-background rounded-3xl p-8 border border-border/70 hover:border-secondary/50 hover:shadow-xl transition-all duration-300 flex flex-col justify-between group"
+            >
+              <div>
+                <div className="w-14 h-14 bg-emerald-600/15 text-emerald-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                  <Send size={28} />
+                </div>
+                <h3 className="font-display text-2xl font-bold text-primary mb-3">
+                  Direct WhatsApp &amp; Social Sharing
+                </h3>
+                <p className="text-muted-foreground text-sm leading-relaxed mb-6">
+                  Share your downloaded wedding invitation cards and PDFs directly to family and wedding guest WhatsApp groups. Perfect for Haldi, Mehendi, Sangeet, and Shubh Vivah announcements.
+                </p>
+              </div>
+              <ul className="space-y-2.5 text-xs text-foreground/80 pt-4 border-t border-border/50">
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 size={14} className="text-secondary shrink-0" />
+                  <span>Send directly via WhatsApp in 1 tap</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 size={14} className="text-secondary shrink-0" />
+                  <span>Share on Instagram, Email, or Print</span>
+                </li>
+              </ul>
+            </motion.div>
+          </div>
+
+          {/* Action CTA Bar */}
+          <div className="mt-14 bg-primary text-primary-foreground rounded-3xl p-8 sm:p-10 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-xl">
+            <div className="text-center sm:text-left">
+              <span className="text-xs font-bold uppercase tracking-wider text-secondary block mb-1">
+                Start Creating Right Now
+              </span>
+              <h3 className="font-display text-2xl sm:text-3xl font-bold">
+                Design Your Free Wedding Invitation Card
+              </h3>
+              <p className="text-sm text-primary-foreground/80 mt-1 max-w-xl">
+                Choose pure paper colors, luxury Google wedding fonts, or upload your own Pinterest background.
+              </p>
+            </div>
+            <Link href="/card-maker" className="shrink-0 w-full sm:w-auto">
+              <Button size="lg" className="w-full sm:w-auto rounded-full bg-secondary text-primary hover:bg-secondary/90 font-bold px-8 shadow-lg shadow-secondary/20">
+                <Sparkles className="mr-2 w-4 h-4" />
+                <span>Open Free Card Maker</span>
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
-      */}
 
       {/* HOW IT WORKS */}
       <section className="py-24 bg-primary text-primary-foreground">
@@ -306,7 +400,7 @@ export default function Home() {
                     ))}
                   </div>
                 </div>
-                <Link href="/templates?category=Muslim">
+                <Link href="/templates/muslim-wedding-invitations">
                   <Button variant="outline" size="sm" className="w-full justify-between group/btn">
                     <span>Browse Muslim Invites</span>
                     <ArrowRight size={14} className="group-hover/btn:translate-x-1 transition-transform" />
@@ -346,7 +440,7 @@ export default function Home() {
                     ))}
                   </div>
                 </div>
-                <Link href="/templates?category=Hindu">
+                <Link href="/templates/hindu-wedding-invitations">
                   <Button variant="outline" size="sm" className="w-full justify-between group/btn">
                     <span>Browse Hindu Invites</span>
                     <ArrowRight size={14} className="group-hover/btn:translate-x-1 transition-transform" />
@@ -386,7 +480,7 @@ export default function Home() {
                     ))}
                   </div>
                 </div>
-                <Link href="/templates?category=Sikh">
+                <Link href="/templates/sikh-wedding-invitations">
                   <Button variant="outline" size="sm" className="w-full justify-between group/btn">
                     <span>Browse Sikh Invites</span>
                     <ArrowRight size={14} className="group-hover/btn:translate-x-1 transition-transform" />
@@ -426,7 +520,7 @@ export default function Home() {
                     ))}
                   </div>
                 </div>
-                <Link href="/templates?category=Christian">
+                <Link href="/templates/christian-wedding-invitations">
                   <Button variant="outline" size="sm" className="w-full justify-between group/btn">
                     <span>Browse Christian Invites</span>
                     <ArrowRight size={14} className="group-hover/btn:translate-x-1 transition-transform" />
@@ -466,7 +560,7 @@ export default function Home() {
                     ))}
                   </div>
                 </div>
-                <Link href="/templates?category=South Indian">
+                <Link href="/templates/south-indian-wedding-invitations">
                   <Button variant="outline" size="sm" className="w-full sm:w-auto self-start justify-between group/btn">
                     <span>Browse South Indian Invites</span>
                     <ArrowRight size={14} className="ml-2 group-hover/btn:translate-x-1 transition-transform" />
@@ -495,6 +589,14 @@ export default function Home() {
 
           <div className="space-y-4">
             {[
+              {
+                q: "Is creating and downloading wedding invitation PDFs really 100% free?",
+                a: "Yes! Our online Card Maker studio is completely free with zero watermark and no forced signup. You can customize Couple Names, Ceremony dates, and sacred invocations, upload custom Pinterest backgrounds, and download print-ready A5 portrait PDFs and high-resolution PNG images instantly."
+              },
+              {
+                q: "How do I share the downloaded wedding invitation on WhatsApp?",
+                a: "Once you download your invitation as a PDF or image from the Card Maker, you can immediately send it as a document or photo attachment into your family and friends' WhatsApp chats or broadcast lists. If you also choose an interactive Wedding Website, guests get a rich link preview with one-tap RSVP and Google Maps navigation."
+              },
               {
                 q: "What is an Indian digital wedding invitation website?",
                 a: "An Indian digital wedding invitation is a personalized, interactive wedding website designed specifically for multi-day Indian weddings. Unlike static paper cards or simple images, it features animated countdowns, separate schedules for ceremonies (Haldi, Mehendi, Sangeet, Shaadi, Reception), direct Google Maps navigation pins, and instant WhatsApp RSVP collection."
