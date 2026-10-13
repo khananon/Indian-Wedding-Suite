@@ -4,9 +4,10 @@ import {
   Download, Image as ImageIcon, Type, Layers, Palette, 
   Sparkles, Sliders, Trash2, Copy, Move, RotateCcw, 
   Upload, Link as LinkIcon, ZoomIn, ZoomOut, Check, 
-  ArrowUp, ArrowDown, ChevronRight, X, Eye, FileText, Send, Maximize2,
+  ArrowUp, ArrowDown, ChevronRight, ChevronLeft, X, Eye, FileText, Send, Maximize2,
   RotateCw, AlignLeft, AlignCenter, AlignRight, Underline, Baseline,
-  HelpCircle, ShieldCheck, Share2, Printer, CheckCircle2
+  HelpCircle, ShieldCheck, Share2, Printer, CheckCircle2,
+  Square, Plus
 } from "lucide-react";
 import { toPng } from "html-to-image";
 import { jsPDF } from "jspdf";
@@ -184,6 +185,247 @@ export interface CanvasBackground {
   brightness: number; // 0.5 to 1.5
 }
 
+// Decorative Border Definition
+export interface CanvasBorder {
+  style: "none" | "royal-double" | "ornate-gold" | "vintage-arch" | "mughal-floral" | "modern-minimal" | "classic-dashed" | "double-solid";
+  color: string;
+  width: number; // 1 to 4 px
+  inset: number; // 8 to 24 px
+  showCorners: boolean; // corner stars / accents
+}
+
+// Multi-Page Card Definition
+export interface CardPage {
+  id: string;
+  name: string;
+  background: CanvasBackground;
+  border: CanvasBorder;
+  elements: CanvasElement[];
+}
+
+export interface TemplatePreset {
+  id: string;
+  name: string;
+  category: "Hindu" | "Muslim" | "Sikh" | "South Indian" | "Christian";
+  description: string;
+  background: CanvasBackground;
+  border: CanvasBorder;
+  elements: CanvasElement[];
+}
+
+export const DEFAULT_BORDER: CanvasBorder = {
+  style: "royal-double",
+  color: "#cba135",
+  width: 2,
+  inset: 12,
+  showCorners: true,
+};
+
+export const BORDER_STYLES = [
+  { id: "royal-double", name: "Royal Double Line", desc: "Solid outer line + dashed inner line with ✦ corner stars" },
+  { id: "ornate-gold", name: "Ornate Gold Brackets", desc: "Dual gold lines with luxury ornate corner brackets & diamonds" },
+  { id: "vintage-arch", name: "Mandap / Temple Arch", desc: "Traditional temple arch dome header with pillar sides" },
+  { id: "mughal-floral", name: "Mughal Crown Frame", desc: "Rounded frame with arched crown dome finials" },
+  { id: "modern-minimal", name: "Modern Thin Line", desc: "Clean crisp minimalist single hairline border" },
+  { id: "classic-dashed", name: "Classic Dashed", desc: "Traditional perimeter dashed line frame" },
+  { id: "double-solid", name: "Double Solid Stroke", desc: "Dual parallel clean solid strokes" },
+  { id: "none", name: "No Border", desc: "Clean frameless borderless presentation" },
+];
+
+export function RenderCardBorder({ border }: { border: CanvasBorder }) {
+  if (border.style === "none") return null;
+
+  const { color, width, inset, showCorners } = border;
+
+  if (border.style === "modern-minimal") {
+    return (
+      <div
+        style={{
+          inset: `${inset}px`,
+          borderColor: color,
+          borderWidth: `${width}px`,
+        }}
+        className="absolute rounded-xl pointer-events-none"
+      />
+    );
+  }
+
+  if (border.style === "classic-dashed") {
+    return (
+      <div
+        style={{
+          inset: `${inset}px`,
+          borderColor: color,
+          borderWidth: `${width}px`,
+        }}
+        className="absolute rounded-xl border-dashed pointer-events-none"
+      />
+    );
+  }
+
+  if (border.style === "double-solid") {
+    return (
+      <div className="absolute inset-0 pointer-events-none">
+        <div
+          style={{
+            inset: `${inset}px`,
+            borderColor: color,
+            borderWidth: `${width}px`,
+          }}
+          className="absolute rounded-xl"
+        />
+        <div
+          style={{
+            inset: `${inset + 4}px`,
+            borderColor: color,
+            borderWidth: `${width}px`,
+          }}
+          className="absolute rounded-lg"
+        />
+      </div>
+    );
+  }
+
+  if (border.style === "royal-double") {
+    return (
+      <div className="absolute inset-0 pointer-events-none">
+        {/* Outer border */}
+        <div
+          style={{
+            inset: `${inset}px`,
+            borderColor: color,
+            borderWidth: `${width}px`,
+          }}
+          className="absolute rounded-xl"
+        />
+        {/* Inner dashed border */}
+        <div
+          style={{
+            inset: `${inset + 5}px`,
+            borderColor: color,
+            borderWidth: `${Math.max(1, width - 1)}px`,
+            opacity: 0.7,
+          }}
+          className="absolute rounded-lg border-dashed"
+        />
+        {/* Four Corner Accents */}
+        {showCorners && (
+          <>
+            <span style={{ color }} className="absolute text-[11px] top-2.5 left-2.5 leading-none opacity-80">✦</span>
+            <span style={{ color }} className="absolute text-[11px] top-2.5 right-2.5 leading-none opacity-80">✦</span>
+            <span style={{ color }} className="absolute text-[11px] bottom-2.5 left-2.5 leading-none opacity-80">✦</span>
+            <span style={{ color }} className="absolute text-[11px] bottom-2.5 right-2.5 leading-none opacity-80">✦</span>
+          </>
+        )}
+      </div>
+    );
+  }
+
+  if (border.style === "ornate-gold") {
+    return (
+      <div className="absolute inset-0 pointer-events-none">
+        <div
+          style={{
+            inset: `${inset}px`,
+            borderColor: color,
+            borderWidth: `${width}px`,
+          }}
+          className="absolute rounded-xl"
+        />
+        <div
+          style={{
+            inset: `${inset + 6}px`,
+            borderColor: color,
+            borderWidth: `1px`,
+          }}
+          className="absolute rounded-lg"
+        />
+        {/* Corner Ornate Brackets */}
+        <div style={{ borderColor: color }} className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 rounded-tl" />
+        <div style={{ borderColor: color }} className="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 rounded-tr" />
+        <div style={{ borderColor: color }} className="absolute bottom-2 left-2 w-4 h-4 border-b-2 border-l-2 rounded-bl" />
+        <div style={{ borderColor: color }} className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 rounded-br" />
+        {showCorners && (
+          <>
+            <span style={{ color }} className="absolute text-[9px] top-4 left-4 leading-none opacity-90">◆</span>
+            <span style={{ color }} className="absolute text-[9px] top-4 right-4 leading-none opacity-90">◆</span>
+            <span style={{ color }} className="absolute text-[9px] bottom-4 left-4 leading-none opacity-90">◆</span>
+            <span style={{ color }} className="absolute text-[9px] bottom-4 right-4 leading-none opacity-90">◆</span>
+          </>
+        )}
+      </div>
+    );
+  }
+
+  if (border.style === "vintage-arch") {
+    return (
+      <div className="absolute inset-0 pointer-events-none">
+        <div
+          style={{
+            inset: `${inset}px`,
+            borderColor: color,
+            borderWidth: `${width}px`,
+            borderTopLeftRadius: "60px",
+            borderTopRightRadius: "60px",
+          }}
+          className="absolute"
+        />
+        <div
+          style={{
+            inset: `${inset + 5}px`,
+            borderColor: color,
+            borderWidth: `1px`,
+            borderTopLeftRadius: "54px",
+            borderTopRightRadius: "54px",
+            opacity: 0.7,
+          }}
+          className="absolute border-dashed"
+        />
+        <div style={{ borderColor: color }} className="absolute top-2.5 left-1/2 -translate-x-1/2 w-8 h-4 border-b-2 rounded-b-full opacity-60" />
+      </div>
+    );
+  }
+
+  if (border.style === "mughal-floral") {
+    return (
+      <div className="absolute inset-0 pointer-events-none">
+        <div
+          style={{
+            inset: `${inset}px`,
+            borderColor: color,
+            borderWidth: `${width}px`,
+          }}
+          className="absolute rounded-2xl"
+        />
+        <div
+          style={{
+            inset: `${inset + 5}px`,
+            borderColor: color,
+            borderWidth: `1px`,
+          }}
+          className="absolute rounded-xl border-dashed opacity-60"
+        />
+        {/* Crown dome arch accent on top */}
+        <div 
+          style={{ borderColor: color, backgroundColor: "transparent" }} 
+          className="absolute top-1 left-1/2 -translate-x-1/2 px-4 py-0.5 border-b border-x rounded-b-xl text-[10px]"
+        >
+          <span style={{ color }} className="opacity-90">❖</span>
+        </div>
+        {/* Bottom floral accent */}
+        <div 
+          style={{ borderColor: color, backgroundColor: "transparent" }} 
+          className="absolute bottom-1 left-1/2 -translate-x-1/2 px-4 py-0.5 border-t border-x rounded-t-xl text-[10px]"
+        >
+          <span style={{ color }} className="opacity-90">❖</span>
+        </div>
+      </div>
+    );
+  }
+
+  return null;
+}
+
 // Solid Pure Colors for Indian Weddings
 const PLAIN_BACKGROUND_COLORS = [
   { id: "pure-ivory", name: "Pure Ivory Cream", hex: "#fdfbf7" },
@@ -357,25 +599,375 @@ const INITIAL_ELEMENTS: CanvasElement[] = [
   },
 ];
 
+export const PRESET_TEMPLATES: TemplatePreset[] = [
+  // 1. HINDU - Template 1
+  {
+    id: "hindu-royal-crimson",
+    name: "Royal Crimson & Gold Vivah",
+    category: "Hindu",
+    description: "Rich velvet crimson background with ornate gold borders & Ganesh Vandana",
+    background: { type: "color", color: "#3d0710", imageUrl: "", blur: 0, opacity: 1, brightness: 1 },
+    border: { style: "ornate-gold", color: "#dfb76c", width: 2, inset: 12, showCorners: true },
+    elements: [
+      { id: "h1-invoc", type: "text", x: 50, y: 12, zIndex: 1, text: "॥ श्री गणेशाय नमः ॥", fontSize: 18, fontFamily: "'Rozha One', serif", color: "#dfb76c", textAlign: "center", fontWeight: "bold", letterSpacing: 2 },
+      { id: "h1-host", type: "text", x: 50, y: 24, zIndex: 2, text: "Together with their families, cordially invite you to celebrate the holy union of", fontSize: 11, fontFamily: "'Cormorant Garamond', Georgia, serif", color: "#f4ede1", textAlign: "center", fontStyle: "italic", lineHeight: 1.3 },
+      { id: "h1-groom", type: "text", x: 50, y: 36, zIndex: 3, text: "AARAV", fontSize: 32, fontFamily: "'Playfair Display', Georgia, serif", color: "#dfb76c", textAlign: "center", fontWeight: "bold", letterSpacing: 2 },
+      { id: "h1-amp", type: "text", x: 50, y: 44, zIndex: 4, text: "weds", fontSize: 20, fontFamily: "'Great Vibes', cursive", color: "#ffffff", textAlign: "center" },
+      { id: "h1-bride", type: "text", x: 50, y: 52, zIndex: 5, text: "ANANYA", fontSize: 32, fontFamily: "'Playfair Display', Georgia, serif", color: "#dfb76c", textAlign: "center", fontWeight: "bold", letterSpacing: 2 },
+      { id: "h1-sub", type: "text", x: 50, y: 60, zIndex: 6, text: "Son of Mrs. & Mr. Sharma   •   Daughter of Mrs. & Mr. Verma", fontSize: 10, fontFamily: "'Cormorant Garamond', Georgia, serif", color: "#e5d7bd", textAlign: "center" },
+      { id: "h1-date", type: "text", x: 50, y: 70, zIndex: 7, text: "THURSDAY, 18TH DECEMBER 2026 | MUHURTHAM 7:00 PM", fontSize: 11, fontFamily: "'Cinzel', Georgia, serif", color: "#dfb76c", textAlign: "center", fontWeight: "600", letterSpacing: 1 },
+      { id: "h1-venue", type: "text", x: 50, y: 78, zIndex: 8, text: "The Grand Palace Heritage Lawns, Jaipur", fontSize: 11, fontFamily: "'Montserrat', sans-serif", color: "#f7f3eb", textAlign: "center" },
+      { id: "h1-bless", type: "text", x: 50, y: 86, zIndex: 9, text: "Your presence & blessings are earnestly requested", fontSize: 10, fontFamily: "'Cormorant Garamond', Georgia, serif", color: "#e5d7bd", textAlign: "center", fontStyle: "italic" },
+    ],
+  },
+  // 1. HINDU - Template 2
+  {
+    id: "hindu-ivory-lagan",
+    name: "Ivory Linen & Marigold Lagan Patrika",
+    category: "Hindu",
+    description: "Classic warm ivory linen texture with royal double gold border & Radha Krishna shlok",
+    background: { type: "color", color: "#fdfbf7", imageUrl: "", blur: 0, opacity: 1, brightness: 1 },
+    border: { style: "royal-double", color: "#cba135", width: 2, inset: 12, showCorners: true },
+    elements: [
+      { id: "h2-invoc", type: "text", x: 50, y: 12, zIndex: 1, text: "॥ ॐ श्री राधाकृष्णाभ्यां नमः ॥", fontSize: 16, fontFamily: "'Cormorant Garamond', Georgia, serif", color: "#80182a", textAlign: "center", fontWeight: "600", letterSpacing: 1 },
+      { id: "h2-host", type: "text", x: 50, y: 25, zIndex: 2, text: "With the divine blessings of our elders, we request the pleasure of your company on the wedding of", fontSize: 11, fontFamily: "'Cormorant Garamond', Georgia, serif", color: "#555555", textAlign: "center", fontStyle: "italic", lineHeight: 1.3 },
+      { id: "h2-groom", type: "text", x: 50, y: 38, zIndex: 3, text: "Rohan", fontSize: 36, fontFamily: "'Cormorant Garamond', Georgia, serif", color: "#5b1424", textAlign: "center", fontWeight: "bold" },
+      { id: "h2-amp", type: "text", x: 50, y: 46, zIndex: 4, text: "&", fontSize: 26, fontFamily: "'Alex Brush', cursive", color: "#cba135", textAlign: "center" },
+      { id: "h2-bride", type: "text", x: 50, y: 54, zIndex: 5, text: "Pooja", fontSize: 36, fontFamily: "'Cormorant Garamond', Georgia, serif", color: "#5b1424", textAlign: "center", fontWeight: "bold" },
+      { id: "h2-event", type: "text", x: 50, y: 65, zIndex: 6, text: "SHUBH VIVAH CEREMONY", fontSize: 12, fontFamily: "'Cinzel', Georgia, serif", color: "#cba135", textAlign: "center", fontWeight: "bold", letterSpacing: 2 },
+      { id: "h2-date", type: "text", x: 50, y: 73, zIndex: 7, text: "Sunday, 24th January 2027 at 6:30 PM", fontSize: 12, fontFamily: "'Cormorant Garamond', Georgia, serif", color: "#333333", textAlign: "center" },
+      { id: "h2-venue", type: "text", x: 50, y: 81, zIndex: 8, text: "Taj Jai Mahal Palace, Jaipur, Rajasthan", fontSize: 11, fontFamily: "'Montserrat', sans-serif", color: "#555555", textAlign: "center" },
+      { id: "h2-rsvp", type: "text", x: 50, y: 88, zIndex: 9, text: "RSVP: Sharma & Gupta Families", fontSize: 10, fontFamily: "'Montserrat', sans-serif", color: "#80182a", textAlign: "center", fontWeight: "600" },
+    ],
+  },
+  // 2. MUSLIM - Template 1
+  {
+    id: "muslim-emerald-nikah",
+    name: "Emerald Green & Foil Gold Nikah",
+    category: "Muslim",
+    description: "Deep emerald green with Mughal arch dome border and Bismillah calligraphy",
+    background: { type: "color", color: "#0b2b18", imageUrl: "", blur: 0, opacity: 1, brightness: 1 },
+    border: { style: "mughal-floral", color: "#dfb76c", width: 2, inset: 12, showCorners: true },
+    elements: [
+      { id: "m1-bism", type: "text", x: 50, y: 12, zIndex: 1, text: "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ", fontSize: 20, fontFamily: "'Cormorant Garamond', Georgia, serif", color: "#dfb76c", textAlign: "center", fontWeight: "bold" },
+      { id: "m1-trans", type: "text", x: 50, y: 19, zIndex: 2, text: "In the Name of Allah, the Most Gracious, the Most Merciful", fontSize: 10, fontFamily: "'Cormorant Garamond', Georgia, serif", color: "#d1e7dd", textAlign: "center", fontStyle: "italic" },
+      { id: "m1-host", type: "text", x: 50, y: 28, zIndex: 3, text: "Mr. & Mrs. Farooqui request the honor of your presence at the Nikah of their son", fontSize: 11, fontFamily: "'Cormorant Garamond', Georgia, serif", color: "#e5f3eb", textAlign: "center" },
+      { id: "m1-groom", type: "text", x: 50, y: 40, zIndex: 4, text: "ZAYN", fontSize: 34, fontFamily: "'Playfair Display', Georgia, serif", color: "#dfb76c", textAlign: "center", fontWeight: "bold", letterSpacing: 2 },
+      { id: "m1-amp", type: "text", x: 50, y: 48, zIndex: 5, text: "with", fontSize: 18, fontFamily: "'Great Vibes', cursive", color: "#ffffff", textAlign: "center" },
+      { id: "m1-bride", type: "text", x: 50, y: 56, zIndex: 6, text: "AYESHA", fontSize: 34, fontFamily: "'Playfair Display', Georgia, serif", color: "#dfb76c", textAlign: "center", fontWeight: "bold", letterSpacing: 2 },
+      { id: "m1-parent", type: "text", x: 50, y: 64, zIndex: 7, text: "Daughter of Mr. & Mrs. Tariq Siddiqui", fontSize: 10, fontFamily: "'Cormorant Garamond', Georgia, serif", color: "#c1dfcf", textAlign: "center" },
+      { id: "m1-date", type: "text", x: 50, y: 73, zIndex: 8, text: "FRIDAY, 14TH NOVEMBER 2026 | NIKAH AT 6:00 PM", fontSize: 11, fontFamily: "'Cinzel', Georgia, serif", color: "#dfb76c", textAlign: "center", fontWeight: "600", letterSpacing: 1 },
+      { id: "m1-venue", type: "text", x: 50, y: 81, zIndex: 9, text: "The Royal Orchid Banquets, Hazratganj, Lucknow", fontSize: 11, fontFamily: "'Montserrat', sans-serif", color: "#ffffff", textAlign: "center" },
+      { id: "m1-bless", type: "text", x: 50, y: 88, zIndex: 10, text: "Followed by Dinner & Dawat-e-Walima", fontSize: 10, fontFamily: "'Cormorant Garamond', Georgia, serif", color: "#a3cfbb", textAlign: "center", fontStyle: "italic" },
+    ],
+  },
+  // 2. MUSLIM - Template 2
+  {
+    id: "muslim-walima-blush",
+    name: "Vintage Blush & Champagne Walima",
+    category: "Muslim",
+    description: "Warm royal champagne background with elegant double gold borders and banquet details",
+    background: { type: "color", color: "#f4ede1", imageUrl: "", blur: 0, opacity: 1, brightness: 1 },
+    border: { style: "royal-double", color: "#803c4f", width: 2, inset: 12, showCorners: true },
+    elements: [
+      { id: "m2-head", type: "text", x: 50, y: 12, zIndex: 1, text: "DAWAT-E-WALIMA", fontSize: 16, fontFamily: "'Cinzel', Georgia, serif", color: "#803c4f", textAlign: "center", fontWeight: "bold", letterSpacing: 3 },
+      { id: "m2-host", type: "text", x: 50, y: 24, zIndex: 2, text: "Together with their families, cordially invite you to celebrate the Walima reception of", fontSize: 11, fontFamily: "'Cormorant Garamond', Georgia, serif", color: "#666666", textAlign: "center", fontStyle: "italic" },
+      { id: "m2-couple", type: "text", x: 50, y: 38, zIndex: 3, text: "Hamza & Sana", fontSize: 32, fontFamily: "'Playfair Display', Georgia, serif", color: "#4a0e17", textAlign: "center", fontWeight: "bold" },
+      { id: "m2-date", type: "text", x: 50, y: 50, zIndex: 4, text: "SATURDAY, 28TH NOVEMBER 2026", fontSize: 12, fontFamily: "'Cinzel', Georgia, serif", color: "#803c4f", textAlign: "center", fontWeight: "600", letterSpacing: 1 },
+      { id: "m2-sched", type: "text", x: 50, y: 58, zIndex: 5, text: "Reception: 7:30 PM   |   Dinner: 9:00 PM", fontSize: 11, fontFamily: "'Montserrat', sans-serif", color: "#555555", textAlign: "center" },
+      { id: "m2-venue", type: "text", x: 50, y: 68, zIndex: 6, text: "ITC Grand Central, Grand Ballroom, Mumbai", fontSize: 12, fontFamily: "'Cormorant Garamond', Georgia, serif", color: "#333333", textAlign: "center", fontWeight: "600" },
+      { id: "m2-note", type: "text", x: 50, y: 78, zIndex: 7, text: "No boxed gifts please, your presence & prayers are our blessing", fontSize: 9, fontFamily: "'Montserrat', sans-serif", color: "#777777", textAlign: "center", fontStyle: "italic" },
+      { id: "m2-rsvp", type: "text", x: 50, y: 86, zIndex: 8, text: "RSVP: Khan & Qureshi Families", fontSize: 10, fontFamily: "'Cinzel', Georgia, serif", color: "#803c4f", textAlign: "center", fontWeight: "bold" },
+    ],
+  },
+  // 3. SIKH - Template 1
+  {
+    id: "sikh-imperial-ochre",
+    name: "Imperial Dark Ochre Anand Karaj",
+    category: "Sikh",
+    description: "Imperial dark ochre with luxury gold ornate frame and Ik Onkar invocation",
+    background: { type: "color", color: "#2b1e06", imageUrl: "", blur: 0, opacity: 1, brightness: 1 },
+    border: { style: "ornate-gold", color: "#dfb76c", width: 2, inset: 12, showCorners: true },
+    elements: [
+      { id: "s1-invoc", type: "text", x: 50, y: 12, zIndex: 1, text: "ੴ ਸਤਿਗੁਰ ਪ੍ਰਸਾਦਿ ॥", fontSize: 20, fontFamily: "'Rozha One', serif", color: "#dfb76c", textAlign: "center", fontWeight: "bold" },
+      { id: "s1-shabad", type: "text", x: 50, y: 20, zIndex: 2, text: "Lakh Khushian Patshahian Je Satgur Nader Kare", fontSize: 10, fontFamily: "'Cormorant Garamond', Georgia, serif", color: "#e5d7bd", textAlign: "center", fontStyle: "italic" },
+      { id: "s1-host", type: "text", x: 50, y: 30, zIndex: 3, text: "Sardar & Sardarni Gurpreet Singh invite you to grace the Anand Karaj of their son", fontSize: 11, fontFamily: "'Cormorant Garamond', Georgia, serif", color: "#f7f3eb", textAlign: "center" },
+      { id: "s1-groom", type: "text", x: 50, y: 42, zIndex: 4, text: "JASPREET SINGH", fontSize: 28, fontFamily: "'Playfair Display', Georgia, serif", color: "#dfb76c", textAlign: "center", fontWeight: "bold", letterSpacing: 1 },
+      { id: "s1-amp", type: "text", x: 50, y: 50, zIndex: 5, text: "with", fontSize: 20, fontFamily: "'Great Vibes', cursive", color: "#ffffff", textAlign: "center" },
+      { id: "s1-bride", type: "text", x: 50, y: 58, zIndex: 6, text: "SIMRAN KAUR", fontSize: 28, fontFamily: "'Playfair Display', Georgia, serif", color: "#dfb76c", textAlign: "center", fontWeight: "bold", letterSpacing: 1 },
+      { id: "s1-cerem", type: "text", x: 50, y: 68, zIndex: 7, text: "ANAND KARAJ CEREMONY", fontSize: 12, fontFamily: "'Cinzel', Georgia, serif", color: "#dfb76c", textAlign: "center", fontWeight: "bold", letterSpacing: 2 },
+      { id: "s1-date", type: "text", x: 50, y: 76, zIndex: 8, text: "SUNDAY, 6TH DECEMBER 2026 | GURDWARA BANGLA SAHIB", fontSize: 11, fontFamily: "'Montserrat', sans-serif", color: "#ffffff", textAlign: "center" },
+      { id: "s1-langar", type: "text", x: 50, y: 85, zIndex: 9, text: "Guru Ka Langar will be served thereafter", fontSize: 10, fontFamily: "'Cormorant Garamond', Georgia, serif", color: "#dfb76c", textAlign: "center", fontStyle: "italic" },
+    ],
+  },
+  // 3. SIKH - Template 2
+  {
+    id: "sikh-pearl-rose",
+    name: "Pearl White & Royal Gold Anand Karaj",
+    category: "Sikh",
+    description: "Pure pearl white stationery with royal double gold borders and elegant typography",
+    background: { type: "color", color: "#ffffff", imageUrl: "", blur: 0, opacity: 1, brightness: 1 },
+    border: { style: "royal-double", color: "#cba135", width: 2, inset: 12, showCorners: true },
+    elements: [
+      { id: "s2-invoc", type: "text", x: 50, y: 12, zIndex: 1, text: "ੴ ਸਤਿਗੁਰ ਪ੍ਰਸਾਦਿ ॥", fontSize: 18, fontFamily: "'Cormorant Garamond', Georgia, serif", color: "#cba135", textAlign: "center", fontWeight: "bold" },
+      { id: "s2-host", type: "text", x: 50, y: 25, zIndex: 2, text: "With blessings of Sri Guru Granth Sahib Ji, we invite you to celebrate the marriage of", fontSize: 11, fontFamily: "'Cormorant Garamond', Georgia, serif", color: "#555555", textAlign: "center", fontStyle: "italic" },
+      { id: "s2-groom", type: "text", x: 50, y: 38, zIndex: 3, text: "Harpreet", fontSize: 34, fontFamily: "'Playfair Display', Georgia, serif", color: "#2b1e06", textAlign: "center", fontWeight: "bold" },
+      { id: "s2-amp", type: "text", x: 50, y: 46, zIndex: 4, text: "&", fontSize: 24, fontFamily: "'Alex Brush', cursive", color: "#cba135", textAlign: "center" },
+      { id: "s2-bride", type: "text", x: 50, y: 54, zIndex: 5, text: "Manpreet", fontSize: 34, fontFamily: "'Playfair Display', Georgia, serif", color: "#2b1e06", textAlign: "center", fontWeight: "bold" },
+      { id: "s2-date", type: "text", x: 50, y: 65, zIndex: 6, text: "Saturday, 12th December 2026 at 10:00 AM", fontSize: 12, fontFamily: "'Cinzel', Georgia, serif", color: "#444444", textAlign: "center", fontWeight: "600" },
+      { id: "s2-venue", type: "text", x: 50, y: 74, zIndex: 7, text: "Gurdwara Sri Guru Singh Sabha, Sector 19, Chandigarh", fontSize: 11, fontFamily: "'Montserrat', sans-serif", color: "#222222", textAlign: "center" },
+      { id: "s2-bless", type: "text", x: 50, y: 83, zIndex: 8, text: "Followed by lunch and blessings", fontSize: 10, fontFamily: "'Cormorant Garamond', Georgia, serif", color: "#777777", textAlign: "center", fontStyle: "italic" },
+    ],
+  },
+  // 4. SOUTH INDIAN - Template 1
+  {
+    id: "south-silk-ivory",
+    name: "Temple Silk Ivory & Gold Muhurtham",
+    category: "South Indian",
+    description: "Traditional temple arch border with Lord Venkateswara blessings and auspicious timings",
+    background: { type: "color", color: "#fdfbf7", imageUrl: "", blur: 0, opacity: 1, brightness: 1 },
+    border: { style: "vintage-arch", color: "#cba135", width: 2, inset: 12, showCorners: true },
+    elements: [
+      { id: "si1-invoc", type: "text", x: 50, y: 12, zIndex: 1, text: "॥ शुभमस्तु ॥", fontSize: 18, fontFamily: "'Rozha One', serif", color: "#80182a", textAlign: "center", fontWeight: "bold" },
+      { id: "si1-sub", type: "text", x: 50, y: 19, zIndex: 2, text: "Divine Blessings of Lord Venkateswara", fontSize: 10, fontFamily: "'Cinzel', Georgia, serif", color: "#cba135", textAlign: "center", letterSpacing: 2 },
+      { id: "si1-host", type: "text", x: 50, y: 28, zIndex: 3, text: "Mrs. & Mr. K. Ramanathan cordially invite you with family to the Kalyanam of their daughter", fontSize: 11, fontFamily: "'Cormorant Garamond', Georgia, serif", color: "#555555", textAlign: "center", fontStyle: "italic" },
+      { id: "si1-bride", type: "text", x: 50, y: 40, zIndex: 4, text: "MEENAKSHI", fontSize: 30, fontFamily: "'Playfair Display', Georgia, serif", color: "#5b1424", textAlign: "center", fontWeight: "bold", letterSpacing: 2 },
+      { id: "si1-amp", type: "text", x: 50, y: 48, zIndex: 5, text: "weds", fontSize: 20, fontFamily: "'Great Vibes', cursive", color: "#cba135", textAlign: "center" },
+      { id: "si1-groom", type: "text", x: 50, y: 56, zIndex: 6, text: "KARTHIK", fontSize: 30, fontFamily: "'Playfair Display', Georgia, serif", color: "#5b1424", textAlign: "center", fontWeight: "bold", letterSpacing: 2 },
+      { id: "si1-muh", type: "text", x: 50, y: 66, zIndex: 7, text: "AUSPICIOUS MUHURTHAM", fontSize: 12, fontFamily: "'Cinzel', Georgia, serif", color: "#80182a", textAlign: "center", fontWeight: "bold", letterSpacing: 2 },
+      { id: "si1-date", type: "text", x: 50, y: 74, zIndex: 8, text: "Friday, 22nd January 2027 between 6:00 AM - 7:30 AM", fontSize: 11, fontFamily: "'Montserrat', sans-serif", color: "#333333", textAlign: "center", fontWeight: "600" },
+      { id: "si1-venue", type: "text", x: 50, y: 82, zIndex: 9, text: "The Leela Palace, Grand Ballroom, Chennai", fontSize: 11, fontFamily: "'Montserrat', sans-serif", color: "#555555", textAlign: "center" },
+    ],
+  },
+  // 4. SOUTH INDIAN - Template 2
+  {
+    id: "south-crimson-mandap",
+    name: "Royal Crimson & Gold Temple Mandap",
+    category: "South Indian",
+    description: "Deep auspicious maroon with ornate gold frame and Dhanur Lagna muhurtham timings",
+    background: { type: "color", color: "#4a0e17", imageUrl: "", blur: 0, opacity: 1, brightness: 1 },
+    border: { style: "ornate-gold", color: "#dfb76c", width: 2, inset: 12, showCorners: true },
+    elements: [
+      { id: "si2-invoc", type: "text", x: 50, y: 12, zIndex: 1, text: "॥ श्री महागणपतये नमः ॥", fontSize: 18, fontFamily: "'Rozha One', serif", color: "#dfb76c", textAlign: "center", fontWeight: "bold" },
+      { id: "si2-host", type: "text", x: 50, y: 24, zIndex: 2, text: "We seek your gracious presence on the auspicious occasion of the wedding of", fontSize: 11, fontFamily: "'Cormorant Garamond', Georgia, serif", color: "#f4ede1", textAlign: "center", fontStyle: "italic" },
+      { id: "si2-groom", type: "text", x: 50, y: 38, zIndex: 3, text: "Aditya", fontSize: 32, fontFamily: "'Playfair Display', Georgia, serif", color: "#dfb76c", textAlign: "center", fontWeight: "bold" },
+      { id: "si2-amp", type: "text", x: 50, y: 47, zIndex: 4, text: "&", fontSize: 26, fontFamily: "'Alex Brush', cursive", color: "#ffffff", textAlign: "center" },
+      { id: "si2-bride", type: "text", x: 50, y: 56, zIndex: 5, text: "Shruti", fontSize: 32, fontFamily: "'Playfair Display', Georgia, serif", color: "#dfb76c", textAlign: "center", fontWeight: "bold" },
+      { id: "si2-muh", type: "text", x: 50, y: 67, zIndex: 6, text: "MUHURTHAM: DHANUR LAGNA", fontSize: 11, fontFamily: "'Cinzel', Georgia, serif", color: "#dfb76c", textAlign: "center", fontWeight: "bold", letterSpacing: 2 },
+      { id: "si2-date", type: "text", x: 50, y: 75, zIndex: 7, text: "Sunday, 14th February 2027 | 9:15 AM to 10:30 AM", fontSize: 11, fontFamily: "'Montserrat', sans-serif", color: "#ffffff", textAlign: "center" },
+      { id: "si2-venue", type: "text", x: 50, y: 83, zIndex: 8, text: "Mayor Ramanathan Chettiar Hall, Raja Annamalaipuram, Chennai", fontSize: 11, fontFamily: "'Montserrat', sans-serif", color: "#e5d7bd", textAlign: "center" },
+    ],
+  },
+  // 5. CHRISTIAN - Template 1
+  {
+    id: "christian-alabaster-gold",
+    name: "Classic Alabaster & Foliage Gold Matrimony",
+    category: "Christian",
+    description: "Pure alabaster white paper with royal double gold frame and scripture vows",
+    background: { type: "color", color: "#ffffff", imageUrl: "", blur: 0, opacity: 1, brightness: 1 },
+    border: { style: "royal-double", color: "#cba135", width: 2, inset: 12, showCorners: true },
+    elements: [
+      { id: "c1-script", type: "text", x: 50, y: 12, zIndex: 1, text: "What therefore God has joined together, let not man put asunder.", fontSize: 9, fontFamily: "'Cormorant Garamond', Georgia, serif", color: "#888888", textAlign: "center", fontStyle: "italic" },
+      { id: "c1-host", type: "text", x: 50, y: 22, zIndex: 2, text: "Together with their families", fontSize: 12, fontFamily: "'Cormorant Garamond', Georgia, serif", color: "#555555", textAlign: "center", fontStyle: "italic" },
+      { id: "c1-groom", type: "text", x: 50, y: 34, zIndex: 3, text: "DAVID JOSEPH", fontSize: 28, fontFamily: "'Playfair Display', Georgia, serif", color: "#16284f", textAlign: "center", fontWeight: "bold", letterSpacing: 2 },
+      { id: "c1-amp", type: "text", x: 50, y: 43, zIndex: 4, text: "and", fontSize: 22, fontFamily: "'Great Vibes', cursive", color: "#cba135", textAlign: "center" },
+      { id: "c1-bride", type: "text", x: 50, y: 52, zIndex: 5, text: "SARAH ELIZABETH", fontSize: 28, fontFamily: "'Playfair Display', Georgia, serif", color: "#16284f", textAlign: "center", fontWeight: "bold", letterSpacing: 2 },
+      { id: "c1-word", type: "text", x: 50, y: 62, zIndex: 6, text: "Request the honour of your presence at their Holy Matrimony", fontSize: 11, fontFamily: "'Cormorant Garamond', Georgia, serif", color: "#555555", textAlign: "center" },
+      { id: "c1-date", type: "text", x: 50, y: 72, zIndex: 7, text: "SATURDAY, 19TH DECEMBER 2026 AT 4:00 PM", fontSize: 11, fontFamily: "'Cinzel', Georgia, serif", color: "#16284f", textAlign: "center", fontWeight: "bold", letterSpacing: 1 },
+      { id: "c1-venue", type: "text", x: 50, y: 80, zIndex: 8, text: "St. Mary's Cathedral, Richmond Road, Bangalore", fontSize: 11, fontFamily: "'Montserrat', sans-serif", color: "#333333", textAlign: "center" },
+      { id: "c1-rec", type: "text", x: 50, y: 88, zIndex: 9, text: "Reception to follow at The Taj West End", fontSize: 10, fontFamily: "'Cormorant Garamond', Georgia, serif", color: "#777777", textAlign: "center", fontStyle: "italic" },
+    ],
+  },
+  // 5. CHRISTIAN - Template 2
+  {
+    id: "christian-sapphire-cathedral",
+    name: "Midnight Sapphire & Foil Silver Matrimony",
+    category: "Christian",
+    description: "Deep midnight sapphire navy with ornate silver/white borders and grand cathedral details",
+    background: { type: "color", color: "#0c1833", imageUrl: "", blur: 0, opacity: 1, brightness: 1 },
+    border: { style: "ornate-gold", color: "#ffffff", width: 2, inset: 12, showCorners: true },
+    elements: [
+      { id: "c2-head", type: "text", x: 50, y: 12, zIndex: 1, text: "CELEBRATING LOVE & HOLY MATRIMONY", fontSize: 11, fontFamily: "'Cinzel', Georgia, serif", color: "#ffffff", textAlign: "center", letterSpacing: 3 },
+      { id: "c2-host", type: "text", x: 50, y: 24, zIndex: 2, text: "You are cordially invited to witness the wedding vows of", fontSize: 11, fontFamily: "'Cormorant Garamond', Georgia, serif", color: "#c7d2fe", textAlign: "center", fontStyle: "italic" },
+      { id: "c2-couple", type: "text", x: 50, y: 38, zIndex: 3, text: "Kevin & Michelle", fontSize: 32, fontFamily: "'Playfair Display', Georgia, serif", color: "#ffffff", textAlign: "center", fontWeight: "bold" },
+      { id: "c2-date", type: "text", x: 50, y: 52, zIndex: 4, text: "FRIDAY, 8TH JANUARY 2027", fontSize: 13, fontFamily: "'Cinzel', Georgia, serif", color: "#93c5fd", textAlign: "center", fontWeight: "bold", letterSpacing: 1 },
+      { id: "c2-church", type: "text", x: 50, y: 62, zIndex: 5, text: "Church Service: 3:30 PM | Sacred Heart Church", fontSize: 11, fontFamily: "'Montserrat', sans-serif", color: "#e0e7ff", textAlign: "center" },
+      { id: "c2-rec", type: "text", x: 50, y: 72, zIndex: 6, text: "Gala Dinner & Dance: 7:00 PM | Grand Hyatt, Goa", fontSize: 11, fontFamily: "'Montserrat', sans-serif", color: "#ffffff", textAlign: "center" },
+      { id: "c2-rsvp", type: "text", x: 50, y: 84, zIndex: 7, text: "RSVP: D'Souza & Fernandes Families", fontSize: 10, fontFamily: "'Cinzel', Georgia, serif", color: "#93c5fd", textAlign: "center", fontWeight: "bold" },
+    ],
+  },
+];
+
 export default function CardMaker() {
   const canvasRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const pngInputRef = useRef<HTMLInputElement>(null);
 
   // Active Tab
-  const [activeTab, setActiveTab] = useState<"background" | "elements" | "text" | "layers" | "templates">("background");
+  const [activeTab, setActiveTab] = useState<"templates" | "borders" | "background" | "elements" | "text" | "layers">("templates");
+  const [selectedPresetCategory, setSelectedPresetCategory] = useState<string>("All");
 
-  // Canvas State: plain cream background with NO forced stock photo
-  const [elements, setElements] = useState<CanvasElement[]>(INITIAL_ELEMENTS);
+  // Multi-Page Canvas State (Allows adding unlimited pages to wedding suite)
+  const [pages, setPages] = useState<CardPage[]>([
+    {
+      id: "page-1",
+      name: "Page 1 - Main Invitation",
+      background: {
+        type: "color",
+        color: "#fdfbf7",
+        imageUrl: "",
+        blur: 0,
+        opacity: 1,
+        brightness: 1,
+      },
+      border: DEFAULT_BORDER,
+      elements: INITIAL_ELEMENTS,
+    },
+  ]);
+  const [currentPageIndex, setCurrentPageIndex] = useState<number>(0);
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [background, setBackground] = useState<CanvasBackground>({
-    type: "color",
-    color: "#fdfbf7",
-    imageUrl: "",
-    blur: 0,
-    opacity: 1,
-    brightness: 1,
-  });
+
+  // Active page helpers
+  const currentPage = pages[currentPageIndex] || pages[0];
+  const elements = currentPage.elements;
+  const background = currentPage.background;
+  const border = currentPage.border;
+
+  // Proxy state mutators for currently active page
+  const setElements = (updater: CanvasElement[] | ((prev: CanvasElement[]) => CanvasElement[])) => {
+    setPages((prevPages) => {
+      const updated = [...prevPages];
+      const targetIndex = Math.min(currentPageIndex, updated.length - 1);
+      const curr = updated[targetIndex].elements;
+      const next = typeof updater === "function" ? updater(curr) : updater;
+      updated[targetIndex] = { ...updated[targetIndex], elements: next };
+      return updated;
+    });
+  };
+
+  const setBackground = (updater: CanvasBackground | ((prev: CanvasBackground) => CanvasBackground)) => {
+    setPages((prevPages) => {
+      const updated = [...prevPages];
+      const targetIndex = Math.min(currentPageIndex, updated.length - 1);
+      const curr = updated[targetIndex].background;
+      const next = typeof updater === "function" ? updater(curr) : updater;
+      updated[targetIndex] = { ...updated[targetIndex], background: next };
+      return updated;
+    });
+  };
+
+  const setBorder = (updater: CanvasBorder | ((prev: CanvasBorder) => CanvasBorder)) => {
+    setPages((prevPages) => {
+      const updated = [...prevPages];
+      const targetIndex = Math.min(currentPageIndex, updated.length - 1);
+      const curr = updated[targetIndex].border;
+      const next = typeof updater === "function" ? updater(curr) : updater;
+      updated[targetIndex] = { ...updated[targetIndex], border: next };
+      return updated;
+    });
+  };
+
+  // Add New Blank / Event Page
+  const handleAddPage = () => {
+    const newPageId = `page-${Date.now()}`;
+    const currPage = pages[currentPageIndex] || pages[0];
+    const newPage: CardPage = {
+      id: newPageId,
+      name: `Page ${pages.length + 1} - Sangeet & Mehendi`,
+      background: { ...currPage.background },
+      border: { ...currPage.border },
+      elements: [
+        {
+          id: `el-page-title-${Date.now()}`,
+          type: "text",
+          x: 50,
+          y: 18,
+          zIndex: 1,
+          text: "SANGEET & MEHENDI CELEBRATION",
+          fontSize: 16,
+          fontFamily: "'Cinzel', Georgia, serif",
+          color: currPage.elements[0]?.color || "#cba135",
+          textAlign: "center",
+          fontWeight: "bold",
+          letterSpacing: 2,
+        },
+        {
+          id: `el-page-body-${Date.now()}`,
+          type: "text",
+          x: 50,
+          y: 45,
+          zIndex: 2,
+          text: "Join us for an evening of music, dance & festive joy\n\nWednesday, December 16, 2026\n7:00 PM Onwards\n\nDress Code: Vibrant & Festive",
+          fontSize: 13,
+          fontFamily: "'Cormorant Garamond', Georgia, serif",
+          color: currPage.elements[0]?.color || "#333333",
+          textAlign: "center",
+          lineHeight: 1.5,
+        },
+        {
+          id: `el-page-venue-${Date.now()}`,
+          type: "text",
+          x: 50,
+          y: 80,
+          zIndex: 3,
+          text: "Poolside Lawns, The Heritage Palace, Jaipur",
+          fontSize: 12,
+          fontFamily: "'Montserrat', sans-serif",
+          color: "#666666",
+          textAlign: "center",
+        },
+      ],
+    };
+    setPages((prev) => [...prev, newPage]);
+    setCurrentPageIndex(pages.length);
+    setSelectedId(null);
+  };
+
+  // Duplicate Current Page
+  const handleDuplicatePage = () => {
+    const currPage = pages[currentPageIndex];
+    const newPage: CardPage = {
+      id: `page-${Date.now()}`,
+      name: `${currPage.name} (Copy)`,
+      background: { ...currPage.background },
+      border: { ...currPage.border },
+      elements: currPage.elements.map((el) => ({
+        ...el,
+        id: `el-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`,
+      })),
+    };
+    const nextPages = [...pages];
+    nextPages.splice(currentPageIndex + 1, 0, newPage);
+    setPages(nextPages);
+    setCurrentPageIndex(currentPageIndex + 1);
+    setSelectedId(null);
+  };
+
+  // Delete Current Page
+  const handleDeletePage = () => {
+    if (pages.length <= 1) return;
+    const nextPages = pages.filter((_, idx) => idx !== currentPageIndex);
+    setPages(nextPages);
+    setCurrentPageIndex((prev) => Math.min(prev, nextPages.length - 1));
+    setSelectedId(null);
+  };
+
+  // 1-Tap Apply Full Preset Template to Current Page
+  const handleApplyPreset = (preset: TemplatePreset) => {
+    setPages((prevPages) => {
+      const updated = [...prevPages];
+      const targetIndex = Math.min(currentPageIndex, updated.length - 1);
+      updated[targetIndex] = {
+        ...updated[targetIndex],
+        name: preset.name,
+        background: { ...preset.background },
+        border: { ...preset.border },
+        elements: preset.elements.map((el) => ({ ...el })),
+      };
+      return updated;
+    });
+    setSelectedId(null);
+  };
 
   // URL input for background
   const [customUrl, setCustomUrl] = useState("");
@@ -704,22 +1296,45 @@ export default function CardMaker() {
   };
 
   // 9. Export to High-Res Image (PNG)
-  const handleExportPng = async () => {
+  const handleExportPng = async (exportAll = false) => {
     if (!canvasRef.current) return;
     try {
       setIsExporting("image");
       const currentSelected = selectedId;
       setSelectedId(null); // Clear selection outline before capture
-      await new Promise((r) => setTimeout(r, 120)); // wait for rerender
-      const dataUrl = await toPng(canvasRef.current, {
-        cacheBust: true,
-        pixelRatio: 2.5,
-      });
-      const link = document.createElement("a");
-      link.download = `wedding-invitation-${Date.now()}.png`;
-      link.href = dataUrl;
-      link.click();
-      setSelectedId(currentSelected);
+      const origPageIndex = currentPageIndex;
+
+      if (!exportAll || pages.length === 1) {
+        await new Promise((r) => setTimeout(r, 120)); // wait for rerender
+        const dataUrl = await toPng(canvasRef.current, {
+          cacheBust: true,
+          pixelRatio: 2.5,
+        });
+        const link = document.createElement("a");
+        link.download = `wedding-invitation-page-${currentPageIndex + 1}-${Date.now()}.png`;
+        link.href = dataUrl;
+        link.click();
+        setSelectedId(currentSelected);
+      } else {
+        // Export all pages sequentially
+        for (let i = 0; i < pages.length; i++) {
+          setCurrentPageIndex(i);
+          await new Promise((r) => setTimeout(r, 150));
+          if (canvasRef.current) {
+            const dataUrl = await toPng(canvasRef.current, {
+              cacheBust: true,
+              pixelRatio: 2.5,
+            });
+            const link = document.createElement("a");
+            link.download = `wedding-invitation-page-${i + 1}-${Date.now()}.png`;
+            link.href = dataUrl;
+            link.click();
+            await new Promise((r) => setTimeout(r, 80));
+          }
+        }
+        setCurrentPageIndex(origPageIndex);
+        setSelectedId(currentSelected);
+      }
     } catch (err) {
       console.error(err);
       alert("Failed to export image. Please try again.");
@@ -728,27 +1343,42 @@ export default function CardMaker() {
     }
   };
 
-  // 10. Export to Print-Ready PDF
+  // 10. Export to Multi-Page Print-Ready Vector PDF
   const handleExportPdf = async () => {
     if (!canvasRef.current) return;
     try {
       setIsExporting("pdf");
       const currentSelected = selectedId;
       setSelectedId(null);
-      await new Promise((r) => setTimeout(r, 120));
-      const dataUrl = await toPng(canvasRef.current, {
-        cacheBust: true,
-        pixelRatio: 2.5,
-      });
+      const origPageIndex = currentPageIndex;
+
       const pdf = new jsPDF({
         orientation: "portrait",
         unit: "mm",
-        format: "a5",
+        format: [148, 210], // standard A5 print size
       });
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = pdf.internal.pageSize.getHeight();
-      pdf.addImage(dataUrl, "PNG", 0, 0, pdfWidth, pdfHeight);
-      pdf.save(`wedding-invitation-card-${Date.now()}.pdf`);
+
+      // Capture all pages in order
+      for (let i = 0; i < pages.length; i++) {
+        setCurrentPageIndex(i);
+        // Wait for page canvas elements and background to mount
+        await new Promise((r) => setTimeout(r, 160));
+
+        if (canvasRef.current) {
+          const dataUrl = await toPng(canvasRef.current, {
+            cacheBust: true,
+            pixelRatio: 2.5,
+          });
+
+          if (i > 0) {
+            pdf.addPage([148, 210], "portrait");
+          }
+          pdf.addImage(dataUrl, "PNG", 0, 0, 148, 210);
+        }
+      }
+
+      pdf.save(`wedding-invitation-suite-${Date.now()}.pdf`);
+      setCurrentPageIndex(origPageIndex);
       setSelectedId(currentSelected);
     } catch (err) {
       console.error(err);
@@ -894,9 +1524,10 @@ export default function CardMaker() {
 
           {/* Download as Image */}
           <button
-            onClick={handleExportPng}
+            onClick={() => handleExportPng(false)}
             disabled={isExporting !== null}
-            className="px-3 sm:px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-semibold flex items-center gap-1.5 transition-all active:scale-95 border border-white/15"
+            className="px-3 sm:px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-semibold flex items-center gap-1.5 transition-all active:scale-95 border border-white/15 cursor-pointer"
+            title="Download active page as high-res PNG image"
           >
             <ImageIcon size={14} />
             <span>Download Image</span>
@@ -906,10 +1537,13 @@ export default function CardMaker() {
           <button
             onClick={handleExportPdf}
             disabled={isExporting !== null}
-            className="px-4 sm:px-5 py-2 rounded-xl bg-secondary hover:bg-secondary/90 text-primary font-bold text-xs flex items-center gap-1.5 transition-all active:scale-95 shadow-md shadow-secondary/20"
+            className="px-4 sm:px-5 py-2 rounded-xl bg-secondary hover:bg-secondary/90 text-primary font-bold text-xs flex items-center gap-1.5 transition-all active:scale-95 shadow-md shadow-secondary/20 cursor-pointer"
+            title={`Download print-ready PDF (${pages.length} page${pages.length > 1 ? "s" : ""})`}
           >
             <FileText size={14} />
-            <span>Download PDF</span>
+            <span>
+              {isExporting === "pdf" ? "Exporting PDF..." : pages.length > 1 ? `Download PDF (${pages.length} Pages)` : "Download PDF"}
+            </span>
           </button>
         </div>
       </header>
@@ -918,13 +1552,14 @@ export default function CardMaker() {
       <div className="flex-grow flex flex-col md:flex-row overflow-hidden relative min-h-[700px] md:h-[calc(100vh-130px)]">
 
         {/* 1. LEFT TOOLBAR TAB SELECTOR */}
-        <div className="w-full md:w-16 bg-[#141518] border-b md:border-b-0 md:border-r border-white/10 flex md:flex-col items-center justify-around md:justify-start md:py-4 gap-1 sm:gap-3 shrink-0 z-20 p-2 md:p-0">
+        <div className="w-full md:w-16 bg-[#141518] border-b md:border-b-0 md:border-r border-white/10 flex md:flex-col items-center justify-around md:justify-start md:py-4 gap-1 sm:gap-2.5 shrink-0 z-20 p-2 md:p-0">
           {[
-            { id: "background", label: "Canvas BG", icon: ImageIcon },
-            { id: "elements", label: "Stickers", icon: Palette },
-            { id: "text", label: "Text", icon: Type },
-            { id: "layers", label: "Layers", icon: Layers },
             { id: "templates", label: "Presets", icon: Sparkles },
+            { id: "borders", label: "Borders", icon: Square },
+            { id: "background", label: "Canvas BG", icon: ImageIcon },
+            { id: "text", label: "Text", icon: Type },
+            { id: "elements", label: "Stickers", icon: Palette },
+            { id: "layers", label: "Layers", icon: Layers },
           ].map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
@@ -932,13 +1567,13 @@ export default function CardMaker() {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as any)}
-                className={`flex flex-col items-center gap-1 p-2 md:p-2.5 rounded-xl transition-all w-14 ${
+                className={`flex flex-col items-center gap-1 p-2 md:p-2.5 rounded-xl transition-all w-14 cursor-pointer ${
                   isActive
                     ? "bg-secondary text-primary font-bold shadow-md"
                     : "text-white/60 hover:text-white hover:bg-white/5"
                 }`}
               >
-                <Icon size={18} />
+                <Icon size={17} />
                 <span className="text-[9px] uppercase tracking-wider font-semibold">
                   {tab.label}
                 </span>
@@ -1366,46 +2001,223 @@ export default function CardMaker() {
             </div>
           )}
 
-          {/* E. PRESET TEMPLATES TAB */}
+          {/* E. PRESET TEMPLATES TAB (Canva / Pinterest Style: 2 for every category) */}
           {activeTab === "templates" && (
-            <div className="space-y-4">
+            <div className="space-y-4 text-xs">
               <div>
                 <h3 className="text-xs font-bold uppercase tracking-wider text-white">
-                  Wedding Invocations &amp; Color Presets
+                  Canva &amp; Pinterest Wedding Templates
                 </h3>
                 <p className="text-[11px] text-white/50 mt-0.5">
-                  1-tap switch traditions (preserves your custom background).
+                  10 curated design templates. 2 for every tradition. 1-click apply to active page.
                 </p>
               </div>
-              <div className="space-y-2">
-                {[
-                  { name: "Hindu Vivah Mandap", cat: "Hindu", color: "#5b1424", text: "॥ श्री गणेशाय नमः ॥" },
-                  { name: "Muslim Nikah & Walima", cat: "Muslim", color: "#0d4529", text: "In the Name of Allah, the Most Gracious" },
-                  { name: "Sikh Anand Karaj", cat: "Sikh", color: "#825d16", text: "ੴ ਸਤਿਗੁਰ ਪ੍ਰਸਾਦਿ ॥" },
-                  { name: "South Indian Muhurtham", cat: "South Indian", color: "#5b1424", text: "॥ शुभमस्तु ॥ Divine Blessings" },
-                  { name: "Christian Holy Matrimony", cat: "Christian", color: "#16284f", text: "United in God's Grace & Love" },
-                ].map((preset, idx) => (
+
+              {/* Category Filter Pills */}
+              <div className="flex flex-wrap gap-1.5 pb-1 border-b border-white/10">
+                {(["All", "Hindu", "Muslim", "Sikh", "South Indian", "Christian"] as const).map((cat) => (
                   <button
-                    key={idx}
-                    onClick={() => {
-                      updateSelected({ color: preset.color });
-                      setElements((prev) =>
-                        prev.map((e) => (e.id === "el-invoc" ? { ...e, text: preset.text, color: preset.color } : e))
-                      );
-                    }}
-                    className="w-full p-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-left transition-all flex items-center justify-between group"
+                    key={cat}
+                    onClick={() => setSelectedPresetCategory(cat)}
+                    className={`px-2.5 py-1 rounded-full text-[10px] font-bold transition-all cursor-pointer ${
+                      selectedPresetCategory === cat
+                        ? "bg-secondary text-primary shadow-sm"
+                        : "bg-white/5 text-white/60 hover:text-white hover:bg-white/10"
+                    }`}
                   >
-                    <div>
-                      <span className="text-xs font-bold text-white block">
-                        {preset.name}
-                      </span>
-                      <span className="text-[10px] text-secondary">
-                        {preset.cat} Tradition
-                      </span>
-                    </div>
-                    <ChevronRight size={14} className="text-white/40 group-hover:translate-x-1 transition-transform" />
+                    {cat}
                   </button>
                 ))}
+              </div>
+
+              {/* Preset Cards List */}
+              <div className="space-y-3 max-h-[60vh] md:max-h-[500px] overflow-y-auto pr-1">
+                {PRESET_TEMPLATES
+                  .filter((tpl) => selectedPresetCategory === "All" || tpl.category === selectedPresetCategory)
+                  .map((tpl) => (
+                    <div
+                      key={tpl.id}
+                      className="p-3.5 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all space-y-2 group"
+                    >
+                      <div className="flex items-center justify-between">
+                        <span className="text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider bg-secondary/20 text-secondary border border-secondary/30">
+                          {tpl.category}
+                        </span>
+                        <div className="flex items-center gap-1.5">
+                          <span
+                            className="w-4 h-4 rounded-full border border-white/20 inline-block shadow-sm"
+                            style={{ backgroundColor: tpl.background.color }}
+                            title="Background Color"
+                          />
+                          <span
+                            className="w-4 h-4 rounded border border-white/20 inline-block shadow-sm"
+                            style={{ borderColor: tpl.border.color }}
+                            title="Border Style"
+                          />
+                        </div>
+                      </div>
+
+                      <div>
+                        <h4 className="text-xs font-bold text-white group-hover:text-secondary transition-colors">
+                          {tpl.name}
+                        </h4>
+                        <p className="text-[10px] text-white/60 leading-relaxed mt-0.5">
+                          {tpl.description}
+                        </p>
+                      </div>
+
+                      {/* Preview typography snippets */}
+                      <div className="p-2 rounded-xl bg-black/30 border border-white/5 text-center">
+                        <span className="text-[10px] text-white/50 block font-serif truncate">
+                          {tpl.elements[0]?.text}
+                        </span>
+                        <span className="text-xs font-bold text-secondary block truncate mt-0.5">
+                          {tpl.elements[2]?.text} {tpl.elements[3]?.text} {tpl.elements[4]?.text}
+                        </span>
+                      </div>
+
+                      <button
+                        onClick={() => handleApplyPreset(tpl)}
+                        className="w-full py-2 rounded-xl bg-secondary/15 hover:bg-secondary text-secondary hover:text-primary font-bold text-[11px] transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"
+                      >
+                        <Sparkles size={12} />
+                        <span>Apply Template to Page</span>
+                      </button>
+                    </div>
+                  ))}
+              </div>
+            </div>
+          )}
+
+          {/* F. BORDERS & FRAMES TAB (Customizable Decorative Border Lines) */}
+          {activeTab === "borders" && (
+            <div className="space-y-4 text-xs">
+              <div>
+                <h3 className="text-xs font-bold uppercase tracking-wider text-white">
+                  Card Border Lines &amp; Frames
+                </h3>
+                <p className="text-[11px] text-white/50 mt-0.5">
+                  Customize traditional gold &amp; royal wedding border frames.
+                </p>
+              </div>
+
+              {/* 1. Border Style Selector */}
+              <div className="space-y-2">
+                <label className="text-[11px] font-bold text-white/80 block">
+                  Frame Style
+                </label>
+                <div className="grid grid-cols-2 gap-2">
+                  {BORDER_STYLES.map((bs) => {
+                    const isSelected = border.style === bs.id;
+                    return (
+                      <button
+                        key={bs.id}
+                        onClick={() => setBorder((prev) => ({ ...prev, style: bs.id as any }))}
+                        className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
+                          isSelected
+                            ? "bg-secondary/20 border-secondary text-white font-bold shadow-sm"
+                            : "bg-white/5 border-white/10 text-white/70 hover:bg-white/10 hover:text-white"
+                        }`}
+                      >
+                        <span className="text-xs font-semibold block truncate">
+                          {bs.name}
+                        </span>
+                        <span className="text-[9px] text-white/40 block truncate mt-0.5">
+                          {bs.desc}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* 2. Border Color Picker */}
+              <div className="space-y-2 pt-2 border-t border-white/10">
+                <label className="text-[11px] font-bold text-white/80 block">
+                  Border Line Color
+                </label>
+                <div className="grid grid-cols-6 gap-1.5">
+                  {[
+                    "#cba135", // Royal Gold
+                    "#dfb76c", // Champagne Gold
+                    "#e5c158", // Bright Gold
+                    "#80182a", // Crimson
+                    "#5b1424", // Royal Maroon
+                    "#0f5132", // Emerald Green
+                    "#16284f", // Sapphire Navy
+                    "#803c4f", // Rose Gold
+                    "#ffffff", // Pure White
+                    "#f4ede1", // Cream Linen
+                    "#2c2c2c", // Charcoal
+                    "#e5d7bd", // Soft Pearl
+                  ].map((hex) => (
+                    <button
+                      key={hex}
+                      onClick={() => setBorder((prev) => ({ ...prev, color: hex }))}
+                      style={{ backgroundColor: hex }}
+                      className={`h-7 rounded-lg border transition-all cursor-pointer ${
+                        border.color.toLowerCase() === hex.toLowerCase()
+                          ? "ring-2 ring-secondary ring-offset-2 ring-offset-black scale-105"
+                          : "border-white/20 hover:scale-105"
+                      }`}
+                      title={hex}
+                    />
+                  ))}
+                </div>
+              </div>
+
+              {/* 3. Border Stroke Width */}
+              <div className="space-y-1.5 pt-2 border-t border-white/10">
+                <div className="flex justify-between items-center text-[11px]">
+                  <span className="font-bold text-white/80">Stroke Thickness</span>
+                  <span className="font-mono text-white/60">{border.width}px</span>
+                </div>
+                <input
+                  type="range"
+                  min="1"
+                  max="4"
+                  step="1"
+                  value={border.width}
+                  onChange={(e) => setBorder((prev) => ({ ...prev, width: Number(e.target.value) }))}
+                  className="w-full accent-secondary cursor-pointer"
+                />
+              </div>
+
+              {/* 4. Border Inset / Padding */}
+              <div className="space-y-1.5 pt-2 border-t border-white/10">
+                <div className="flex justify-between items-center text-[11px]">
+                  <span className="font-bold text-white/80">Border Margin (Inset)</span>
+                  <span className="font-mono text-white/60">{border.inset}px</span>
+                </div>
+                <input
+                  type="range"
+                  min="6"
+                  max="24"
+                  step="2"
+                  value={border.inset}
+                  onChange={(e) => setBorder((prev) => ({ ...prev, inset: Number(e.target.value) }))}
+                  className="w-full accent-secondary cursor-pointer"
+                />
+              </div>
+
+              {/* 5. Corner Accents Toggle */}
+              <div className="pt-2 border-t border-white/10 flex items-center justify-between">
+                <div>
+                  <span className="text-[11px] font-bold text-white block">Corner Star Accents (✦)</span>
+                  <span className="text-[10px] text-white/50">Display decorative ornaments in all 4 corners</span>
+                </div>
+                <button
+                  onClick={() => setBorder((prev) => ({ ...prev, showCorners: !prev.showCorners }))}
+                  className={`w-11 h-6 rounded-full transition-colors relative cursor-pointer ${
+                    border.showCorners ? "bg-secondary" : "bg-white/20"
+                  }`}
+                >
+                  <span
+                    className={`absolute top-1 left-1 bg-white w-4 h-4 rounded-full transition-transform ${
+                      border.showCorners ? "translate-x-5 bg-primary" : ""
+                    }`}
+                  />
+                </button>
               </div>
             </div>
           )}
@@ -1424,6 +2236,57 @@ export default function CardMaker() {
             }
           }}
         >
+          {/* Multi-Page Controller Bar */}
+          <div className="flex items-center justify-between w-[360px] sm:w-[420px] mb-3 px-1 text-xs select-none">
+            <div className="flex items-center gap-1.5 overflow-x-auto max-w-[260px] sm:max-w-[300px] py-1">
+              {pages.map((p, idx) => (
+                <button
+                  key={p.id}
+                  onClick={() => {
+                    setSelectedId(null);
+                    setCurrentPageIndex(idx);
+                  }}
+                  className={`px-3 py-1 rounded-full text-[11px] font-bold transition-all whitespace-nowrap cursor-pointer ${
+                    currentPageIndex === idx
+                      ? "bg-secondary text-primary shadow-md shadow-secondary/20"
+                      : "bg-white/10 text-white/70 hover:text-white hover:bg-white/20"
+                  }`}
+                >
+                  <span>Page {idx + 1}</span>
+                </button>
+              ))}
+            </div>
+
+            <div className="flex items-center gap-1">
+              <button
+                onClick={handleAddPage}
+                className="px-2.5 py-1 rounded-full bg-white/10 hover:bg-white/20 text-white text-[11px] font-bold flex items-center gap-1 transition-all cursor-pointer border border-white/15"
+                title="Add new event page (e.g. Sangeet / Reception)"
+              >
+                <Plus size={12} />
+                <span>Add Page</span>
+              </button>
+
+              <button
+                onClick={handleDuplicatePage}
+                className="p-1.5 rounded-full hover:bg-white/15 text-white/70 hover:text-white transition-colors cursor-pointer"
+                title="Duplicate Current Page"
+              >
+                <Copy size={13} />
+              </button>
+
+              {pages.length > 1 && (
+                <button
+                  onClick={handleDeletePage}
+                  className="p-1.5 rounded-full hover:bg-rose-500/20 text-rose-300 transition-colors cursor-pointer"
+                  title="Delete Current Page"
+                >
+                  <Trash2 size={13} />
+                </button>
+              )}
+            </div>
+          </div>
+
           {/* Canvas Zoom Container */}
           <div
             style={{ transform: `scale(${zoomLevel})`, transformOrigin: "center center" }}
@@ -1457,9 +2320,8 @@ export default function CardMaker() {
                 />
               )}
 
-              {/* Decorative Frame Outline */}
-              <div className="absolute inset-3 rounded-xl border border-secondary/40 pointer-events-none" />
-              <div className="absolute inset-4 rounded-lg border-2 border-dashed border-secondary/30 pointer-events-none" />
+              {/* Customizable Background Border & Frame Lines */}
+              <RenderCardBorder border={border} />
 
               {/* RENDER ALL MOVABLE & RESIZABLE CANVAS ELEMENTS */}
               {elements.map((el) => {
