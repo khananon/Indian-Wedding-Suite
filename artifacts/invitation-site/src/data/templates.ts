@@ -249,6 +249,8 @@ export const TEMPLATES: TemplateData[] = [
     colorTheme: "Pastel",
     price: 2000,
     isTrending: true,
+     image: "images/awadhi-elegance-preview.png",
+    link: "https://butterfly-wedding-invite.vercel.app/",
     tags: ["Pastel Rose", "Nikahnama", "Modern Islamic", "WhatsApp Ready"],
     defaultText: {
       groomName: "Irfan Khan",
