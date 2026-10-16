@@ -1,164 +1,168 @@
+import { useState } from "react";
 import { Link } from "wouter";
-import { ArrowUpRight } from "lucide-react";
+import { Eye, ArrowUpRight, Check, Sparkles, Smartphone } from "lucide-react";
 import { type Template } from "@/hooks/use-templates";
+import { PhonePreviewModal } from "./PhonePreviewModal";
 
-const themeStyles: Record<string, { bg: string; border: string; accent: string; pattern: string }> = {
-  Hindu: {
-    bg: "from-orange-50 via-amber-50 to-rose-50",
-    border: "border-amber-300/60",
-    accent: "text-amber-700",
-    pattern: "bg-gradient-to-br from-orange-100/80 to-rose-100/80",
-  },
-  Muslim: {
-    bg: "from-emerald-50 via-teal-50 to-cyan-50",
-    border: "border-emerald-300/60",
-    accent: "text-emerald-700",
-    pattern: "bg-gradient-to-br from-emerald-100/80 to-teal-100/80",
-  },
-  Sikh: {
-    bg: "from-sky-50 via-indigo-50 to-blue-50",
-    border: "border-sky-300/60",
-    accent: "text-sky-700",
-    pattern: "bg-gradient-to-br from-sky-100/80 to-indigo-100/80",
-  },
-  Christian: {
-    bg: "from-slate-50 via-blue-50 to-indigo-50",
-    border: "border-blue-300/60",
-    accent: "text-blue-700",
-    pattern: "bg-gradient-to-br from-blue-100/80 to-slate-100/80",
-  },
-  "South Indian": {
-    bg: "from-yellow-50 via-lime-50 to-emerald-50",
-    border: "border-yellow-400/60",
-    accent: "text-yellow-700",
-    pattern: "bg-gradient-to-br from-yellow-100/80 to-lime-100/80",
-  },
-};
+interface TemplateCardProps {
+  template: Template;
+  onPreview?: (template: Template) => void;
+}
 
-const defaultTheme = {
-  bg: "from-pink-50 via-rose-50 to-amber-50",
-  border: "border-rose-300/60",
-  accent: "text-rose-700",
-  pattern: "bg-gradient-to-br from-rose-100/80 to-amber-100/80",
-};
-
-export function TemplateCard({ template }: { template: Template }) {
-  const theme = themeStyles[template.category] || defaultTheme;
+export function TemplateCard({ template, onPreview }: TemplateCardProps) {
+  const [isLocalModalOpen, setIsLocalModalOpen] = useState(false);
   const base = import.meta.env.BASE_URL;
 
-  return (
-    <div className="group relative bg-card rounded-2xl overflow-hidden card-shadow border border-border/50 hover:border-secondary/50 transition-all duration-300">
-      <div className={`relative aspect-[3/4] overflow-hidden ${template.image ? "bg-gray-100" : `bg-gradient-to-br ${theme.bg}`}`}>
+  const handleOpenPreview = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (onPreview) {
+      onPreview(template);
+    } else {
+      setIsLocalModalOpen(true);
+    }
+  };
 
-        {template.image ? (
-          /* Real photo preview */
-          <img
-            src={`${base}${template.image}`}
-            alt={`${template.name} - ${template.category} Digital Wedding Invitation Card Template`}
-            loading="lazy"
-            className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
-          />
-        ) : (
-          /* CSS art fallback */
-          <div className="absolute inset-0 flex flex-col items-center justify-center p-6">
-            <div className={`w-full h-full rounded-xl ${theme.pattern} border-2 ${theme.border} flex flex-col items-center justify-center p-5 relative`}>
-              <div className={`absolute top-3 left-3 right-3 h-px bg-gradient-to-r from-transparent via-current to-transparent opacity-30 ${theme.accent}`} />
-              <div className={`absolute bottom-3 left-3 right-3 h-px bg-gradient-to-r from-transparent via-current to-transparent opacity-30 ${theme.accent}`} />
-              <div className={`absolute top-3 left-3 bottom-3 w-px bg-gradient-to-b from-transparent via-current to-transparent opacity-30 ${theme.accent}`} />
-              <div className={`absolute top-3 right-3 bottom-3 w-px bg-gradient-to-b from-transparent via-current to-transparent opacity-30 ${theme.accent}`} />
-              <div className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 rounded-tl border-current opacity-40" />
-              <div className="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 rounded-tr border-current opacity-40" />
-              <div className="absolute bottom-2 left-2 w-4 h-4 border-b-2 border-l-2 rounded-bl border-current opacity-40" />
-              <div className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 rounded-br border-current opacity-40" />
-              <div className={`font-display text-base font-semibold text-center leading-snug mb-1 ${theme.accent}`}>
-                {template.name}
-              </div>
-              <div className="text-xs font-sans uppercase tracking-[0.15em] text-gray-500 mt-1">
-                Wedding Invitation
-              </div>
-              <div className="flex gap-1 mt-3">
-                {[...Array(3)].map((_, i) => (
-                  <span key={i} className="text-[10px] opacity-60">✦</span>
-                ))}
+  return (
+    <>
+      <div 
+        onClick={handleOpenPreview}
+        className="group relative bg-white rounded-2xl overflow-hidden border border-stone-200/80 hover:border-amber-400/50 hover:shadow-xl transition-all duration-300 flex flex-col justify-between cursor-pointer"
+      >
+        {/* Card Image Area */}
+        <div className="relative aspect-[3/4] overflow-hidden bg-stone-100">
+          {template.image ? (
+            <img
+              src={`${base}${template.image}`}
+              alt={`${template.name} - ${template.subtitle || "Wedding Invitation Suite"}`}
+              loading="lazy"
+              className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
+            />
+          ) : (
+            <div className="absolute inset-0 bg-gradient-to-br from-amber-50/60 via-stone-100 to-rose-50/50 flex flex-col items-center justify-center p-6 text-center">
+              <div className="w-full h-full border border-amber-300/40 rounded-xl p-4 flex flex-col items-center justify-center">
+                <span className="text-[10px] tracking-[0.2em] uppercase font-bold text-amber-800/70 mb-2">
+                  {template.collection || "Wedding Suite"}
+                </span>
+                <h4 className="font-display text-lg font-bold text-stone-900 leading-snug">
+                  {template.name}
+                </h4>
+                <span className="text-xs text-stone-500 mt-2 font-serif italic">
+                  {template.subtitle}
+                </span>
               </div>
             </div>
-          </div>
-        )}
+          )}
 
-        {/* Hover overlay for Template Cards */}
-        <div className="absolute inset-0 bg-primary/75 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center gap-2.5 backdrop-blur-sm p-4">
+          {/* Top Badges */}
+          <div className="absolute top-3 left-3 flex flex-col gap-1.5 z-10 pointer-events-none">
+            {template.isWebsite ? (
+              <span className="bg-stone-950/85 text-amber-200 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider shadow-md backdrop-blur-md border border-amber-400/30 flex items-center gap-1">
+                <Smartphone size={11} className="text-amber-300" />
+                <span>Website</span>
+              </span>
+            ) : (
+              <span className="bg-stone-900/80 text-stone-100 text-[10px] font-semibold px-2.5 py-1 rounded-full uppercase tracking-wider backdrop-blur-md">
+                Digital Suite
+              </span>
+            )}
+            {template.isPopular && (
+              <span className="bg-amber-100/95 text-amber-900 text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow-sm border border-amber-300/50">
+                Popular
+              </span>
+            )}
+          </div>
+
+          {/* Quick Direct Link Icon in top right */}
           {template.link && (
             <a
               href={template.link}
               target="_blank"
               rel="noopener noreferrer"
               onClick={(e) => e.stopPropagation()}
-              className="px-5 py-2.5 rounded-full bg-white text-primary text-xs font-bold shadow-lg transform translate-y-2 group-hover:translate-y-0 transition-all hover:scale-105 flex items-center gap-1.5 tracking-wide"
+              className="absolute top-3 right-3 z-20 w-8 h-8 rounded-full bg-white/90 backdrop-blur-md flex items-center justify-center shadow-md hover:bg-white hover:scale-110 transition-all text-stone-800"
+              title="Open website in new tab"
             >
-              <span>View Live Demo</span>
               <ArrowUpRight size={14} />
             </a>
           )}
-          <Link href={`/contact?template=${template.id}`}>
-            <span className="px-5 py-2.5 rounded-full bg-secondary text-primary text-xs font-bold shadow-lg transform translate-y-2 group-hover:translate-y-0 transition-all hover:scale-105 cursor-pointer tracking-wide">
-              Customize Design &rarr;
-            </span>
-          </Link>
+
+          {/* Bottom "LIVE PREVIEW" Pill Button (In-vitely signature style) */}
+          <div className="absolute inset-x-0 bottom-3 flex justify-center z-10 px-4">
+            <button
+              onClick={handleOpenPreview}
+              className="w-full max-w-[200px] py-2 px-4 rounded-full bg-stone-950/75 hover:bg-stone-950 text-white text-[11px] font-bold tracking-wider uppercase shadow-lg backdrop-blur-md border border-white/20 transition-all duration-200 hover:scale-105 flex items-center justify-center gap-2 group/btn cursor-pointer"
+            >
+              <Eye size={13} className="text-amber-300" />
+              <span>Live Preview</span>
+            </button>
+          </div>
         </div>
 
-        {/* Badges */}
-        <div className="absolute top-3 left-3 flex flex-col gap-1 z-10 pointer-events-none">
-          {template.isPopular && (
-            <div className="bg-secondary text-secondary-foreground text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow-sm">
-              Popular
+        {/* Card Content Information */}
+        <div className="p-4 sm:p-5 flex flex-col justify-between flex-grow">
+          <div>
+            {/* Aesthetic Style / Collection Label */}
+            <div className="flex items-center justify-between text-[11px] font-bold uppercase tracking-wider text-stone-500 mb-1">
+              <span>{template.collection || "Wedding Suite"}</span>
+              <span className="text-[10px] text-stone-400 font-medium">
+                {template.isWebsite ? "Interactive" : "Retina PDF"}
+              </span>
             </div>
-          )}
-          {template.isTrending && (
-            <div className="bg-emerald-900/90 text-emerald-200 text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow-sm border border-emerald-500/30">
-              Trending
-            </div>
-          )}
-        </div>
 
-        {template.link && (
-          <a
-            href={template.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={(e) => e.stopPropagation()}
-            className="absolute top-3 right-3 z-20 w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md hover:bg-white hover:scale-110 transition-all duration-200"
-            title="View live demo website"
-          >
-            <ArrowUpRight className="w-3.5 h-3.5 text-primary" />
-          </a>
-        )}
-      </div>
-
-      <Link href={`/contact?template=${template.id}`}>
-        <div className="p-4 cursor-pointer">
-          <div className="flex justify-between items-start">
-            <h3 className="font-display text-base font-semibold text-foreground truncate pr-2 group-hover:text-primary transition-colors">
+            {/* Template Name in Editorial Serif */}
+            <h3 className="font-display text-lg font-bold text-stone-900 group-hover:text-amber-900 transition-colors leading-snug">
               {template.name}
             </h3>
-            <span className="font-sans font-semibold text-primary text-sm whitespace-nowrap">
-              ₹{template.price}
-            </span>
+
+            {/* Features summary */}
+            <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] text-stone-500 mt-2 font-medium">
+              <span>Live RSVP</span>
+              <span className="text-stone-300">&bull;</span>
+              <span>Google Maps</span>
+              <span className="text-stone-300">&bull;</span>
+              <span>Audio</span>
+            </div>
           </div>
-          <div className="flex items-center justify-between mt-2.5">
-            <div className="flex items-center gap-1.5">
-              <span className="text-[10px] text-muted-foreground uppercase tracking-wider font-semibold px-2 py-0.5 bg-muted rounded-md">
-                {template.category}
-              </span>
-              <span className="text-[10px] text-stone-500 font-medium px-1.5 py-0.5 bg-stone-100 rounded-md">
-                {template.style}
+
+          {/* Pricing & CTA Row */}
+          <div className="pt-3.5 mt-3.5 border-t border-stone-100 flex items-center justify-between">
+            <div>
+              <div className="flex items-baseline gap-1.5">
+                <span className="font-display text-lg font-bold text-stone-900">
+                  ₹{template.price.toLocaleString("en-IN")}
+                </span>
+                {template.originalPrice && (
+                  <span className="text-xs text-stone-400 line-through">
+                    ₹{template.originalPrice.toLocaleString("en-IN")}
+                  </span>
+                )}
+              </div>
+              <span className="text-[10px] text-stone-400 block -mt-0.5">
+                {template.isWebsite ? "Full Website Suite" : "Print & WhatsApp"}
               </span>
             </div>
-            <span className="text-[11px] text-primary font-semibold group-hover:underline flex items-center gap-0.5">
-              Customize &rarr;
-            </span>
+
+            <Link 
+              href={`/contact?template=${template.id}`}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <span className="text-xs font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-full bg-stone-900 hover:bg-stone-800 text-stone-50 transition-colors shadow-sm inline-block cursor-pointer">
+                Select
+              </span>
+            </Link>
           </div>
         </div>
-      </Link>
-    </div>
+      </div>
+
+      {/* Embedded Modal if not passed from parent */}
+      {!onPreview && (
+        <PhonePreviewModal
+          template={template}
+          isOpen={isLocalModalOpen}
+          onClose={() => setIsLocalModalOpen(false)}
+        />
+      )}
+    </>
   );
 }

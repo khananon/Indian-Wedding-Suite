@@ -5,7 +5,9 @@ export type { Category, StyleTheme, ColorTheme };
 export type Template = TemplateData;
 
 export interface FilterOptions {
-  category?: Category;
+  category?: string;
+  collection?: string;
+  format?: "all" | "website" | "card";
   style?: StyleTheme;
   color?: ColorTheme;
   search?: string;
@@ -21,26 +23,39 @@ export function useTemplates(filters?: Category | FilterOptions) {
     queryFn: async () => {
       let result = [...TEMPLATES];
 
-      // 1. Tradition / Category filter
+      // 1. Format filter (Website vs Card)
+      if (options.format === "website") {
+        result = result.filter((t) => t.isWebsite);
+      } else if (options.format === "card") {
+        result = result.filter((t) => !t.isWebsite);
+      }
+
+      // 2. Collection filter
+      if (options.collection && options.collection !== "All") {
+        result = result.filter((t) => t.collection === options.collection);
+      }
+
+      // 3. Category / Tradition filter (backward-compatible for SEO routes)
       if (options.category && options.category !== "All") {
         result = result.filter((t) => t.category === options.category);
       }
 
-      // 2. Style filter
+      // 4. Style filter
       if (options.style && options.style !== "All") {
         result = result.filter((t) => t.style === options.style);
       }
 
-      // 3. Color Theme filter
+      // 5. Color Theme filter
       if (options.color && options.color !== "All") {
         result = result.filter((t) => t.colorTheme === options.color);
       }
 
-      // 4. Live Search query (name, category, style, tags)
+      // 6. Live Search query (name, collection, style, tags)
       if (options.search && options.search.trim().length > 0) {
         const q = options.search.toLowerCase().trim();
         result = result.filter((t) => {
           const matchName = t.name.toLowerCase().includes(q);
+          const matchColl = t.collection?.toLowerCase().includes(q);
           const matchCat = t.category.toLowerCase().includes(q);
           const matchStyle = t.style.toLowerCase().includes(q);
           const matchTags = t.tags.some((tag) => tag.toLowerCase().includes(q));
@@ -48,11 +63,11 @@ export function useTemplates(filters?: Category | FilterOptions) {
             t.defaultText.groomName.toLowerCase().includes(q) ||
             t.defaultText.brideName.toLowerCase().includes(q) ||
             t.defaultText.ceremony.toLowerCase().includes(q);
-          return matchName || matchCat || matchStyle || matchTags || matchDefault;
+          return matchName || matchColl || matchCat || matchStyle || matchTags || matchDefault;
         });
       }
 
-      // 5. Sorting
+      // 7. Sorting
       if (options.sortBy === "trending") {
         result.sort((a, b) => (b.isTrending ? 1 : 0) - (a.isTrending ? 1 : 0));
       } else if (options.sortBy === "popular") {

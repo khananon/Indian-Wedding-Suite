@@ -1,17 +1,24 @@
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { useRef, useState } from "react";
 import { Link } from "wouter";
-import { Star, CheckCircle2, ArrowRight, ChevronDown, Sparkles, MapPin, Calendar, Heart, ShieldCheck, Share2, Download, FileText, Send, Palette, Sliders } from "lucide-react";
+import { 
+  CheckCircle2, ArrowRight, ChevronDown, Sparkles, MapPin, 
+  Calendar, Heart, ShieldCheck, Share2, Download, Send, 
+  Palette, Smartphone, Music, Check, Eye
+} from "lucide-react";
 import { Button } from "@/components/Button";
 import { TemplateCard } from "@/components/TemplateCard";
-import { useTemplates } from "@/hooks/use-templates";
+import { PhonePreviewModal } from "@/components/PhonePreviewModal";
+import { useTemplates, type Template } from "@/hooks/use-templates";
 import { getWhatsAppLink } from "@/config/site";
 import { SEO } from "@/components/SEO";
 
 export default function Home() {
   const { data: templates, isLoading } = useTemplates();
-  const featuredTemplates = templates?.slice(0, 4) || [];
+  // Ensure interactive websites appear first, showing top curated designs
+  const featuredTemplates = templates?.slice(0, 8) || [];
   const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const [previewTemplate, setPreviewTemplate] = useState<Template | null>(null);
 
   const heroRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
@@ -32,22 +39,21 @@ export default function Home() {
 
   const accentLeftY = useTransform(scrollYProgress, [0, 1], [0, 140]);
   const accentLeftOpacity = useTransform(scrollYProgress, [0, 0.5], [0.7, 0]);
-  const accentRightY = useTransform(scrollYProgress, [0, 1], [0, 160]);
-  const accentRightOpacity = useTransform(scrollYProgress, [0, 0.5], [0.65, 0]);
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-[#FAF8F5]">
       <SEO
-        title="Vows & Knots | Indian Digital Wedding Invitations & Wedding Websites"
-        description="Bespoke Indian digital wedding invitations and interactive wedding websites for Hindu, Muslim, Sikh, Christian, and South Indian celebrations with RSVP and Google Maps."
+        title="Vows & Knots | Indian Digital Wedding Invitations & Interactive Wedding Websites"
+        description="Bespoke Indian digital wedding invitations and interactive wedding websites with real-time RSVP, Google Maps venue navigation, background music, and instant WhatsApp sharing."
         canonicalPath="/"
       />
-      {/* HERO SECTION */}
+
+      {/* HERO SECTION — Core design preserved */}
       <section ref={heroRef} className="relative pt-28 pb-0 md:pt-36 overflow-hidden min-h-[680px] md:min-h-[780px] flex items-center">
-        {/* Background — clean ivory, no distracting pattern */}
+        {/* Background — clean ivory */}
         <div className="absolute inset-0 z-0 bg-background" />
 
-        {/* LEFT LOTUS — bottom-left corner, slides down on scroll */}
+        {/* LEFT LOTUS — bottom-left corner */}
         <motion.div
           className="absolute bottom-0 left-0 z-[2] pointer-events-none select-none"
           style={{ y: lotusY, rotate: rotateLeft, scale: lotusScale, opacity: rawOpacity, transformOrigin: "bottom left" }}
@@ -63,7 +69,7 @@ export default function Home() {
           />
         </motion.div>
 
-        {/* RIGHT LOTUS — bottom-right corner, mirrored, slides down on scroll */}
+        {/* RIGHT LOTUS — bottom-right corner */}
         <motion.div
           className="absolute bottom-0 right-0 z-[6] pointer-events-none select-none"
           style={{ y: lotusY, rotate: rotateRight, scale: lotusScale, opacity: rawOpacity, transformOrigin: "bottom right" }}
@@ -79,7 +85,7 @@ export default function Home() {
           />
         </motion.div>
 
-        {/* SMALL ACCENT LOTUS — mid-left floating */}
+        {/* SMALL ACCENT LOTUS */}
         <motion.div
           className="absolute bottom-16 left-36 z-[2] pointer-events-none select-none hidden lg:block"
           style={{ y: accentLeftY, opacity: accentLeftOpacity }}
@@ -95,7 +101,7 @@ export default function Home() {
           />
         </motion.div>
 
-        {/* COUPLE IMAGE — absolutely anchored to right edge + bottom, blends into background */}
+        {/* COUPLE IMAGE */}
         <motion.div
           className="absolute bottom-0 right-0 z-[3] pointer-events-none select-none hidden lg:block"
           style={{ width: "52%", maxWidth: "680px" }}
@@ -103,7 +109,6 @@ export default function Home() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
         >
-          {/* Top blend gradient */}
           <div className="absolute inset-x-0 top-0 h-48 z-10 pointer-events-none"
             style={{ background: "linear-gradient(to bottom, hsl(45,60%,98%) 0%, rgba(253,248,240,0.6) 55%, transparent 100%)" }} />
           <img
@@ -113,7 +118,6 @@ export default function Home() {
             style={{ transform: "scale(1.08)", transformOrigin: "right bottom" }}
           />
         </motion.div>
-
 
         {/* TEXT CONTENT */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
@@ -130,19 +134,18 @@ export default function Home() {
                 Beautiful<br />Digital Wedding<br />Invitations
               </h1>
               <p className="text-lg md:text-xl text-foreground/75 mb-10 font-light leading-relaxed">
-                Set the perfect tone for your special day with our elegant, customizable digital invitations.
-                {/* Available in Video, PDF, and interactive Website formats. */}
+                Set the perfect tone for your special day with our elegant, customizable digital invitations and interactive websites.
               </p>
               <div className="flex flex-col sm:flex-row items-start gap-4">
                 <Link href="/templates">
-                  <Button size="lg" className="w-full sm:w-auto rounded-full group shadow-lg shadow-primary/25">
-                    Browse Templates
+                  <Button size="lg" className="w-full sm:w-auto rounded-full group shadow-lg shadow-primary/25 bg-stone-900 hover:bg-stone-800 text-stone-50">
+                    Browse All Designs
                     <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </Button>
                 </Link>
                 <Link href="/contact">
-                  <Button variant="outline" size="lg" className="w-full sm:w-auto rounded-full bg-white/60 backdrop-blur-sm border-primary/30">
-                    Request Custom Design
+                  <Button variant="outline" size="lg" className="w-full sm:w-auto rounded-full bg-white/70 backdrop-blur-sm border-stone-300 text-stone-800 hover:bg-white">
+                    Request Custom Suite
                   </Button>
                 </Link>
               </div>
@@ -151,503 +154,361 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FREE DIGITAL INVITATION & PDF CREATION SHOWCASE SECTION */}
-      <section className="py-20 bg-white border-y border-border/40 relative overflow-hidden">
-        {/* Subtle royal background glow */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-secondary/5 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <span className="inline-block text-secondary font-semibold tracking-widest uppercase text-xs mb-3 bg-secondary/10 px-3 py-1 rounded-full border border-secondary/20">
-              100% Free Feature &bull; No Login Required
-            </span>
-            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-primary mb-5">
-              Free Digital Wedding Invitation &amp; PDF Creator
-            </h2>
-            <p className="text-muted-foreground text-base sm:text-lg leading-relaxed">
-              Why pay expensive design agencies or wait days for drafts? Create your own professional Indian wedding invitation card in minutes, download print-ready PDFs, and send directly via WhatsApp.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Feature 1: Canva-Style Editor with Pinterest Backgrounds */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className="bg-background rounded-3xl p-8 border border-border/70 hover:border-secondary/50 hover:shadow-xl transition-all duration-300 flex flex-col justify-between group"
-            >
-              <div>
-                <div className="w-14 h-14 bg-secondary/15 text-secondary rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                  <Palette size={28} />
-                </div>
-                <h3 className="font-display text-2xl font-bold text-primary mb-3">
-                  Upload Pinterest Backgrounds &amp; Stickers
-                </h3>
-                <p className="text-muted-foreground text-sm leading-relaxed mb-6">
-                  Paste any Pinterest Pin link or upload your favorite background image. Includes Canva-style <strong>0&ndash;20px background blur</strong> and opacity sliders so your typography always stays sharp and legible.
-                </p>
-              </div>
-              <ul className="space-y-2.5 text-xs text-foreground/80 pt-4 border-t border-border/50">
-                <li className="flex items-center gap-2">
-                  <CheckCircle2 size={14} className="text-secondary shrink-0" />
-                  <span>Paste any Pinterest URL or upload files</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle2 size={14} className="text-secondary shrink-0" />
-                  <span>Golden Lotus &amp; Royal Filigree Stickers</span>
-                </li>
-              </ul>
-            </motion.div>
-
-            {/* Feature 2: High-Res Print-Ready PDF & PNG Downloads */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="bg-background rounded-3xl p-8 border-2 border-secondary/40 shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col justify-between group relative"
-            >
-              <div className="absolute -top-3.5 right-6 bg-secondary text-primary font-extrabold text-[10px] uppercase tracking-wider px-3 py-1 rounded-full shadow-md">
-                Most Popular
-              </div>
-              <div>
-                <div className="w-14 h-14 bg-primary text-secondary rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                  <Download size={28} />
-                </div>
-                <h3 className="font-display text-2xl font-bold text-primary mb-3">
-                  Instant Print-Ready PDF &amp; Image Download
-                </h3>
-                <p className="text-muted-foreground text-sm leading-relaxed mb-6">
-                  Export in <strong>Standard A5 Portrait PDF</strong> format or high-resolution retina PNG image with a single tap. Crisp, vector-quality typography with <strong>zero watermarks</strong>.
-                </p>
-              </div>
-              <ul className="space-y-2.5 text-xs text-foreground/80 pt-4 border-t border-border/50">
-                <li className="flex items-center gap-2">
-                  <CheckCircle2 size={14} className="text-secondary shrink-0" />
-                  <span>Free A5 Portrait PDF download</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle2 size={14} className="text-secondary shrink-0" />
-                  <span>No login, no watermark, 100% free</span>
-                </li>
-              </ul>
-            </motion.div>
-
-            {/* Feature 3: 1-Tap Direct WhatsApp Sharing */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="bg-background rounded-3xl p-8 border border-border/70 hover:border-secondary/50 hover:shadow-xl transition-all duration-300 flex flex-col justify-between group"
-            >
-              <div>
-                <div className="w-14 h-14 bg-emerald-600/15 text-emerald-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                  <Send size={28} />
-                </div>
-                <h3 className="font-display text-2xl font-bold text-primary mb-3">
-                  Direct WhatsApp &amp; Social Sharing
-                </h3>
-                <p className="text-muted-foreground text-sm leading-relaxed mb-6">
-                  Share your downloaded wedding invitation cards and PDFs directly to family and wedding guest WhatsApp groups. Perfect for Haldi, Mehendi, Sangeet, and Shubh Vivah announcements.
-                </p>
-              </div>
-              <ul className="space-y-2.5 text-xs text-foreground/80 pt-4 border-t border-border/50">
-                <li className="flex items-center gap-2">
-                  <CheckCircle2 size={14} className="text-secondary shrink-0" />
-                  <span>Send directly via WhatsApp in 1 tap</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle2 size={14} className="text-secondary shrink-0" />
-                  <span>Share on Instagram, Email, or Print</span>
-                </li>
-              </ul>
-            </motion.div>
-          </div>
-
-          {/* Action CTA Bar */}
-          <div className="mt-14 bg-primary text-primary-foreground rounded-3xl p-8 sm:p-10 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-xl">
-            <div className="text-center sm:text-left">
-              <span className="text-xs font-bold uppercase tracking-wider text-secondary block mb-1">
-                Start Creating Right Now
+      {/* CURATED DESIGNS SHOWCASE (Website First with Price & Phone Preview) */}
+      <section className="py-24 bg-[#FAF8F5] border-t border-stone-200/60 relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <div className="flex flex-col md:flex-row justify-between items-end mb-14 gap-6">
+            <div>
+              <span className="inline-block text-xs uppercase tracking-widest font-bold text-stone-500 mb-2">
+                Curated Invitations &amp; Wedding Websites
               </span>
-              <h3 className="font-display text-2xl sm:text-3xl font-bold">
-                Design Your Free Wedding Invitation Card
-              </h3>
-              <p className="text-sm text-primary-foreground/80 mt-1 max-w-xl">
-                Choose pure paper colors, luxury Google wedding fonts, or upload your own Pinterest background.
+              <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-stone-900 tracking-tight">
+                Featured Design Suites
+              </h2>
+              <p className="text-stone-600 text-sm sm:text-base mt-2 max-w-xl">
+                Interactive mobile wedding websites with real-time RSVP, Google Maps directions, and background music. Tap <strong>Live Preview</strong> to test directly on your screen.
               </p>
             </div>
-            <Link href="/card-maker" className="shrink-0 w-full sm:w-auto">
-              <Button size="lg" className="w-full sm:w-auto rounded-full bg-secondary text-primary hover:bg-secondary/90 font-bold px-8 shadow-lg shadow-secondary/20">
-                <Sparkles className="mr-2 w-4 h-4" />
-                <span>Open Free Card Maker</span>
-              </Button>
+            
+            <div className="flex items-center gap-3">
+              <Link href="/templates">
+                <Button variant="outline" className="rounded-full border-stone-300 bg-white/80 hover:bg-white text-stone-800 text-xs uppercase tracking-wider font-bold px-6 py-2.5 shadow-sm">
+                  View All {templates?.length || "16"} Designs
+                </Button>
+              </Link>
+            </div>
+          </div>
+
+          {/* Mobile Swipe Hint */}
+          <div className="flex md:hidden items-center justify-between mb-3 px-1">
+            <span className="text-xs text-stone-500 font-medium">Swipe cards to browse designs</span>
+            <ArrowRight size={13} className="text-stone-400 animate-pulse" />
+          </div>
+
+          {isLoading ? (
+            <div className="flex md:grid overflow-x-auto md:overflow-visible gap-4 sm:gap-7 md:grid-cols-2 lg:grid-cols-4 pb-4 md:pb-0">
+              {[1, 2, 3, 4].map((n) => (
+                <div key={n} className="w-[260px] xs:w-[280px] shrink-0 md:w-auto animate-pulse bg-white rounded-2xl p-4 border border-stone-200">
+                  <div className="bg-stone-200 aspect-[3/4] rounded-xl mb-4" />
+                  <div className="h-5 bg-stone-200 rounded w-3/4 mb-2" />
+                  <div className="h-4 bg-stone-200 rounded w-1/2" />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="flex md:grid overflow-x-auto overscroll-x-contain md:overflow-visible snap-x snap-mandatory gap-4 sm:gap-6 md:gap-7 pb-4 md:pb-0 scrollbar-none -mx-4 px-4 md:mx-0 md:px-0 md:grid-cols-2 lg:grid-cols-4">
+              {featuredTemplates.map((template) => (
+                <div 
+                  key={template.id} 
+                  className="w-[76vw] max-w-[290px] shrink-0 snap-start md:w-auto flex flex-col"
+                >
+                  <TemplateCard 
+                    template={template} 
+                    onPreview={(tpl) => setPreviewTemplate(tpl)}
+                  />
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Value Callout Banner */}
+          <div className="mt-14 bg-white rounded-3xl p-6 sm:p-8 border border-stone-200/80 shadow-sm flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-2xl bg-amber-500/10 text-amber-800 flex items-center justify-center shrink-0">
+                <Smartphone size={24} />
+              </div>
+              <div>
+                <h4 className="font-display text-xl font-bold text-stone-900">
+                  Complete Interactive Website + High-Res PDF
+                </h4>
+                <p className="text-xs sm:text-sm text-stone-600 mt-0.5">
+                  All website suites include instant WhatsApp sharing, unlimited guest RSVPs, and personalized ceremony schedules.
+                </p>
+              </div>
+            </div>
+            <Link href="/templates" className="shrink-0 w-full md:w-auto">
+              <span className="w-full md:w-auto inline-flex items-center justify-center px-6 py-3 rounded-full bg-stone-900 hover:bg-stone-800 text-stone-50 text-xs font-bold uppercase tracking-wider shadow-md transition-all cursor-pointer">
+                Explore All Websites
+              </span>
             </Link>
           </div>
         </div>
       </section>
 
-      {/* HOW IT WORKS */}
-      <section className="py-24 bg-primary text-primary-foreground">
+      {/* WHAT WE OFFER — THE BESPOKE EXPERIENCE (In-vitely Inspired UX) */}
+      <section className="py-24 bg-white border-t border-stone-200/70 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <span className="inline-block text-xs uppercase tracking-widest font-bold text-amber-800 bg-amber-100/70 border border-amber-300/40 px-3.5 py-1 rounded-full mb-3">
+              The Digital Wedding Experience
+            </span>
+            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-stone-900 mb-4 tracking-tight">
+              Thoughtfully Designed For You &amp; Your Guests
+            </h2>
+            <p className="text-stone-600 text-base sm:text-lg leading-relaxed">
+              Replace rigid paper invitations with an interactive wedding website that makes sharing your celebration simple, memorable, and stress-free.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Feature 1: Interactive Mobile Website */}
+            <div className="bg-[#FAF8F5] rounded-3xl p-8 border border-stone-200 hover:border-amber-400/50 hover:shadow-lg transition-all duration-300 flex flex-col justify-between group">
+              <div>
+                <div className="w-13 h-13 bg-stone-900 text-white rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                  <Smartphone size={26} />
+                </div>
+                <span className="text-[11px] uppercase tracking-widest font-bold text-stone-400 block mb-1">
+                  Mobile First
+                </span>
+                <h3 className="font-display text-2xl font-bold text-stone-900 mb-3">
+                  Interactive Mobile Website
+                </h3>
+                <p className="text-stone-600 text-sm leading-relaxed mb-6">
+                  A personalized mobile link for your celebration. Works seamlessly on any phone browser with zero app downloads or logins required for guests.
+                </p>
+              </div>
+              <ul className="space-y-2.5 text-xs text-stone-700 pt-4 border-t border-stone-200">
+                <li className="flex items-center gap-2">
+                  <Check size={14} className="text-amber-700 shrink-0" />
+                  <span>Custom ceremony timeline &amp; countdown</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check size={14} className="text-amber-700 shrink-0" />
+                  <span>High-resolution couple photo gallery</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Feature 2: WhatsApp RSVP Tracking */}
+            <div className="bg-[#FAF8F5] rounded-3xl p-8 border border-stone-200 hover:border-amber-400/50 hover:shadow-lg transition-all duration-300 flex flex-col justify-between group">
+              <div>
+                <div className="w-13 h-13 bg-stone-900 text-white rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                  <Send size={26} />
+                </div>
+                <span className="text-[11px] uppercase tracking-widest font-bold text-stone-400 block mb-1">
+                  Effortless RSVPs
+                </span>
+                <h3 className="font-display text-2xl font-bold text-stone-900 mb-3">
+                  1-Tap WhatsApp Attendance
+                </h3>
+                <p className="text-stone-600 text-sm leading-relaxed mb-6">
+                  Guests confirm attendance, dietary preferences, and guest counts in a single tap directly through WhatsApp, eliminating follow-up calls.
+                </p>
+              </div>
+              <ul className="space-y-2.5 text-xs text-stone-700 pt-4 border-t border-stone-200">
+                <li className="flex items-center gap-2">
+                  <Check size={14} className="text-amber-700 shrink-0" />
+                  <span>Instant RSVP message generation</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check size={14} className="text-amber-700 shrink-0" />
+                  <span>Track family and individual headcounts</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Feature 3: Venue GPS Navigation */}
+            <div className="bg-[#FAF8F5] rounded-3xl p-8 border border-stone-200 hover:border-amber-400/50 hover:shadow-lg transition-all duration-300 flex flex-col justify-between group">
+              <div>
+                <div className="w-13 h-13 bg-stone-900 text-white rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                  <MapPin size={26} />
+                </div>
+                <span className="text-[11px] uppercase tracking-widest font-bold text-stone-400 block mb-1">
+                  Zero Lost Guests
+                </span>
+                <h3 className="font-display text-2xl font-bold text-stone-900 mb-3">
+                  Google Maps GPS Navigation
+                </h3>
+                <p className="text-stone-600 text-sm leading-relaxed mb-6">
+                  Direct Google Maps links for every event (Mehendi, Sangeet, Baarat, Pheras, Reception) guide your guests straight to the venue gate.
+                </p>
+              </div>
+              <ul className="space-y-2.5 text-xs text-stone-700 pt-4 border-t border-stone-200">
+                <li className="flex items-center gap-2">
+                  <Check size={14} className="text-amber-700 shrink-0" />
+                  <span>Separate venue pins for multi-day events</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check size={14} className="text-amber-700 shrink-0" />
+                  <span>Turn-by-turn driving directions</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Secondary feature row */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
+            <div className="bg-[#FAF8F5] rounded-3xl p-7 border border-stone-200 flex items-start gap-5">
+              <div className="w-12 h-12 rounded-2xl bg-amber-600/10 text-amber-800 flex items-center justify-center shrink-0 mt-1">
+                <Music size={24} />
+              </div>
+              <div>
+                <h4 className="font-display text-xl font-bold text-stone-900 mb-1">
+                  Atmospheric Ceremonial Audio
+                </h4>
+                <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
+                  Traditional shehnai, sitar, or your favorite romantic song plays softly in the background as guests view your invitation.
+                </p>
+              </div>
+            </div>
+
+            <div className="bg-[#FAF8F5] rounded-3xl p-7 border border-stone-200 flex items-start gap-5">
+              <div className="w-12 h-12 rounded-2xl bg-stone-900/10 text-stone-900 flex items-center justify-center shrink-0 mt-1">
+                <Download size={24} />
+              </div>
+              <div>
+                <h4 className="font-display text-xl font-bold text-stone-900 mb-1">
+                  Retina Vector Print PDF Included
+                </h4>
+                <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
+                  Every website order also includes matching print-ready A5 PDF files with crisp vector typography for physical printing or WhatsApp forwards.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FREE DIGITAL CARD & PDF MAKER SECTION */}
+      <section className="py-20 bg-[#FAF8F5] border-t border-stone-200/70">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="font-display text-4xl font-bold mb-4">How It Works</h2>
-            <p className="text-primary-foreground/80 max-w-2xl mx-auto">Three simple steps to your perfect wedding invitation.</p>
+          <div className="bg-white rounded-3xl p-8 sm:p-12 border border-stone-200/80 shadow-md flex flex-col lg:flex-row items-center justify-between gap-8">
+            <div className="max-w-2xl">
+              <span className="text-xs font-bold uppercase tracking-wider text-amber-800 bg-amber-100/60 px-3 py-1 rounded-full border border-amber-300/40 inline-block mb-3">
+                100% Free Tool &bull; No Login Required
+              </span>
+              <h3 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-stone-900 leading-snug">
+                Need A Quick Single-Page Invitation Card?
+              </h3>
+              <p className="text-sm sm:text-base text-stone-600 mt-2 leading-relaxed">
+                Use our built-in Free Card Maker to paste your own Pinterest background, customize luxury gold borders, pick royal wedding fonts, and download print-ready A5 PDFs with zero watermarks.
+              </p>
+              <div className="flex flex-wrap gap-4 mt-4 text-xs font-semibold text-stone-700">
+                <span className="flex items-center gap-1.5">
+                  <Check size={14} className="text-amber-700" />
+                  <span>Upload Pinterest Backgrounds</span>
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <Check size={14} className="text-amber-700" />
+                  <span>Custom Gold Border Frames</span>
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <Check size={14} className="text-amber-700" />
+                  <span>Direct WhatsApp Sharing</span>
+                </span>
+              </div>
+            </div>
+
+            <div className="shrink-0 w-full sm:w-auto">
+              <Link href="/card-maker">
+                <Button size="lg" className="w-full sm:w-auto rounded-full bg-stone-900 hover:bg-stone-800 text-stone-50 font-bold px-8 py-3.5 shadow-lg">
+                  <Sparkles className="mr-2 w-4 h-4 text-amber-300" />
+                  <span>Launch Free Card Maker</span>
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* HOW IT WORKS */}
+      <section className="py-24 bg-stone-900 text-stone-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16 max-w-2xl mx-auto">
+            <span className="text-xs uppercase tracking-widest text-amber-400 font-bold block mb-2">
+              Simple 3-Step Process
+            </span>
+            <h2 className="font-display text-3xl sm:text-4xl font-bold mb-3 tracking-tight">
+              How Your Invitation Comes To Life
+            </h2>
+            <p className="text-stone-400 text-sm sm:text-base">
+              From design selection to guest sharing in under 24 hours.
+            </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
-            {/* Connecting line for desktop */}
-            <div className="hidden md:block absolute top-1/2 left-0 w-full h-0.5 bg-primary-foreground/20 -translate-y-1/2 z-0"></div>
-
             {[
-              { step: "01", title: "Select a Design", desc: "Browse our curated collection and choose a template that matches your vibe." },
-              { step: "02", title: "Share Details", desc: "Send us your text, dates, venues, and photos through our simple form." },
-              { step: "03", title: "Review & Share", desc: "Get a draft in 24 hours. Approve it, and start sharing with your guests!" }
+              { 
+                step: "01", 
+                title: "Choose Your Theme", 
+                desc: "Explore our interactive website templates and test live previews on your screen." 
+              },
+              { 
+                step: "02", 
+                title: "Send Ceremony Details", 
+                desc: "Share your couple names, wedding ritual dates, venue maps, and photos via WhatsApp or form." 
+              },
+              { 
+                step: "03", 
+                title: "Receive & Share Live", 
+                desc: "Get your personalized website link in 24 hours. Review, approve, and send directly to guests." 
+              }
             ].map((item, i) => (
-              <div key={i} className="relative z-10 flex flex-col items-center text-center">
-                <div className="w-20 h-20 bg-background text-primary rounded-full flex items-center justify-center font-display text-3xl font-bold shadow-lg mb-6 border-4 border-primary">
+              <div key={i} className="relative z-10 flex flex-col items-center text-center p-6 rounded-2xl bg-stone-800/40 border border-stone-700/50">
+                <div className="w-16 h-16 bg-stone-800 text-amber-400 rounded-full flex items-center justify-center font-display text-2xl font-bold shadow-inner mb-5 border border-stone-700">
                   {item.step}
                 </div>
-                <h3 className="font-sans text-xl font-bold mb-3 text-secondary">{item.title}</h3>
-                <p className="text-primary-foreground/80 leading-relaxed px-4">{item.desc}</p>
+                <h3 className="font-display text-xl font-bold mb-2 text-stone-100">{item.title}</h3>
+                <p className="text-stone-400 text-xs sm:text-sm leading-relaxed">{item.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* FEATURED TEMPLATES */}
-      <section className="py-24 bg-background">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-12">
-            <div>
-              <h2 className="font-display text-4xl font-bold text-primary mb-4">Featured Designs</h2>
-              <p className="text-muted-foreground max-w-xl">Explore our most loved templates. Every design can be customized to your specific religious or cultural requirements.</p>
-            </div>
-            <Link href="/templates">
-              <Button variant="outline" className="mt-6 md:mt-0">View All Designs</Button>
-            </Link>
-          </div>
-
-          {isLoading ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-              {[1, 2, 3, 4].map((n) => (
-                <div key={n} className="animate-pulse">
-                  <div className="bg-muted aspect-[3/4] rounded-xl mb-4"></div>
-                  <div className="h-6 bg-muted rounded w-3/4 mb-2"></div>
-                  <div className="h-4 bg-muted rounded w-1/2"></div>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-              {featuredTemplates.map((template) => (
-                <TemplateCard key={template.id} template={template} />
-              ))}
-            </div>
-          )}
-        </div>
-      </section>
-
-      {/* CULTURAL TRADITIONS & CEREMONIAL INVITATION SUITES (SEO & GEO Focus) */}
-      <section className="py-24 bg-white border-t border-border/50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <span className="inline-block text-secondary font-semibold tracking-widest uppercase text-xs mb-3">
-              Tailored For Every Heritage
-            </span>
-            <h2 className="font-display text-4xl md:text-5xl font-bold text-primary mb-4">
-              Digital Invitations For Every Indian Wedding Tradition
-            </h2>
-            <p className="text-muted-foreground text-base md:text-lg">
-              Every culture celebrates love in its own sacred way. Our bespoke digital invitations are crafted with authentic ceremonial symbolism, ritual timings, and multi-event schedules.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Muslim Nikah & Walima */}
-            <div className="bg-background rounded-2xl overflow-hidden border border-border hover:border-secondary/50 hover:shadow-xl transition-all duration-300 flex flex-col justify-between group">
-              <div className="relative aspect-[16/10] overflow-hidden bg-muted">
-                <img
-                  src={`${import.meta.env.BASE_URL}images/muslim-wedding.jpg`}
-                  alt="Muslim Nikah and Walima Digital Wedding Invitation Preview"
-                  className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
-                  loading="lazy"
-                />
-                <div className="absolute top-3 right-3">
-                  <span className="text-xs uppercase font-bold tracking-wider px-3 py-1 rounded-full bg-emerald-950/85 backdrop-blur-md text-emerald-200 border border-emerald-500/30 shadow-md">
-                    Nikah &amp; Walima
-                  </span>
-                </div>
-              </div>
-              <div className="p-7 flex flex-col justify-between flex-grow">
-                <div>
-                  <h3 className="font-display text-2xl font-bold text-primary mb-2">
-                    Muslim Digital Wedding Invitations
-                  </h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed mb-6">
-                    Adorned with elegant Bismillah calligraphy, Quranic verses, Hijri calendar dates, separate timings for Nikah and Walima receptions, and seamless WhatsApp RSVP links.
-                  </p>
-                  <div className="flex flex-wrap gap-2 mb-6">
-                    {["Bismillah Art", "Nikah Timings", "Walima RSVP", "Venue GPS Maps"].map((tag, i) => (
-                      <span key={i} className="text-[11px] bg-muted px-2.5 py-1 rounded-full text-foreground/80 font-medium">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-                <Link href="/templates/muslim-wedding-invitations">
-                  <Button variant="outline" size="sm" className="w-full justify-between group/btn">
-                    <span>Browse Muslim Invites</span>
-                    <ArrowRight size={14} className="group-hover/btn:translate-x-1 transition-transform" />
-                  </Button>
-                </Link>
-              </div>
-            </div>
-
-            {/* Hindu Vivah & Lagan Patrika */}
-            <div className="bg-background rounded-2xl overflow-hidden border border-border hover:border-secondary/50 hover:shadow-xl transition-all duration-300 flex flex-col justify-between group">
-              <div className="relative aspect-[16/10] overflow-hidden bg-muted">
-                <img
-                  src={`${import.meta.env.BASE_URL}images/hindu-wedding.jpg`}
-                  alt="Hindu Vivah and Lagan Patrika Digital Wedding Invitation Preview"
-                  className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
-                  loading="lazy"
-                />
-                <div className="absolute top-3 right-3">
-                  <span className="text-xs uppercase font-bold tracking-wider px-3 py-1 rounded-full bg-amber-950/85 backdrop-blur-md text-amber-200 border border-amber-500/30 shadow-md">
-                    Vivah &amp; Patrika
-                  </span>
-                </div>
-              </div>
-              <div className="p-7 flex flex-col justify-between flex-grow">
-                <div>
-                  <h3 className="font-display text-2xl font-bold text-primary mb-2">
-                    Hindu Digital Wedding Invitations
-                  </h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed mb-6">
-                    Rooted in tradition with auspicious Ganesh stuti, Lagan Patrika schedules, Haldi, Mehendi, Sangeet, Baarat, and Saat Phere timelines with interactive Google Maps navigation.
-                  </p>
-                  <div className="flex flex-wrap gap-2 mb-6">
-                    {["Ganesh Stuti", "Lagan Patrika", "Multi-Event RSVP", "Haldi & Sangeet"].map((tag, i) => (
-                      <span key={i} className="text-[11px] bg-muted px-2.5 py-1 rounded-full text-foreground/80 font-medium">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-                <Link href="/templates/hindu-wedding-invitations">
-                  <Button variant="outline" size="sm" className="w-full justify-between group/btn">
-                    <span>Browse Hindu Invites</span>
-                    <ArrowRight size={14} className="group-hover/btn:translate-x-1 transition-transform" />
-                  </Button>
-                </Link>
-              </div>
-            </div>
-
-            {/* Sikh Anand Karaj */}
-            <div className="bg-background rounded-2xl overflow-hidden border border-border hover:border-secondary/50 hover:shadow-xl transition-all duration-300 flex flex-col justify-between group">
-              <div className="relative aspect-[16/10] overflow-hidden bg-muted">
-                <img
-                  src={`${import.meta.env.BASE_URL}images/sikh-wedding.jpg`}
-                  alt="Sikh Anand Karaj Digital Wedding Invitation Preview"
-                  className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
-                  loading="lazy"
-                />
-                <div className="absolute top-3 right-3">
-                  <span className="text-xs uppercase font-bold tracking-wider px-3 py-1 rounded-full bg-sky-950/85 backdrop-blur-md text-sky-200 border border-sky-500/30 shadow-md">
-                    Anand Karaj
-                  </span>
-                </div>
-              </div>
-              <div className="p-7 flex flex-col justify-between flex-grow">
-                <div>
-                  <h3 className="font-display text-2xl font-bold text-primary mb-2">
-                    Sikh Digital Wedding Invitations
-                  </h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed mb-6">
-                    Featuring holy Ik Onkar motifs, Gurdwara Lavaan ceremony timings, Langar guidelines, Milni introductions, and vibrant Punjabi reception celebration details.
-                  </p>
-                  <div className="flex flex-wrap gap-2 mb-6">
-                    {["Ik Onkar", "Gurdwara Maps", "Langar Notes", "Milni & Sangeet"].map((tag, i) => (
-                      <span key={i} className="text-[11px] bg-muted px-2.5 py-1 rounded-full text-foreground/80 font-medium">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-                <Link href="/templates/sikh-wedding-invitations">
-                  <Button variant="outline" size="sm" className="w-full justify-between group/btn">
-                    <span>Browse Sikh Invites</span>
-                    <ArrowRight size={14} className="group-hover/btn:translate-x-1 transition-transform" />
-                  </Button>
-                </Link>
-              </div>
-            </div>
-
-            {/* Christian Holy Matrimony */}
-            <div className="bg-background rounded-2xl overflow-hidden border border-border hover:border-secondary/50 hover:shadow-xl transition-all duration-300 flex flex-col justify-between group">
-              <div className="relative aspect-[16/10] overflow-hidden bg-muted">
-                <img
-                  src={`${import.meta.env.BASE_URL}images/christian-wedding.jpg`}
-                  alt="Christian Holy Matrimony Digital Wedding Invitation Preview"
-                  className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
-                  loading="lazy"
-                />
-                <div className="absolute top-3 right-3">
-                  <span className="text-xs uppercase font-bold tracking-wider px-3 py-1 rounded-full bg-indigo-950/85 backdrop-blur-md text-indigo-200 border border-indigo-500/30 shadow-md">
-                    Holy Matrimony
-                  </span>
-                </div>
-              </div>
-              <div className="p-7 flex flex-col justify-between flex-grow">
-                <div>
-                  <h3 className="font-display text-2xl font-bold text-primary mb-2">
-                    Christian Digital Wedding Invitations
-                  </h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed mb-6">
-                    Graceful and modern digital wedding websites featuring favorite Bible verses, Church ceremony orders, choir announcements, and dinner &amp; dance reception RSVP.
-                  </p>
-                  <div className="flex flex-wrap gap-2 mb-6">
-                    {["Scripture Verses", "Church Location", "Bridal Party", "Reception RSVP"].map((tag, i) => (
-                      <span key={i} className="text-[11px] bg-muted px-2.5 py-1 rounded-full text-foreground/80 font-medium">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-                <Link href="/templates/christian-wedding-invitations">
-                  <Button variant="outline" size="sm" className="w-full justify-between group/btn">
-                    <span>Browse Christian Invites</span>
-                    <ArrowRight size={14} className="group-hover/btn:translate-x-1 transition-transform" />
-                  </Button>
-                </Link>
-              </div>
-            </div>
-
-            {/* South Indian Muhurtham */}
-            <div className="bg-background rounded-2xl overflow-hidden border border-border hover:border-secondary/50 hover:shadow-xl transition-all duration-300 flex flex-col justify-between md:col-span-2 lg:col-span-2 group">
-              <div className="relative aspect-[21/9] md:aspect-[24/9] overflow-hidden bg-muted">
-                <img
-                  src={`${import.meta.env.BASE_URL}images/south-indian-wedding.jpg`}
-                  alt="South Indian Muhurtham Digital Wedding Invitation Preview"
-                  className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
-                  loading="lazy"
-                />
-                <div className="absolute top-3 right-3">
-                  <span className="text-xs uppercase font-bold tracking-wider px-3 py-1 rounded-full bg-amber-950/85 backdrop-blur-md text-yellow-200 border border-yellow-500/30 shadow-md">
-                    South Indian Muhurtham
-                  </span>
-                </div>
-              </div>
-              <div className="p-7 flex flex-col justify-between flex-grow">
-                <div>
-                  <h3 className="font-display text-2xl font-bold text-primary mb-2">
-                    South Indian Digital Wedding Invitations (Tamil, Telugu, Kannada, Malayalam)
-                  </h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed mb-6">
-                    Rich cultural aesthetics inspired by temple architecture, banana leaf mandapams, and Kolam patterns. Perfect for auspicious Muhurtham timings, Kanyadaan, Mangalya Dharanam, and grand feast hospitality.
-                  </p>
-                  <div className="flex flex-wrap gap-2 mb-6">
-                    {["Temple Motifs", "Kolam Borders", "Muhurtham Countdown", "Kalyanam Details", "Google Maps"].map((tag, i) => (
-                      <span key={i} className="text-[11px] bg-muted px-2.5 py-1 rounded-full text-foreground/80 font-medium">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-                <Link href="/templates/south-indian-wedding-invitations">
-                  <Button variant="outline" size="sm" className="w-full sm:w-auto self-start justify-between group/btn">
-                    <span>Browse South Indian Invites</span>
-                    <ArrowRight size={14} className="ml-2 group-hover/btn:translate-x-1 transition-transform" />
-                  </Button>
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* FREQUENTLY ASKED QUESTIONS (FAQ) - AI Search & Google Featured Snippets */}
-      <section className="py-24 bg-background border-t border-border/50">
+      {/* FREQUENTLY ASKED QUESTIONS */}
+      <section className="py-24 bg-white border-t border-stone-200">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <span className="inline-block text-secondary font-semibold tracking-widest uppercase text-xs mb-3">
-              Answers &amp; Support
+            <span className="text-xs uppercase tracking-widest text-stone-400 font-bold block mb-2">
+              Clear &amp; Transparent
             </span>
-            <h2 className="font-display text-4xl md:text-5xl font-bold text-primary mb-4">
+            <h2 className="font-display text-3xl sm:text-4xl font-bold text-stone-900 tracking-tight">
               Frequently Asked Questions
             </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              Everything you need to know about our Indian digital wedding invitations, customization, RSVP tracking, and WhatsApp sharing.
-            </p>
           </div>
 
           <div className="space-y-4">
             {[
               {
-                q: "Is creating and downloading wedding invitation PDFs really 100% free?",
-                a: "Yes! Our online Card Maker studio is completely free with zero watermark and no forced signup. You can customize Couple Names, Ceremony dates, and sacred invocations, upload custom Pinterest backgrounds, and download print-ready A5 portrait PDFs and high-resolution PNG images instantly."
+                q: "What is included with an interactive wedding website?",
+                a: "Each interactive website includes a personalized link (URL), your couple story, ceremony event schedules, Google Maps GPS directions for every venue, background ceremonial music, real-time WhatsApp RSVP tracking, and high-resolution downloadable PDF files."
               },
               {
-                q: "How do I share the downloaded wedding invitation on WhatsApp?",
-                a: "Once you download your invitation as a PDF or image from the Card Maker, you can immediately send it as a document or photo attachment into your family and friends' WhatsApp chats or broadcast lists. If you also choose an interactive Wedding Website, guests get a rich link preview with one-tap RSVP and Google Maps navigation."
+                q: "How do guests open and view the wedding website?",
+                a: "You simply copy your custom link and share it on WhatsApp, text message, or Instagram. Guests tap the link and it instantly opens on any smartphone or desktop browser without needing to install any app or create an account."
               },
               {
-                q: "What is an Indian digital wedding invitation website?",
-                a: "An Indian digital wedding invitation is a personalized, interactive wedding website designed specifically for multi-day Indian weddings. Unlike static paper cards or simple images, it features animated countdowns, separate schedules for ceremonies (Haldi, Mehendi, Sangeet, Shaadi, Reception), direct Google Maps navigation pins, and instant WhatsApp RSVP collection."
+                q: "Can I customize the wording for multiple ceremonies and rituals?",
+                a: "Yes! Every template is fully tailored to your specific events (e.g. Haldi, Mehendi, Sangeet, Baarat, Pheras, Nikah, Walima, Anand Karaj, Muhurtham, or Church Nuptials) with distinct dates, times, and venue map locations."
               },
               {
-                q: "Do you design Muslim Nikah and Walima digital invitations?",
-                a: "Yes! We specialize in Islamic wedding digital invites with Bismillah calligraphy, Quranic Ayahs, Hijri dates, separate itineraries for Nikah, Mehndi, and Walima banquets, and dress code guidance for guests."
+                q: "How fast will my wedding website be delivered?",
+                a: "Once you share your ceremony details and photos, our design team delivers your live draft within 24 hours. We offer unlimited revisions until you are completely satisfied before sending to guests."
               },
               {
-                q: "Can we include all Hindu Vivah rituals like Haldi, Mehendi, and Sangeet?",
-                a: "Yes, our Hindu wedding invitation suites are built for multi-event festivities. You can include Ganesh Puja, Lagan Patrika, Mehendi, Haldi, Sangeet, Baarat, Saat Phere, and Reception, with separate venues, timings, and attire suggestions for each."
-              },
-              {
-                q: "How do Sikh Anand Karaj wedding invitations work?",
-                a: "Our Sikh wedding invitations feature revered Ik Onkar iconography, Gurdwara etiquette reminders, Lavaan ceremony timings, Langar details, and reception locations accessible via GPS maps."
-              },
-              {
-                q: "Can guests open the wedding invitation directly on WhatsApp?",
-                a: "Yes! Every invitation is engineered to generate a beautiful rich thumbnail preview on WhatsApp with the couple's portrait, wedding date, and names. Guests simply tap the link to view the complete invitation."
-              },
-              {
-                q: "How does the Google Maps venue navigation work?",
-                a: "Every ceremony card has a direct 'Get Directions' button linked to the exact Google Maps coordinates of your venue or banquet hall, ensuring your guests arrive punctually without calling for directions."
-              },
-              {
-                q: "How do guests submit their RSVP?",
-                a: "Guests can confirm their attendance in seconds via a one-tap online RSVP form or direct WhatsApp message, providing real-time guest counts for caterers and event planners."
-              },
-              {
-                q: "Why choose digital wedding invitations over printed cards?",
-                a: "Digital wedding invitations are 100% eco-friendly with zero paper waste. They can be sent globally in seconds without courier fees, allow instant updates if event timings change, and cost a fraction of traditional printing."
+                q: "Is there any hidden cost or recurring monthly fee?",
+                a: "No. All our website packages are complete, one-time fees (₹2,000 all-inclusive) with zero recurring subscriptions or hidden costs."
               }
-            ].map((faq, i) => (
-              <div
-                key={i}
-                className="bg-white rounded-2xl border border-border overflow-hidden transition-colors"
+            ].map((faq, index) => (
+              <div 
+                key={index} 
+                className="border border-stone-200 rounded-2xl overflow-hidden bg-[#FAF8F5] transition-all"
               >
                 <button
-                  type="button"
-                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                  className="w-full px-6 py-5 text-left flex items-center justify-between gap-4 font-display text-xl font-bold text-primary hover:text-primary/80 transition-colors"
+                  onClick={() => setOpenFaq(openFaq === index ? null : index)}
+                  className="w-full px-6 py-4 text-left flex items-center justify-between gap-4 font-display text-lg font-bold text-stone-900 hover:text-amber-900 transition-colors"
                 >
                   <span>{faq.q}</span>
-                  <ChevronDown
-                    className={`w-5 h-5 text-secondary shrink-0 transition-transform duration-200 ${
-                      openFaq === i ? "rotate-180" : ""
-                    }`}
+                  <ChevronDown 
+                    size={18} 
+                    className={`text-stone-500 transition-transform duration-200 shrink-0 ${openFaq === index ? "rotate-180 text-stone-900" : ""}`} 
                   />
                 </button>
-                {openFaq === i && (
-                  <div className="px-6 pb-6 text-muted-foreground text-base leading-relaxed border-t border-border/30 pt-4">
+                {openFaq === index && (
+                  <div className="px-6 pb-5 pt-1 text-stone-600 text-sm leading-relaxed border-t border-stone-200/50">
                     {faq.a}
                   </div>
                 )}
@@ -657,22 +518,12 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTA SECTION */}
-      <section className="py-20 relative overflow-hidden bg-background">
-        <div className="absolute inset-0 bg-secondary/10"></div>
-        <div className="max-w-4xl mx-auto px-4 relative z-10 text-center">
-          <h2 className="font-display text-4xl md:text-5xl font-bold text-primary mb-6">Ready to create your dream invitation?</h2>
-          <p className="text-lg text-foreground/70 mb-10">Our design team is ready to craft something truly special for your big day.</p>
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Link href="/contact">
-              <Button size="lg" className="rounded-full px-8">Contact Us Now</Button>
-            </Link>
-            <Button variant="outline" size="lg" className="rounded-full px-8 bg-white" onClick={() => window.open(getWhatsAppLink(), '_blank')}>
-              Chat on WhatsApp
-            </Button>
-          </div>
-        </div>
-      </section>
+      {/* Live Phone Preview Centered Modal */}
+      <PhonePreviewModal
+        template={previewTemplate}
+        isOpen={Boolean(previewTemplate)}
+        onClose={() => setPreviewTemplate(null)}
+      />
     </div>
   );
 }

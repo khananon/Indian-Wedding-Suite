@@ -8,6 +8,7 @@ import { SpeedInsights } from "@vercel/speed-insights/react";
 // Layout & Pages
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { MobileBottomNav } from "@/components/MobileBottomNav";
 import Home from "@/pages/Home";
 import Templates from "@/pages/Templates";
 import TraditionLanding from "@/pages/TraditionLanding";
@@ -30,10 +31,11 @@ function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
-      <main className="flex-grow">
+      <main className="flex-grow pb-16 md:pb-0">
         {children}
       </main>
       <Footer />
+      <MobileBottomNav />
     </div>
   );
 }

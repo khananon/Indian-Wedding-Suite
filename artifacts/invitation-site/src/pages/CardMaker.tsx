@@ -803,8 +803,9 @@ export default function CardMaker() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const pngInputRef = useRef<HTMLInputElement>(null);
 
-  // Active Tab
+  // Active Tab & Mobile Drawer state
   const [activeTab, setActiveTab] = useState<"templates" | "borders" | "background" | "elements" | "text" | "layers">("templates");
+  const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
   const [selectedPresetCategory, setSelectedPresetCategory] = useState<string>("All");
 
   // Multi-Page Canvas State (Allows adding unlimited pages to wedding suite)
@@ -1464,34 +1465,26 @@ export default function CardMaker() {
       />
 
       {/* TOP STUDIO TOOLBAR */}
-      <header className="h-14 bg-[#212228] border-b border-white/10 px-4 sm:px-6 flex items-center justify-between shrink-0 z-30">
-        <div className="flex items-center gap-2 sm:gap-3">
-          <Link href="/templates" className="text-xs text-white/70 hover:text-white flex items-center gap-1 transition-colors">
+      <header className="h-14 bg-[#212228] border-b border-white/10 px-3 sm:px-6 flex items-center justify-between shrink-0 z-30">
+        <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+          <Link href="/templates" className="text-xs text-white/70 hover:text-white flex items-center gap-1 transition-colors shrink-0">
             &larr; <span className="hidden sm:inline">Templates</span>
           </Link>
-          <span className="text-white/20">|</span>
-          <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-secondary animate-pulse shrink-0" />
-            <h1 className="text-xs sm:text-sm font-bold text-white tracking-wide truncate max-w-[190px] sm:max-w-none">
-              Create Free Wedding Invitation Card PDF
+          <span className="text-white/20 shrink-0">|</span>
+          <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
+            <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-secondary animate-pulse shrink-0" />
+            <h1 className="text-xs sm:text-sm font-bold text-white tracking-wide truncate max-w-[120px] xs:max-w-[170px] sm:max-w-none">
+              Free Card Studio
             </h1>
-            <span className="hidden md:inline-block text-[10px] bg-secondary/20 text-secondary border border-secondary/30 px-2 py-0.5 rounded-full font-semibold uppercase">
+            <span className="hidden md:inline-block text-[10px] bg-secondary/20 text-secondary border border-secondary/30 px-2 py-0.5 rounded-full font-semibold uppercase shrink-0">
               100% Free Studio
             </span>
           </div>
-          <a
-            href="#seo-guide"
-            className="hidden lg:flex items-center gap-1 text-[11px] text-white/70 hover:text-secondary transition-colors px-2 py-1 rounded bg-white/5 border border-white/10 ml-2"
-            title="Read Guide & FAQs"
-          >
-            <HelpCircle size={12} />
-            <span>Guide &amp; FAQs &darr;</span>
-          </a>
         </div>
 
         {/* Zoom & Action Controls */}
-        <div className="flex items-center gap-2 sm:gap-3">
-          {/* Zoom controls */}
+        <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
+          {/* Zoom controls for desktop */}
           <div className="hidden md:flex items-center gap-1 bg-black/40 rounded-lg px-2 py-1 text-xs border border-white/10">
             <button
               onClick={() => setZoomLevel((z) => Math.max(0.6, z - 0.1))}
@@ -1526,33 +1519,33 @@ export default function CardMaker() {
           <button
             onClick={() => handleExportPng(false)}
             disabled={isExporting !== null}
-            className="px-3 sm:px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-semibold flex items-center gap-1.5 transition-all active:scale-95 border border-white/15 cursor-pointer"
+            className="px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-[11px] sm:text-xs font-semibold flex items-center gap-1 sm:gap-1.5 transition-all active:scale-95 border border-white/15 cursor-pointer shrink-0"
             title="Download active page as high-res PNG image"
           >
-            <ImageIcon size={14} />
-            <span>Download Image</span>
+            <ImageIcon size={13} />
+            <span className="hidden xs:inline">Image</span>
           </button>
 
           {/* Download as PDF */}
           <button
             onClick={handleExportPdf}
             disabled={isExporting !== null}
-            className="px-4 sm:px-5 py-2 rounded-xl bg-secondary hover:bg-secondary/90 text-primary font-bold text-xs flex items-center gap-1.5 transition-all active:scale-95 shadow-md shadow-secondary/20 cursor-pointer"
+            className="px-3 sm:px-5 py-1.5 sm:py-2 rounded-xl bg-secondary hover:bg-secondary/90 text-primary font-bold text-[11px] sm:text-xs flex items-center gap-1 sm:gap-1.5 transition-all active:scale-95 shadow-md shadow-secondary/20 cursor-pointer shrink-0"
             title={`Download print-ready PDF (${pages.length} page${pages.length > 1 ? "s" : ""})`}
           >
-            <FileText size={14} />
+            <FileText size={13} />
             <span>
-              {isExporting === "pdf" ? "Exporting PDF..." : pages.length > 1 ? `Download PDF (${pages.length} Pages)` : "Download PDF"}
+              {isExporting === "pdf" ? "Exporting..." : pages.length > 1 ? `PDF (${pages.length}P)` : "Download PDF"}
             </span>
           </button>
         </div>
       </header>
 
       {/* MAIN WORKSPACE: SIDEBAR + CANVAS + INSPECTOR */}
-      <div className="flex-grow flex flex-col md:flex-row overflow-hidden relative min-h-[700px] md:h-[calc(100vh-130px)]">
+      <div className="flex-grow flex flex-col md:flex-row overflow-hidden relative min-h-[500px] md:h-[calc(100vh-130px)]">
 
-        {/* 1. LEFT TOOLBAR TAB SELECTOR */}
-        <div className="w-full md:w-16 bg-[#141518] border-b md:border-b-0 md:border-r border-white/10 flex md:flex-col items-center justify-around md:justify-start md:py-4 gap-1 sm:gap-2.5 shrink-0 z-20 p-2 md:p-0">
+        {/* 1. TOOLBAR TAB SELECTOR (Bottom on Mobile, Left on Desktop) */}
+        <div className="order-last md:order-first fixed md:static inset-x-0 bottom-0 z-30 h-[calc(4rem+env(safe-area-inset-bottom,0px))] md:h-auto pb-[env(safe-area-inset-bottom,0px)] w-full md:w-16 bg-[#141518] border-t md:border-t-0 md:border-r border-white/10 flex md:flex-col items-center justify-around md:justify-start px-2 py-1.5 md:py-4 gap-1 sm:gap-2.5 shrink-0">
           {[
             { id: "templates", label: "Presets", icon: Sparkles },
             { id: "borders", label: "Borders", icon: Square },
@@ -1566,15 +1559,22 @@ export default function CardMaker() {
             return (
               <button
                 key={tab.id}
-                onClick={() => setActiveTab(tab.id as any)}
-                className={`flex flex-col items-center gap-1 p-2 md:p-2.5 rounded-xl transition-all w-14 cursor-pointer ${
+                onClick={() => {
+                  if (activeTab === tab.id && isMobileDrawerOpen) {
+                    setIsMobileDrawerOpen(false);
+                  } else {
+                    setActiveTab(tab.id as any);
+                    setIsMobileDrawerOpen(true);
+                  }
+                }}
+                className={`flex flex-col items-center justify-center gap-0.5 md:gap-1 p-1.5 md:p-2.5 rounded-xl transition-all w-12 sm:w-14 cursor-pointer active:scale-95 ${
                   isActive
                     ? "bg-secondary text-primary font-bold shadow-md"
                     : "text-white/60 hover:text-white hover:bg-white/5"
                 }`}
               >
-                <Icon size={17} />
-                <span className="text-[9px] uppercase tracking-wider font-semibold">
+                <Icon size={16} />
+                <span className="text-[9px] uppercase tracking-wider font-semibold truncate max-w-full">
                   {tab.label}
                 </span>
               </button>
@@ -1582,9 +1582,38 @@ export default function CardMaker() {
           })}
         </div>
 
-        {/* 2. LEFT ASSETS DRAWER / EXPANDED PANEL */}
-        <div className="w-full md:w-80 bg-[#1f2026] border-b md:border-b-0 md:border-r border-white/10 flex flex-col shrink-0 overflow-y-auto p-4 max-h-[42vh] md:max-h-none z-20">
+        {/* Mobile Drawer Backdrop */}
+        {isMobileDrawerOpen && (
+          <div
+            className="fixed inset-0 bg-black/60 z-35 md:hidden backdrop-blur-xs"
+            onClick={() => setIsMobileDrawerOpen(false)}
+          />
+        )}
+
+        {/* 2. ASSETS DRAWER / EXPANDED PANEL (Bottom Sheet on Mobile, Left Panel on Desktop) */}
+        <div className={`fixed md:static inset-x-0 bottom-[calc(4rem+env(safe-area-inset-bottom,0px))] md:bottom-auto z-40 max-h-[70vh] md:max-h-none md:w-80 bg-[#1f2026] rounded-t-3xl md:rounded-none shadow-2xl md:shadow-none border-t md:border-t-0 md:border-r border-white/15 p-4 overflow-y-auto flex-col shrink-0 ${isMobileDrawerOpen ? "flex" : "hidden md:flex"}`}>
           
+          {/* Mobile Drawer Header */}
+          <div className="flex md:hidden items-center justify-between pb-3 mb-2 border-b border-white/10 shrink-0">
+            <div className="flex items-center gap-2">
+              <span className="w-8 h-1 bg-white/30 rounded-full" />
+              <span className="text-xs font-bold uppercase tracking-wider text-secondary">
+                {activeTab === "templates" ? "Presets & Templates" :
+                 activeTab === "borders" ? "Frames & Borders" :
+                 activeTab === "background" ? "Background & Wallpaper" :
+                 activeTab === "text" ? "Add & Format Text" :
+                 activeTab === "elements" ? "Stickers & Art" : "Canvas Layers"}
+              </span>
+            </div>
+            <button
+              onClick={() => setIsMobileDrawerOpen(false)}
+              className="w-7 h-7 rounded-full bg-white/10 hover:bg-white/20 text-white/80 flex items-center justify-center transition-colors cursor-pointer"
+              aria-label="Close drawer"
+            >
+              <X size={15} />
+            </button>
+          </div>
+
           {/* A. BACKGROUND TAB (Plain solid papers + Upload custom image + Pinterest link) */}
           {activeTab === "background" && (
             <div className="space-y-5 text-xs">
@@ -2226,7 +2255,7 @@ export default function CardMaker() {
 
         {/* 3. CENTER INTERACTIVE CANVAS WORKSPACE */}
         <div 
-          className="flex-grow flex flex-col items-center justify-center p-4 sm:p-8 overflow-auto bg-[#101114] relative"
+          className="flex-grow flex flex-col items-center justify-center p-2 sm:p-8 pb-24 md:pb-8 overflow-auto bg-[#101114] relative min-h-[500px]"
           onPointerMove={handlePointerMove}
           onPointerUp={handlePointerUp}
           onClick={(e) => {
@@ -2236,9 +2265,35 @@ export default function CardMaker() {
             }
           }}
         >
+          {/* Mobile Floating Zoom Controls */}
+          <div className="flex md:hidden items-center gap-1.5 bg-black/60 backdrop-blur-md rounded-full px-3 py-1 text-xs border border-white/15 shadow-md mb-2 shrink-0">
+            <button 
+              onClick={() => setZoomLevel((z) => Math.max(0.5, Number((z - 0.1).toFixed(1))))} 
+              className="p-1 text-white/70 hover:text-white" 
+              title="Zoom Out"
+            >
+              <ZoomOut size={13} />
+            </button>
+            <span className="text-[10px] font-mono px-1 text-white/90">{Math.round(zoomLevel * 100)}%</span>
+            <button 
+              onClick={() => setZoomLevel((z) => Math.min(1.4, Number((z + 0.1).toFixed(1))))} 
+              className="p-1 text-white/70 hover:text-white" 
+              title="Zoom In"
+            >
+              <ZoomIn size={13} />
+            </button>
+            <span className="text-white/20">|</span>
+            <button 
+              onClick={() => setZoomLevel(1)} 
+              className="text-[10px] font-semibold text-secondary hover:underline px-1"
+            >
+              Reset
+            </button>
+          </div>
+
           {/* Multi-Page Controller Bar */}
-          <div className="flex items-center justify-between w-[360px] sm:w-[420px] mb-3 px-1 text-xs select-none">
-            <div className="flex items-center gap-1.5 overflow-x-auto max-w-[260px] sm:max-w-[300px] py-1">
+          <div className="flex items-center justify-between w-[calc(100vw-32px)] max-w-[360px] sm:max-w-[420px] sm:w-[420px] mb-3 px-1 text-xs select-none shrink-0">
+            <div className="flex items-center gap-1.5 overflow-x-auto max-w-[200px] xs:max-w-[240px] sm:max-w-[300px] py-1">
               {pages.map((p, idx) => (
                 <button
                   key={p.id}
@@ -2257,14 +2312,14 @@ export default function CardMaker() {
               ))}
             </div>
 
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1 shrink-0">
               <button
                 onClick={handleAddPage}
                 className="px-2.5 py-1 rounded-full bg-white/10 hover:bg-white/20 text-white text-[11px] font-bold flex items-center gap-1 transition-all cursor-pointer border border-white/15"
                 title="Add new event page (e.g. Sangeet / Reception)"
               >
                 <Plus size={12} />
-                <span>Add Page</span>
+                <span>Page</span>
               </button>
 
               <button
@@ -2304,7 +2359,7 @@ export default function CardMaker() {
                   setSelectedId(null);
                 }
               }}
-              className="w-[360px] sm:w-[420px] aspect-[1/1.42] rounded-2xl shadow-2xl relative overflow-hidden select-none border-2 border-stone-300"
+              className="w-[calc(100vw-32px)] max-w-[360px] sm:max-w-[420px] sm:w-[420px] aspect-[1/1.42] rounded-2xl shadow-2xl relative overflow-hidden select-none border-2 border-stone-300"
             >
               {/* Background Layer with Live Blur and Opacity */}
               {background.imageUrl && (
@@ -2422,7 +2477,7 @@ export default function CardMaker() {
                         {/* Interactive Resize Handle on Bottom-Right Corner */}
                         <div
                           onPointerDown={(e) => startResizing(e, el)}
-                          className="absolute -bottom-2 -right-2 w-4 h-4 rounded-full bg-secondary text-primary border-2 border-white cursor-se-resize flex items-center justify-center shadow-md z-50"
+                          className="absolute -bottom-2.5 -right-2.5 w-6 h-6 sm:w-4 sm:h-4 rounded-full bg-secondary text-primary border-2 border-white cursor-se-resize flex items-center justify-center shadow-md z-50 touch-none"
                           title="Drag to resize"
                         />
                       </>
@@ -2436,20 +2491,29 @@ export default function CardMaker() {
 
         {/* 4. RIGHT INSPECTOR PROPERTY PANEL (Opens reliably when Element is Selected) */}
         {selectedElement && (
-          <aside className="w-full md:w-80 bg-[#1f2026] border-t md:border-t-0 md:border-l border-white/10 flex flex-col p-4 shrink-0 overflow-y-auto text-xs z-30 space-y-4 max-h-[50vh] md:max-h-none shadow-2xl">
-            <div className="flex items-center justify-between pb-2 border-b border-white/10">
-              <span className="font-bold uppercase tracking-wider text-secondary flex items-center gap-1.5">
-                <Sliders size={13} />
-                <span>Element Properties</span>
-              </span>
-              <button
-                onClick={() => setSelectedId(null)}
-                className="p-1 rounded-lg hover:bg-white/10 text-white/60 hover:text-white transition-colors"
-                title="Close Inspector Panel"
-              >
-                <X size={16} />
-              </button>
-            </div>
+          <>
+            {/* Mobile backdrop for inspector */}
+            <div 
+              className="fixed inset-0 bg-black/60 z-35 md:hidden backdrop-blur-xs"
+              onClick={() => setSelectedId(null)}
+            />
+            <aside className="fixed md:static inset-x-0 bottom-[calc(4rem+env(safe-area-inset-bottom,0px))] md:bottom-auto z-40 max-h-[65vh] md:max-h-none md:w-80 bg-[#1f2026] rounded-t-3xl md:rounded-none shadow-2xl md:shadow-none border-t md:border-t-0 md:border-l border-white/15 p-4 overflow-y-auto text-xs space-y-4 flex flex-col shrink-0">
+              <div className="flex items-center justify-between pb-2 border-b border-white/10 shrink-0">
+                <div className="flex items-center gap-2">
+                  <span className="w-8 h-1 bg-white/30 rounded-full md:hidden" />
+                  <span className="font-bold uppercase tracking-wider text-secondary flex items-center gap-1.5">
+                    <Sliders size={13} />
+                    <span>Element Properties</span>
+                  </span>
+                </div>
+                <button
+                  onClick={() => setSelectedId(null)}
+                  className="w-7 h-7 rounded-full bg-white/10 hover:bg-white/20 text-white/80 flex items-center justify-center transition-colors cursor-pointer"
+                  title="Close Inspector Panel"
+                >
+                  <X size={15} />
+                </button>
+              </div>
 
             {/* If TEXT ELEMENT is Selected */}
             {selectedElement.type === "text" && (
@@ -2746,7 +2810,8 @@ export default function CardMaker() {
               </button>
             </div>
           </aside>
-        )}
+        </>
+      )}
 
       </div>
 
