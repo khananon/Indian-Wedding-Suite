@@ -153,7 +153,7 @@ export const TEMPLATES: TemplateData[] = [
     isTrending: true,
     isWebsite: true,
     image: "images/christian-wedding.jpg",
-    link: "https://sikhi-wedding-invitaion.vercel.app/",
+    link: "https://blue-summer-invitaion.vercel.app/",
     tags: ["Holy Matrimony", "Church Nuptials", "Gazebo", "Reception Toast"],
     features: ["Interactive Website", "Guest Book & RSVP", "Church GPS Map", "Reception Timeline"],
     defaultText: {
